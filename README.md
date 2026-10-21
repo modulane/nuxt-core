@@ -102,7 +102,7 @@ We will establish:
 * SCSS integration
 * Testing setup
 * Basic project conventions
-* Git workflow - Thanks to [@GregoireF](https://discord/GregoireF)
+* Git workflow - Thanks to [@GregoireF](https://github.com/GregoireF)
 * Initial documentation
 
 <!-- **Status:** ✅ Completed -->
