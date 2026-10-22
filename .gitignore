@@ -32,3 +32,13 @@ Thumbs.db
 
 # Testing
 coverage/
+
+# Ship-it local history (yarn ship:undo)
+.ship/
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks

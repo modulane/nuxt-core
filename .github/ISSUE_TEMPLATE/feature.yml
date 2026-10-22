@@ -1,0 +1,43 @@
+name: Feature
+description: Propose a new reusable component, section or feature
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What recurring need across projects does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: API, props, behavior, examples.
+    validations:
+      required: true
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility
+      description: Keyboard navigation, focus management, screen readers, contrast.
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Roadmap phase
+      options:
+        - "Phase 1 — Project Foundation"
+        - "Phase 2 — Styling Foundation"
+        - "Phase 3 — Layout System"
+        - "Phase 4 — Core UI Components"
+        - "Phase 5 — Forms"
+        - "Phase 6 — Interactive Components"
+        - "Phase 7 — Navigation"
+        - "Phase 8 — Documentation & Showcase"
+        - "Phase 9 — Testing"
+        - "Phase 10 — Themes"
+        - "Phase 11 — Website Sections"
+        - "Phase 12 — Reusable Website Features"
+        - "Phase 13 — Website Templates"
+        - "Phase 14 — Project Generator"
+        - "Not on the roadmap yet"
