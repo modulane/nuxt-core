@@ -42,25 +42,30 @@ Make whatever changes are necessary for the task you're working on.
 
 You don't need to know the final feature name before you start.
 
-### 2. Save your work
+### 2. Ship your work
 
-When you're ready to save your current work:
+When you're ready to ship your current work:
 
 ```bash
-npm run save
+yarn ship          # branch, commit, push and pull request
+yarn ship:dry      # preview the plan without changing anything
+yarn ship:status   # your pull requests and the reviews waiting for you
+yarn ship:doctor   # check your setup
 ```
 
 The command will:
 
 1. Detect your current Git state.
-2. Ask what type of change you're making.
-3. Ask for a short description.
+2. Detect what type of change you're making.
+3. Propose a short description, which you can edit.
 4. Create a feature branch when necessary.
 5. Create the commit.
 6. Push the branch to GitHub.
 7. Create a pull request when applicable.
 
 The goal is to keep Git workflow simple and let automation handle the repetitive parts.
+
+All commands and options are documented in [`scripts/README.md`](../scripts/README.md).
 
 ### 3. Review the Pull Request
 
