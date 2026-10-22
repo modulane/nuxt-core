@@ -9,7 +9,15 @@
     "preview": "nuxt preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "ship": "node scripts/ship.mjs",
+    "ship:dry": "node scripts/ship.mjs --dry",
+    "ship:plan": "node scripts/ship.mjs --no-pr",
+    "ship:status": "node scripts/ship-status.mjs",
+    "ship:doctor": "node scripts/ship-doctor.mjs",
+    "ship:undo": "node scripts/ship-undo.mjs",
+    "ship:watch": "node scripts/ship-watch.mjs",
+    "ship:setup": "node scripts/ship-setup.mjs"
   },
   "dependencies": {
     "nuxt": "^4.5.2",
@@ -21,5 +29,6 @@
     "sass": "^1.104.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.0"
-  }
+  },
+  "packageManager": "yarn@3.3.1+sha512.e355f587284d06d2c0c1c2259c68746aa1f1f6cdeedefce543cec206709beeb7951c0a27cdbfb7b5736a576854829af9c660bbe82052192c49f108a546994b71"
 }

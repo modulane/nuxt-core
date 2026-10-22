@@ -1,0 +1,9 @@
+{
+  "$schema": "./scripts/ship.config.schema.json",
+  "gates": ["lint", "typecheck", "test"],
+  "labels": { "feat": "enhancement", "fix": "bug", "docs": "documentation", "ui": "accessibility" },
+  "reviewers": "auto",
+  "split": true,
+  "issues": { "link": true, "keyword": "Closes" },
+  "secrets": { "ignorePaths": [] }
+}
