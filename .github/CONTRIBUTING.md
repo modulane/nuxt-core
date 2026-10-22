@@ -47,42 +47,25 @@ You don't need to know the final feature name before you start.
 When you're ready to ship your current work:
 
 ```bash
-yarn ship          # branch + commit + push + pull request
-yarn ship:dry      # everything up to the plan, nothing is modified or pushed
-yarn ship:plan     # push the branch without opening a pull request
-yarn ship:status   # your open PRs (CI, reviews, conflicts) + PRs waiting for your review
-yarn ship:doctor   # check your setup and get the exact command to fix each problem
-yarn ship:undo     # pick one of your recent ships: changes come back locally, PR closed
-yarn ship:watch    # watch your branch's PR: native notifications on review, comment, conflict, merge
-yarn ship:setup    # one-time (admin): squash-only merges, auto-delete branches, labels, issue forms
-yarn ship --skip-tests   # emergency only: skip the test gate (flagged in the PR)
+yarn ship          # branch, commit, push and pull request
+yarn ship:dry      # preview the plan without changing anything
+yarn ship:status   # your pull requests and the reviews waiting for you
+yarn ship:doctor   # check your setup
 ```
-
-Menus are keyboard-driven (↑↓ then Enter, or the option number); each step shows a spinner and its duration.
-
-Ship-it is plain Node: it works the same on Windows, macOS, Linux and in the devcontainer. It needs Node 22+ and [GitHub CLI](https://cli.github.com). **First time? Run `yarn ship:doctor`** — it tells you what to install (`winget install GitHub.cli`, `gh auth login`, `gh auth setup-git`…).
 
 The command will:
 
-1. **Tidy up**: if your current branch's PR was merged, switch back to an up-to-date `main` (your uncommitted changes come along) and delete merged local branches.
-2. **Gates**: run the cleanup scripts (`format`, `lint:fix`), then the gates (`lint`, `typecheck`, `test` — related tests only). Both lists come from `ship.config.json`; a missing script is skipped.
-3. **Secret scan**: look for API keys, tokens, private keys and `.env` files in what you're about to push. Suspects are listed with `file:line`; you confirm explicitly if they are false positives.
-4. **Split**: if the diff mixes independent topics (application / tooling / docs), offer one PR per topic.
-5. **Plan**: detect what you did from the diff and propose type, title, branch, PR summary and review notes, with the reasons. Titles name what changed: new props and events (`feat: add size prop to button component`), keyboard handling, exports, `// fix: …` comments, style-only changes. With an AI key, the AI refines it; otherwise the detected plan is used as is. Accept, regenerate or edit it field by field.
-6. **Issue**: an issue number found in the branch, commits or diff (`fixes #12`) is offered; otherwise you can pick one of your open assigned issues. The PR gets `Closes #N`.
-7. **Delivery**: branch (when on `main`), commit, rebase onto `origin/main` if it moved (conflict → nothing is lost, you choose), push (`--force-with-lease` after a rebase), and open the PR ready for review with labels and reviewers. An existing PR is updated instead.
+1. Detect your current Git state.
+2. Detect what type of change you're making.
+3. Propose a short description, which you can edit.
+4. Create a feature branch when necessary.
+5. Create the commit.
+6. Push the branch to GitHub.
+7. Create a pull request when applicable.
 
-At the end, ship-it offers to watch the PR right away (`yarn ship:watch`): it polls every 30 s (`SHIP_WATCH_INTERVAL`), sends a native notification (Windows toast, macOS, Linux `notify-send`) for each new review, comment, CI result or conflict, and stops when the PR is merged or closed. Check notifications work with `yarn ship:watch --test`.
+The goal is to keep Git workflow simple and let automation handle the repetitive parts.
 
-**Repository setup:** `yarn ship:setup` aligns GitHub with this workflow — squash merges only (commit title = PR title), branches deleted after merge, "Update branch" button, labels from `ship.config.json`, and Bug / Feature issue forms (blank issues disabled, roadmap phases listed). It shows the difference and asks before changing anything; re-running it only proposes what's missing. Note: on a private repository with a free plan, GitHub doesn't offer branch protection or native auto-merge — the review rule relies on the team.
-
-Every ship is recorded in `.ship/history.jsonl` (local, git-ignored) — that is what `yarn ship:undo` uses. Undo saves the PR as a patch first, restores it on `main` as uncommitted changes, and only then closes the PR; if the restore conflicts, you choose between resolving the conflicts or putting everything back.
-
-**Team config:** `ship.config.json` (versioned, autocompleted in VS Code through its `$schema`) sets the gates, cleanup scripts, label mapping, reviewers (`"auto"` = the other collaborators), split, code folders, issue keyword and secret-scan exclusions. Invalid values stop ship-it with a clear message; `yarn ship:doctor` validates it too.
-
-**AI (optional):** set `MISTRAL_API_KEY` and/or `GROQ_API_KEY` in your environment or in `.env.local` (git-ignored). Providers are tried in that order. `SHIP_MODEL` / `GROQ_MODEL` override the models (defaults `mistral-small-latest`, `llama-3.3-70b-versatile`); `SHIP_AI=off` disables the AI.
-
-Merging stays manual, once CI is green and the review is done. Next `yarn ship` cleans up after the merge.
+All commands and options are documented in [`scripts/README.md`](../scripts/README.md).
 
 ### 3. Review the Pull Request
 
