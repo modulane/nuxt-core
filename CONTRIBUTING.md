@@ -1,16 +1,10 @@
 # Contributing
 
-Thank you for helping improve Nuxt Core. This guide covers the development setup, the project layout, the change workflow, how releases are made and the code conventions.
+Thank you for helping improve Nuxt Core. This guide covers the change workflow, the documentation rule, labels and releases. How the code itself is built and written is in the [documentation](docs/README.md).
 
 Nuxt Core is a reusable foundation for building Nuxt websites. Contributions should keep it simple, predictable, accessible and reusable across different projects.
 
 ## Development setup
-
-Requirements:
-
-- Node.js 22.22.3, 24.15 or 26 and later (the versions Nuxt supports)
-- Yarn, through [Corepack](https://github.com/nodejs/corepack). Node.js 24 and earlier include Corepack; on Node.js 25 and later, install it first with `npm install --global corepack`.
-- Git
 
 ```bash
 git clone https://github.com/modulane/nuxt-core.git
@@ -19,37 +13,7 @@ corepack enable
 yarn install
 ```
 
-`corepack enable` makes `yarn` run the exact version pinned in the `packageManager` field of `package.json`, whatever Yarn is installed globally. Dependencies are installed in `node_modules` (see [`.yarnrc.yml`](.yarnrc.yml)), and `yarn install` also runs `nuxt prepare`, which generates the types in `.nuxt/`.
-
-| Command           | Purpose                                                 |
-| ----------------- | ------------------------------------------------------- |
-| `yarn dev`        | Start the development server on <http://localhost:3000> |
-| `yarn build`      | Build for production                                    |
-| `yarn generate`   | Pre-render the site as static files                     |
-| `yarn preview`    | Preview the production build locally                    |
-| `yarn test`       | Run the test suite                                      |
-| `yarn test:watch` | Run the tests in watch mode                             |
-| `yarn typecheck`  | Type-check the project with `vue-tsc`                   |
-| `yarn format`     | Format every file with Prettier                         |
-| `yarn check`      | Check formatting, types and tests, as CI does           |
-
-Yarn installs a package only once it has been published for at least a day, and does not run the install scripts of dependencies. Both are Yarn defaults, kept on purpose.
-
-## Project layout
-
-Nuxt Core follows the [Nuxt 4 directory structure](https://nuxt.com/docs/guide/directory-structure):
-
-| Folder             | Contents                                                               |
-| ------------------ | ---------------------------------------------------------------------- |
-| `app/components/`  | Vue components, grouped by folder: `base/`, `form/`, `navigation/`     |
-| `app/composables/` | Composables, auto-imported by Nuxt                                     |
-| `app/layouts/`     | Page layouts                                                           |
-| `app/assets/scss/` | Global styles; `main.scss` is the entry point loaded on every page     |
-| `server/`          | Server routes and API endpoints (Nitro)                                |
-| `shared/types/`    | Types shared by the app and the server                                 |
-| `public/`          | Static files served as they are                                        |
-| `tests/`           | Vitest tests                                                           |
-| `docs/`            | Documentation of the components, styling and conventions (in progress) |
+[Getting started](docs/getting-started.md) lists the requirements, every command and fixes for common setup problems. Before opening a pull request, run `yarn check`: it checks formatting, types and tests, as CI does.
 
 ## Workflow
 
@@ -72,9 +36,21 @@ Keep the summary lowercase and in the imperative: `feat: add base button`, not `
 
 **Do not mark changes as breaking before 1.0.0.** A `!` after the type (`feat!:`) or a `BREAKING CHANGE:` footer makes a major release, which would release 1.0.0 early. Until then, describe incompatible changes in the pull request and release them as `feat:`.
 
-A pull request should represent one coherent change, explain what changed and why when it is not obvious, and include tests for new functionality and regression tests for bug fixes when practical.
+A pull request represents one coherent change. Its description explains what changed and why, and the [pull request template](.github/PULL_REQUEST_TEMPLATE.md) lists what to check before asking for review.
 
-### Labels and reviews
+## Documentation
+
+**The documentation is part of the change.** A pull request that changes behaviour, structure, commands, conventions or a public API updates the matching guide in [`docs/`](docs/README.md) in the same pull request, and ticks the [roadmap](ROADMAP.md) item it completes. Reviewers check this like they check tests.
+
+The [documentation index](docs/README.md#keeping-the-documentation-current) maps each kind of change to the guide it updates, and sets the writing style.
+
+## Code
+
+The rules code review applies are in [docs/conventions.md](docs/conventions.md): formatting, TypeScript, Vue, naming, imports, SCSS, accessibility, and when to add an abstraction or a dependency.
+
+Before adding something, ask: **is this genuinely reusable across several projects?** A feature specific to one website stays in that website. If you are unsure whether something belongs in Nuxt Core, open an issue before starting a large change.
+
+## Labels and reviews
 
 The **Pull request labels** workflow labels each pull request from its title, and updates the labels when the title is edited:
 
@@ -100,7 +76,7 @@ Releases are fully automated with [semantic-release](https://semantic-release.gi
 4. semantic-release reads the commits since the last release tag. If none of them is a `fix:` or `feat:`, it stops and nothing is released.
 5. Otherwise it computes the next version, creates the `vX.Y.Z` git tag and a GitHub release with notes generated from the commits, and comments on the issues and pull requests it includes.
 
-The version in `package.json` is always `0.0.0-development`. The real version exists only in git tags.
+The version in `package.json` is always `0.0.0-development`. The real version exists only in git tags; the history starts from the `v0.0.0` tag.
 
 The Release workflow can also be started by hand from the Actions tab. It then performs the same steps on the latest commit of `main`. Check **dry-run** to see the next version and its release notes without creating anything.
 
@@ -111,46 +87,3 @@ The release job can push tags and create releases, so the workflows keep what it
 - Every action is pinned to a full commit SHA, with its version in a comment. Dependabot proposes updates once a week, only for releases that are at least seven days old. Its pull requests are titled `ci:`, so they never trigger a release.
 - Each job asks only for the permissions it needs, and each permission says what it is for.
 - The release job runs only on `main`, keeps no git credential on disk, uses no dependency cache, and installs dependencies without running their build scripts.
-
-## Code conventions
-
-Prettier formats every file; run `yarn format` before committing, or let your editor format on save with the extensions recommended in [`.vscode/extensions.json`](.vscode/extensions.json).
-
-### TypeScript
-
-Nuxt Core uses TypeScript in strict mode. Prefer strong, explicit types, and avoid `any` unless there is a legitimate reason to use it.
-
-- Use `interface` for object contracts that may need extension.
-- Use `type` for unions, compositions and utility types.
-- Put types in `shared/types/` only when the app and the server both use them.
-
-### Vue
-
-Use the Composition API and `<script setup lang="ts">`. Components should have a clear and focused responsibility: prefer small, composable components over large ones that handle unrelated concerns.
-
-### Naming
-
-- Folders are lowercase: `app/components/base/`, `app/components/form/`.
-- Component files are PascalCase. Nuxt prefixes the name with the folder, so `app/components/base/Button.vue` is used as `<BaseButton />`, and `app/components/navigation/AppHeader.vue` as `<NavigationAppHeader />`.
-- Composables start with `use` and are exported under the same name as their file: `app/composables/useTheme.ts` exports `useTheme`.
-
-### SCSS
-
-- Design tokens are CSS custom properties, defined in `app/assets/scss/base/_root.scss`.
-- Sass is used for mixins, functions and organization, with `@use` (not `@import`).
-- Styles are mobile-first, with shallow nesting and meaningful class names.
-- Avoid `!important` and deeply nested selectors.
-
-### Accessibility
-
-Accessibility is part of the implementation, not an optional enhancement. New components should consider semantic HTML, keyboard navigation, focus management, screen readers, labels and accessible names, ARIA attributes when necessary, and sufficient visual contrast. Interactive components should be usable without a mouse whenever practical.
-
-## What belongs in Nuxt Core
-
-Before adding something, consider: **is this genuinely reusable across multiple projects?** A feature specific to a single website should stay in that website.
-
-- Prefer abstractions that solve recurring problems, not functionality that might be useful someday.
-- Keep dependencies to a minimum. Before adding one, check whether Nuxt, Vue, TypeScript or the existing tooling can reasonably do the job.
-- Document reusable functionality when its usage is not immediately obvious.
-
-If you are unsure whether something belongs in Nuxt Core, open an issue before implementing a large change.

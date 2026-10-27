@@ -1,64 +1,69 @@
 # Roadmap
 
-The roadmap describes the planned evolution of Nuxt Core.
+How Nuxt Core grows from a project foundation to a project generator. Each phase builds on the previous ones.
 
-It is intentionally progressive: each stage builds on the previous one. It is a direction rather than a fixed schedule: phases may be added, removed or reorganized as real-world projects reveal new requirements.
+The roadmap is a direction, not a schedule: phases may be added, removed or reorganised as real projects reveal new needs. It plans the work; the [documentation](docs/README.md) describes what already exists.
+
+## Overview
+
+| Phase                                                                 | Status         | Highlights                                          |
+| --------------------------------------------------------------------- | -------------- | --------------------------------------------------- |
+| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Nuxt 4, TypeScript, SCSS, tests, workflow, docs     |
+| [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Design tokens done; reset and base typography to go |
+| [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go              |
+| [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons                |
+| [5. Forms](#phase-5--forms)                                           | ⬜ Planned     | Inputs, selects, checkboxes, validation             |
+| [6. Interactive Components](#phase-6--interactive-components)         | ⬜ Planned     | Modals, menus, tooltips, tabs, notifications        |
+| [7. Navigation](#phase-7--navigation)                                 | ⬜ Planned     | Header, menus, footer, breadcrumbs                  |
+| [8. Documentation & Showcase](#phase-8--documentation--showcase)      | ⬜ Planned     | A live gallery of every component                   |
+| [9. Testing](#phase-9--testing)                                       | ⬜ Planned     | Component tests for everything reused               |
+| [10. Themes](#phase-10--themes)                                       | ⬜ Planned     | Swappable visual identities                         |
+| [11. Website Sections](#phase-11--website-sections)                   | ⬜ Planned     | Heroes, features, testimonials, pricing             |
+| [12. Reusable Website Features](#phase-12--reusable-website-features) | ⬜ Planned     | SEO, contact forms, analytics, consent              |
+| [13. Website Templates](#phase-13--website-templates)                 | ⬜ Planned     | Complete starting points per type of site           |
+| [14. Project Generator](#phase-14--project-generator)                 | ⬜ Planned     | A new site from a few choices                       |
+
+A phase is **done** when every item is ticked and its "Done when" condition holds. Work on a later phase can start early when it unblocks something.
 
 ---
 
 ## Phase 1 — Project Foundation
 
-**Goal:** Create a clean and reliable starting point for the project.
+**Goal:** a clean and reliable starting point.
 
-We will establish:
+- [x] Nuxt 4 project structure ([architecture](docs/architecture.md))
+- [x] TypeScript in strict mode, type-checked in CI
+- [x] SCSS integration with a global stylesheet ([styling](docs/styling.md))
+- [x] Vitest test runner ([testing](docs/testing.md))
+- [x] Project conventions ([conventions](docs/conventions.md))
+- [x] Git workflow: pull requests, CI, labels and automated releases ([CONTRIBUTING](CONTRIBUTING.md))
+- [x] Documentation system ([docs](docs/README.md))
 
-- The Nuxt project structure
-- TypeScript configuration
-- SCSS integration
-- Testing setup
-- Basic project conventions
-- Git workflow - Thanks to [@GregoireF](https://github.com/GregoireF)
-- Initial documentation
-
-**Status:** 🟡 In progress
+**Done when:** a new contributor can clone, install and pass `yarn check` by following the documentation alone.
 
 ---
 
 ## Phase 2 — Styling Foundation
 
-**Goal:** Create the basic visual rules used throughout the project.
+**Goal:** the visual rules every component shares.
 
-This includes:
+- [x] Colour tokens
+- [x] Spacing scale
+- [x] Font families and type scale
+- [x] Border radius
+- [x] Shadows
+- [x] Motion durations and easing
+- [x] Responsive breakpoints and the `respond-to()` mixin
+- [ ] CSS reset
+- [ ] Base typography: headings, paragraphs, links, lists
 
-- CSS reset
-- Colors
-- Typography
-- Spacing
-- Border radius
-- Shadows
-- Animations and transitions
-- Responsive breakpoints
-
-These rules will make it possible for every component to share the same visual language.
-
-**Status:** 🟡 In progress
+**Done when:** a bare HTML page with no component styles looks consistent across browsers, and every value comes from a token.
 
 ---
 
 ## Phase 3 — Layout System
 
-**Goal:** Make it easy to build responsive page layouts.
-
-We will create reusable tools for:
-
-- Centering content
-- Controlling page width
-- Creating columns
-- Creating grids
-- Managing spacing
-- Building responsive layouts
-
-For example:
+**Goal:** responsive page layouts without custom CSS.
 
 ```text
 Page
@@ -68,148 +73,108 @@ Page
         └── Content
 ```
 
-**Status:** ⬜ Planned
+- [x] Centred, width-limited container (`.container`, `<BaseContainer>`)
+- [ ] Grid and columns
+- [ ] Spacing utilities (stacks, gaps)
+- [ ] Responsive behaviour for each of the above
+
+**Done when:** a typical page layout (header, content columns, footer) can be built from layout tools alone, and adapts from phone to desktop.
 
 ---
 
 ## Phase 4 — Core UI Components
 
-**Goal:** Build the basic components used by almost every website.
+**Goal:** the basic components almost every website uses.
 
-Examples include:
+- [ ] Button
+- [ ] Link
+- [ ] Card
+- [ ] Badge
+- [ ] Icon
+- [ ] Divider
+- [ ] Avatar
+- [ ] Loading indicator
 
-- Buttons
-- Links
-- Cards
-- Badges
-- Icons
-- Dividers
-- Avatars
-- Loading indicators
-
-Each component should support common states such as:
-
-- Default
-- Hover
-- Focus
-- Disabled
-- Loading
-- Error, when relevant
-
-**Status:** ⬜ Planned
+**Done when:** each component supports the states that apply to it (default, hover, focus, disabled, loading, error), is documented in [components.md](docs/components.md) and has tests.
 
 ---
 
 ## Phase 5 — Forms
 
-**Goal:** Make common website forms quick to build.
+**Goal:** common forms that are quick to build and accessible.
 
-Planned components include:
+- [ ] Text input
+- [ ] Textarea
+- [ ] Select
+- [ ] Checkbox
+- [ ] Radio button
+- [ ] Switch
+- [ ] Form field: label, hint and error message around any control
+- [ ] Validation
 
-- Text inputs
-- Text areas
-- Select fields
-- Checkboxes
-- Radio buttons
-- Switches
-- Form fields
-- Form validation
-
-The components will be designed with accessibility and keyboard navigation in mind.
-
-**Status:** ⬜ Planned
+**Done when:** a contact form can be built from these components, works with the keyboard and announces errors to screen readers.
 
 ---
 
 ## Phase 6 — Interactive Components
 
-**Goal:** Provide reusable components for common interactions.
+**Goal:** common interactions with their accessibility details handled.
 
-Examples:
+- [ ] Modal
+- [ ] Dropdown menu
+- [ ] Tooltip
+- [ ] Popover
+- [ ] Accordion
+- [ ] Tabs
+- [ ] Drawer
+- [ ] Notifications
 
-- Modals
-- Dropdown menus
-- Tooltips
-- Popovers
-- Accordions
-- Tabs
-- Drawers
-- Notifications
-
-These components should handle common interaction details such as keyboard navigation, focus management, and responsive behavior.
-
-**Status:** ⬜ Planned
+**Done when:** each component manages focus correctly, closes with Escape where expected, and follows the matching [WAI-ARIA pattern](https://www.w3.org/WAI/ARIA/apg/patterns/).
 
 ---
 
 ## Phase 7 — Navigation
 
-**Goal:** Provide the common navigation elements required by websites.
+**Goal:** the navigation every website needs.
 
-Planned components include:
+- [ ] Header
+- [ ] Navigation menu
+- [ ] Mobile navigation
+- [ ] Footer
+- [ ] Breadcrumbs
+- [ ] Pagination
 
-- Header
-- Navigation menu
-- Mobile navigation
-- Footer
-- Breadcrumbs
-- Pagination
-
-**Status:** ⬜ Planned
+**Done when:** a multi-page site can be navigated on phone and desktop, with the keyboard alone.
 
 ---
 
 ## Phase 8 — Documentation & Showcase
 
-**Goal:** Make every component easy to discover and understand.
+**Goal:** every component easy to discover and understand.
 
-A dedicated showcase will demonstrate:
+- [ ] A showcase page per component: variants, states and usage examples
+- [ ] The props, events and slots of each component, generated or kept in sync with [components.md](docs/components.md)
 
-- What each component looks like
-- Available variations
-- Available states
-- Component properties
-- Usage examples
-
-The showcase will also serve as a visual reference while developing future websites.
-
-**Status:** ⬜ Planned
+**Done when:** the showcase serves as the visual reference while building a new website.
 
 ---
 
 ## Phase 9 — Testing
 
-**Goal:** Make reusable components reliable.
+**Goal:** reliable components. Protect what many projects reuse, rather than cover every line.
 
-Important components will receive automated tests covering things such as:
+- [ ] Component testing environment (`nuxt` environment, DOM implementation)
+- [ ] Tests for rendering, props and states
+- [ ] Tests for mouse and keyboard interaction
+- [ ] Automated accessibility checks
 
-- Rendering
-- Properties
-- User interactions
-- Different states
-- Keyboard interactions
-- Accessibility
-
-The goal is not to test every line of code, but to protect the components that are reused across many projects.
-
-**Status:** ⬜ Planned
+**Done when:** every component from phases 4 to 7 has tests, and CI runs them on every pull request.
 
 ---
 
 ## Phase 10 — Themes
 
-**Goal:** Make the same components usable with completely different visual identities.
-
-A theme can change things such as:
-
-- Colors
-- Typography
-- Border radius
-- Shadows
-- Spacing
-- Overall visual style
-
-For example:
+**Goal:** the same components with completely different visual identities.
 
 ```text
                     Same components
@@ -219,105 +184,71 @@ For example:
           Modern        Elegant       Corporate
 ```
 
-The components themselves should remain unchanged.
+- [ ] Theme selection mechanism ([theming](docs/theming.md) lists the open questions)
+- [ ] Dark mode
+- [ ] `useTheme()` composable
+- [ ] Three example themes
 
-**Status:** ⬜ Planned
+**Done when:** switching theme changes colours, typography, radius, shadows and spacing without changing a single component.
 
 ---
 
 ## Phase 11 — Website Sections
 
-**Goal:** Move from individual components to complete reusable sections.
+**Goal:** complete reusable sections, so pages are assembled rather than built.
 
-Examples:
+- [ ] Hero: centred, split, image, video
+- [ ] Features: grid, list, alternating
+- [ ] About: introduction, image and text, statistics
+- [ ] Testimonials: grid, carousel, single
+- [ ] Pricing
+- [ ] Call to action
+- [ ] Contact
+- [ ] Gallery
+- [ ] FAQ
 
-### Hero sections
-
-- Centered hero
-- Split hero
-- Image hero
-- Video hero
-
-### Features
-
-- Feature grid
-- Feature list
-- Alternating features
-
-### About
-
-- Simple introduction
-- Image + text
-- Statistics
-
-### Testimonials
-
-- Testimonial grid
-- Testimonial carousel
-- Individual testimonial
-
-### Other sections
-
-- Pricing
-- Call to action
-- Contact
-- Gallery
-- FAQ
-
-These sections will allow complete pages to be assembled much faster.
-
-**Status:** ⬜ Planned
+**Done when:** a typical landing page can be assembled from sections only.
 
 ---
 
 ## Phase 12 — Reusable Website Features
 
-**Goal:** Provide functionality that frequently appears in client websites.
+**Goal:** functionality that keeps coming back in client websites. Only features that serve several projects belong here.
 
-Possible features include:
+- [ ] SEO helpers
+- [ ] Contact form, with its server route
+- [ ] Newsletter form
+- [ ] Analytics
+- [ ] Cookie consent
+- [ ] Blog
+- [ ] Search
+- [ ] Authentication
+- [ ] Booking
 
-- SEO helpers
-- Contact forms
-- Newsletter forms
-- Analytics
-- Cookie consent
-- Blog functionality
-- Search
-- Authentication
-- Booking systems
-
-Only features that provide real value across multiple projects should become part of Nuxt Core.
-
-**Status:** ⬜ Planned
+**Done when:** each feature can be enabled in a new site with configuration, not code.
 
 ---
 
 ## Phase 13 — Website Templates
 
-**Goal:** Create complete starting points for common types of websites.
+**Goal:** complete starting points for common kinds of websites, combining components, sections, features and themes.
 
-Potential templates include:
+- [ ] Business website
+- [ ] Freelancer portfolio
+- [ ] Restaurant
+- [ ] Agency
+- [ ] SaaS website
+- [ ] Personal portfolio
+- [ ] Landing page
+- [ ] E-commerce website
 
-- Business websites
-- Freelancer portfolios
-- Restaurants
-- Agencies
-- SaaS websites
-- Personal portfolios
-- Landing pages
-- E-commerce websites
-
-A template will combine existing components, sections, features, and themes into a coherent website structure.
-
-**Status:** ⬜ Planned
+**Done when:** a new site of each kind starts from its template with only content left to write.
 
 ---
 
 ## Phase 14 — Project Generator
 
-**Goal:** Make starting a new website as fast as possible.
-
-The long-term goal is to be able to create a new project by selecting options such as:
+**Goal:** a new website from a few choices.
 
 ```text
 Project
@@ -328,6 +259,7 @@ Project
 └── Configuration
 ```
 
-The project generator would then create a ready-to-develop Nuxt website using Nuxt Core.
+- [ ] Generator that asks for each choice
+- [ ] Generated project ready to develop, built on Nuxt Core
 
-**Status:** ⬜ Planned
+**Done when:** a new Nuxt Core website is running in minutes.
