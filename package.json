@@ -5,10 +5,14 @@
   "type": "module",
   "private": true,
   "main": "./nuxt.config.ts",
+  "exports": {
+    ".": "./nuxt.config.ts",
+    "./design": "./layers/design/nuxt.config.ts",
+    "./primitives": "./layers/primitives/nuxt.config.ts",
+    "./package.json": "./package.json"
+  },
   "files": [
-    "/app",
-    "/server",
-    "/shared",
+    "/layers",
     "/nuxt.config.ts"
   ],
   "scripts": {

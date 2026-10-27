@@ -1,0 +1,30 @@
+// Global styles, loaded on every page through the design layer's nuxt.config.ts "css".
+// Abstracts (variables, mixins, functions) emit no CSS, so they are not
+// loaded here: each file that needs them uses them directly.
+//
+// Every rule sits in a `nuxt-core` cascade layer. A site's own CSS, which is not
+// layered, always wins over it, whatever its specificity or load order.
+@use 'sass:meta';
+
+@layer nuxt-core.tokens, nuxt-core.reset, nuxt-core.base, nuxt-core.layout, nuxt-core.components, nuxt-core.utilities;
+
+@layer nuxt-core.tokens {
+  @include meta.load-css('base/root');
+}
+
+@layer nuxt-core.reset {
+  @include meta.load-css('base/reset');
+}
+
+@layer nuxt-core.base {
+  @include meta.load-css('base/typography');
+}
+
+@layer nuxt-core.layout {
+  @include meta.load-css('layout/container');
+  @include meta.load-css('layout/grid');
+}
+
+@layer nuxt-core.utilities {
+  @include meta.load-css('utilities/utilities');
+}

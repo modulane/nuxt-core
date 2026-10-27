@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="nc-container">
     <slot />
   </div>
 </template>

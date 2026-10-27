@@ -2,7 +2,16 @@
 
 How Nuxt Core grows from a project foundation to a project generator. Each phase builds on the previous ones.
 
-Nuxt Core is a [Nuxt layer](https://nuxt.com/docs/guide/going-further/layers): a site installs one package and extends it, and receives everything below. Every phase keeps that promise: what a phase adds reaches sites through the same `extends` line, opt-in where it has a cost, and overridable by the site.
+Nuxt Core is a set of [Nuxt layers](https://nuxt.com/docs/guide/going-further/layers) in one package: a site installs it once and extends the parts it wants. Every phase keeps that promise. What a phase adds lands in a part, reaches sites through `extends`, is opt-in where it has a cost, and is overridable by the site.
+
+| Part                                                  | Entry point                                | Phases                             |
+| ----------------------------------------------------- | ------------------------------------------ | ---------------------------------- |
+| Primitives: behaviour, markup, accessibility, no CSS  | `@modulane/nuxt-core/primitives`           | 3 (structure), 4 to 7              |
+| Design: tokens, global styles, the primitives' styles | `@modulane/nuxt-core/design`               | 2, 3 (styles), 4 to 7 (styles), 10 |
+| Everything: primitives styled by the design system    | `@modulane/nuxt-core`                      | All of the above                   |
+| Sections, features, templates                         | One entry point each, added by their phase | 11 to 13                           |
+
+The parts never import from each other; they meet only through the [styling hooks](docs/architecture.md#the-styling-hooks). Every component is therefore built twice over: once as a primitive, once as styles for its hooks.
 
 The roadmap is a direction, not a schedule: phases may be added, removed or reorganised as real projects reveal new needs. It plans the work; the [documentation](docs/README.md) describes what already exists.
 
@@ -10,7 +19,7 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 
 | Phase                                                                 | Status         | Highlights                                          |
 | --------------------------------------------------------------------- | -------------- | --------------------------------------------------- |
-| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Nuxt layer, TypeScript, SCSS, tests, workflow, docs |
+| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Layers, TypeScript, SCSS, tests, workflow, docs     |
 | [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Design tokens done; reset and base typography to go |
 | [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go              |
 | [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons                |
@@ -34,7 +43,8 @@ A phase is **done** when every item is ticked and its "Done when" condition hold
 **Goal:** a clean and reliable starting point.
 
 - [x] Nuxt 4 project structure ([architecture](docs/architecture.md))
-- [x] Packaged as a Nuxt layer, with a playground that extends it as a site does ([usage](docs/usage.md))
+- [x] Packaged as independent layers (primitives, design, both), with a playground that extends them as a site does ([architecture](docs/architecture.md), [usage](docs/usage.md))
+- [x] Design styles in cascade layers, so any site CSS overrides them
 - [x] TypeScript in strict mode, type-checked in CI
 - [x] SCSS integration with a global stylesheet ([styling](docs/styling.md))
 - [x] Vitest test runner ([testing](docs/testing.md))
@@ -76,7 +86,7 @@ Page
         └── Content
 ```
 
-- [x] Centred, width-limited container (`.container`, `<BaseContainer>`)
+- [x] Centred, width-limited container (`.nc-container`, `<BaseContainer>`)
 - [ ] Grid and columns
 - [ ] Spacing utilities (stacks, gaps)
 - [ ] Responsive behaviour for each of the above
@@ -98,7 +108,7 @@ Page
 - [ ] Avatar
 - [ ] Loading indicator
 
-**Done when:** each component supports the states that apply to it (default, hover, focus, disabled, loading, error), is documented in [components.md](docs/components.md) and has tests.
+**Done when:** each component supports the states that apply to it (default, hover, focus, disabled, loading, error), exposes them as hooks, is styled by the design system, is documented in [components.md](docs/components.md) and has tests. Each one works, accessibly, with the design system removed.
 
 ---
 
@@ -171,9 +181,9 @@ Page
 - [ ] Tests for mouse and keyboard interaction
 - [ ] Automated accessibility checks
 
-- [ ] A CI job that installs the packed layer in a fresh site and builds it
+- [ ] A CI job that installs the packed package in a fresh site and builds it with each entry point
 
-**Done when:** every component from phases 4 to 7 has tests, CI runs them on every pull request, and CI proves a site can install and build with the layer.
+**Done when:** every component from phases 4 to 7 has tests, CI runs them on every pull request, and CI proves a site can install and build with each part.
 
 ---
 
@@ -194,13 +204,15 @@ Page
 - [ ] `useTheme()` composable
 - [ ] Three example themes
 
-**Done when:** switching theme changes colours, typography, radius, shadows and spacing without changing a single component.
+**Done when:** switching theme changes colours, typography, radius, shadows and spacing without changing a single component. Themes are part of the design layer.
 
 ---
 
 ## Phase 11 — Website Sections
 
 **Goal:** complete reusable sections, so pages are assembled rather than built.
+
+Sections become their own part, built from the primitives and styled by the design system like the components, so a site can take them unstyled too.
 
 - [ ] Hero: centred, split, image, video
 - [ ] Features: grid, list, alternating
