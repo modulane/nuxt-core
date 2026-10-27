@@ -18,9 +18,17 @@ Tests live in `tests/` and end in `.test.ts`. Name a test file after what it tes
 
 ## Current state
 
-- Tests run in a Node.js environment, which is enough for plain TypeScript: composables that do not touch the DOM, and utility functions.
-- `tests/example.test.ts` is a placeholder that keeps `yarn test` meaningful until the first real test exists. Delete it then.
-- **Component tests are not set up yet.** Rendering components needs the `nuxt` test environment and a DOM implementation such as `happy-dom`. The first pull request that adds a component test sets these up and updates this section.
+Tests run in Node.js by default, which is enough for plain TypeScript such as utility functions. A test that needs Nuxt (auto-imports, `useState`, `useCookie`, `useHead`) or renders a component opts in to the `nuxt` environment with a comment on its first line:
+
+```ts
+// @vitest-environment nuxt
+import { mountSuspended } from '@nuxt/test-utils/runtime'
+import { FormSwitch } from '#components'
+
+const wrapper = await mountSuspended(FormSwitch)
+```
+
+That environment boots the playground, which extends the layers as a site does, with [happy-dom](https://github.com/capricorn86/happy-dom) as the DOM. Nuxt writes cookies and updates `<head>` after a change, not during it: wait for them with `vi.waitFor()`.
 
 ## What to test
 
