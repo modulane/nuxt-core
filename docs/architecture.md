@@ -73,7 +73,7 @@ No layer has an `app.vue`, `pages/` or `public/`: those belong to each site. A p
 
 ### `playground/`
 
-A minimal Nuxt app whose `nuxt.config.ts` extends the root layer with `extends: ['..']`, exactly as a site does. `yarn dev` and `yarn build` run it, so development always goes through the same path as a real site. It holds what a site provides itself: `app.vue`, the favicon and `robots.txt` in `public/`, and the `compatibilityDate`.
+A minimal Nuxt app whose `nuxt.config.ts` extends the root layer with `extends: ['..']`, exactly as a site does. `yarn dev` and `yarn build` run it, so development always goes through the same path as a real site. It holds what a site provides itself: `app.vue`, the favicon and `robots.txt` in `public/`, and the `compatibilityDate`. Its page is a living reference of the design system: every design token rendered with itself, and the component inventory with each status. It is built only from Nuxt Core, so it also shows the layers working together.
 
 ### `tests/`
 

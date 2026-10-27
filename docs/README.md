@@ -24,9 +24,9 @@ The documentation describes the code as it is on `main`, never as it is planned 
 
 | When a pull request…                                       | It updates                                                    |
 | ---------------------------------------------------------- | ------------------------------------------------------------- |
-| adds, changes or removes a component                       | [components.md](components.md)                                |
+| adds, changes or removes a component                       | [components.md](components.md) and the playground inventory   |
 | adds, changes or removes a composable                      | [composables.md](composables.md)                              |
-| adds or changes a design token, breakpoint or SCSS file    | [styling.md](styling.md)                                      |
+| adds or changes a design token, breakpoint or SCSS file    | [styling.md](styling.md) and the playground token lists       |
 | adds a folder or moves files                               | [architecture.md](architecture.md)                            |
 | changes what sites receive, or how they install the layers | [usage.md](usage.md) and the README                           |
 | adds or changes a `package.json` script or a requirement   | [getting-started.md](getting-started.md) and the README       |
