@@ -50,15 +50,15 @@ Defined in [`base/_root.scss`](../layers/design/app/assets/scss/base/_root.scss)
 
 | Token                        | Value     | Use                         |
 | ---------------------------- | --------- | --------------------------- |
-| `--color-primary`            | `#18181b` | Primary actions and accents |
+| `--color-primary`            | `#4f46e5` | Primary actions and accents |
 | `--color-primary-contrast`   | `#ffffff` | Text on `--color-primary`   |
-| `--color-secondary`          | `#71717a` | Secondary actions           |
+| `--color-secondary`          | `#1e293b` | Secondary actions           |
 | `--color-secondary-contrast` | `#ffffff` | Text on `--color-secondary` |
 | `--color-background`         | `#ffffff` | Page background             |
-| `--color-surface`            | `#f4f4f5` | Cards and raised areas      |
-| `--color-text`               | `#18181b` | Body text                   |
-| `--color-text-muted`         | `#71717a` | Secondary text              |
-| `--color-border`             | `#e4e4e7` | Borders and dividers        |
+| `--color-surface`            | `#f8fafc` | Cards and raised areas      |
+| `--color-text`               | `#0f172a` | Body text                   |
+| `--color-text-muted`         | `#64748b` | Secondary text              |
+| `--color-border`             | `#e2e8f0` | Borders and dividers        |
 
 ### Spacing
 
@@ -75,33 +75,35 @@ Defined in [`base/_root.scss`](../layers/design/app/assets/scss/base/_root.scss)
 
 ### Typography
 
-| Token                   | Value                   |
-| ----------------------- | ----------------------- |
-| `--font-family-body`    | `system-ui, sans-serif` |
-| `--font-family-heading` | `system-ui, sans-serif` |
-| `--font-size-sm`        | 0.875rem                |
-| `--font-size-md`        | 1rem                    |
-| `--font-size-lg`        | 1.125rem                |
-| `--font-size-xl`        | 1.25rem                 |
-| `--font-size-2xl`       | 1.5rem                  |
-| `--font-size-3xl`       | 2rem                    |
-| `--font-size-4xl`       | 3rem                    |
+| Token                   | Value                                                                               |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `--font-family-body`    | `system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif` |
+| `--font-family-heading` | Same as `--font-family-body`                                                        |
+| `--font-size-sm`        | 0.875rem                                                                            |
+| `--font-size-md`        | 1rem                                                                                |
+| `--font-size-lg`        | 1.125rem                                                                            |
+| `--font-size-xl`        | 1.25rem                                                                             |
+| `--font-size-2xl`       | 1.5rem                                                                              |
+| `--font-size-3xl`       | 2.25rem                                                                             |
+| `--font-size-4xl`       | 3rem                                                                                |
 
 ### Radius, shadows and motion
 
-| Token               | Value                          |
-| ------------------- | ------------------------------ |
-| `--radius-sm`       | 0.25rem                        |
-| `--radius-md`       | 0.5rem                         |
-| `--radius-lg`       | 0.75rem                        |
-| `--radius-full`     | 9999px                         |
-| `--shadow-sm`       | `0 1px 2px rgb(0 0 0 / 5%)`    |
-| `--shadow-md`       | `0 4px 12px rgb(0 0 0 / 10%)`  |
-| `--shadow-lg`       | `0 10px 30px rgb(0 0 0 / 15%)` |
-| `--duration-fast`   | 150ms                          |
-| `--duration-normal` | 250ms                          |
-| `--duration-slow`   | 400ms                          |
-| `--ease-standard`   | `ease`                         |
+| Token               | Value                                                           |
+| ------------------- | --------------------------------------------------------------- |
+| `--radius-sm`       | 0.375rem                                                        |
+| `--radius-md`       | 0.625rem                                                        |
+| `--radius-lg`       | 1rem                                                            |
+| `--radius-full`     | 9999px                                                          |
+| `--shadow-sm`       | `0 1px 2px rgb(15 23 42 / 6%)`                                  |
+| `--shadow-md`       | `0 1px 3px rgb(15 23 42 / 6%), 0 4px 12px rgb(15 23 42 / 8%)`   |
+| `--shadow-lg`       | `0 4px 6px rgb(15 23 42 / 5%), 0 12px 32px rgb(15 23 42 / 12%)` |
+| `--duration-fast`   | 150ms                                                           |
+| `--duration-normal` | 200ms                                                           |
+| `--duration-slow`   | 350ms                                                           |
+| `--ease-standard`   | `cubic-bezier(0.2, 0, 0, 1)`                                    |
+
+The colours pair a slate neutral scale with an indigo accent. Every text colour meets WCAG AA (4.5:1) on `--color-background` and `--color-surface`, and white text meets it on `--color-primary` and `--color-secondary`. The shadows are tinted with the hue of `--color-text` rather than pure black, so they belong to the palette.
 
 ## Breakpoints
 
