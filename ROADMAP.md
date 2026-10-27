@@ -20,7 +20,7 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 | Phase                                                                 | Status         | Highlights                                      |
 | --------------------------------------------------------------------- | -------------- | ----------------------------------------------- |
 | [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Layers, TypeScript, SCSS, tests, workflow, docs |
-| [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Tokens, reset and typography done               |
+| [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Tokens, reset and typography done; states to go |
 | [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go          |
 | [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons            |
 | [5. Forms](#phase-5--forms)                                           | ⬜ Planned     | Inputs, selects, checkboxes, validation         |
@@ -33,8 +33,20 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 | [12. Reusable Website Features](#phase-12--reusable-website-features) | ⬜ Planned     | SEO, contact forms, analytics, consent          |
 | [13. Website Templates](#phase-13--website-templates)                 | ⬜ Planned     | Complete starting points per type of site       |
 | [14. Project Generator](#phase-14--project-generator)                 | ⬜ Planned     | A new site from a few choices                   |
+| [15. Public Release](#phase-15--public-release)                       | ⬜ Planned     | Licence, npm, 1.0.0 and a documentation site    |
 
 A phase is **done** when every item is ticked and its "Done when" condition holds. Work on a later phase can start early when it unblocks something.
+
+## In every phase
+
+What each phase adds meets these standards. They are not repeated in each phase's list, and a phase is not done until its work meets them:
+
+- **Accessible:** WCAG 2.2 AA, usable with the keyboard alone and with a screen reader, with reduced motion and forced colours respected.
+- **Ready for any language:** no component hard-codes text a visitor reads. Built-in text (`Close`, `Next page`) is a prop with an English default, so a site can translate it, and styles use logical properties (`inline-start`, not `left`) so right-to-left languages work.
+- **Responsive:** mobile-first, from the smallest phone to a wide desktop.
+- **Light:** a part a site does not use adds no CSS and no JavaScript, and a component ships JavaScript only for behaviour HTML and CSS cannot provide.
+- **Built from tokens:** every design value comes from a token, and every primitive works without the design system.
+- **Documented and tested:** each change updates [the documentation](docs/README.md), the playground and the tests in the same pull request.
 
 ---
 
@@ -70,6 +82,14 @@ A phase is **done** when every item is ticked and its "Done when" condition hold
 - [x] CSS reset ([styling](docs/styling.md#reset))
 - [x] Base typography: headings, paragraphs, links, lists, code ([styling](docs/styling.md#typography))
 - [x] Running-text spacing (`.nc-flow`)
+- [ ] Status colours: success, warning, danger and info, each with a contrast colour, in both schemes
+- [ ] Interaction states: hover and active shades of the action colours, and a disabled style
+- [ ] Border widths and the focus ring (width, offset, colour) as tokens
+- [ ] Layering scale (`z-index`) for sticky headers, dropdowns, modals and notifications
+- [ ] Visually hidden utility, for text that only screen readers announce
+- [ ] Forced colours (Windows high contrast): focus rings and component states stay visible
+- [ ] Base styles for tables, figures and description lists, which rich-text content uses
+- [ ] Browser support policy: the browsers and versions the design system targets, documented and used as the CSS build target
 
 **Done when:** a bare HTML page with no component styles looks consistent across browsers, and every value comes from a token.
 
@@ -91,6 +111,9 @@ Page
 - [ ] Grid and columns
 - [ ] Spacing utilities (stacks, gaps)
 - [ ] Responsive behaviour for each of the above
+- [ ] `useBreakpoints()` composable, for layout decisions CSS cannot make
+- [ ] The container's maximum width as a token
+- [ ] Page layouts (`default`, `auth`): header, main and footer areas, with the main area as the skip link's target
 
 **Done when:** a typical page layout (header, content columns, footer) can be built from layout tools alone, and adapts from phone to desktop.
 
@@ -104,10 +127,12 @@ Page
 - [ ] Link
 - [ ] Card
 - [ ] Badge
-- [ ] Icon
+- [ ] Icon (source to decide: inline SVG or `@nuxt/icon`)
 - [ ] Divider
 - [ ] Avatar
 - [ ] Loading indicator
+- [ ] Alert: a static message in each status colour
+- [ ] Image: responsive and lazy-loaded, with a fixed aspect ratio so the page does not shift (with or without `@nuxt/image`)
 
 **Done when:** each component supports the states that apply to it (default, hover, focus, disabled, loading, error), exposes them as hooks, is styled by the design system, is documented in [components.md](docs/components.md) and has tests. Each one works, accessibly, with the design system removed.
 
@@ -142,6 +167,9 @@ Page
 - [ ] Tabs
 - [ ] Drawer
 - [ ] Notifications
+- [ ] Carousel, needed by the testimonial sections
+- [ ] Lightbox, needed by the gallery section
+- [ ] Enter and leave transitions shared by every component (fade, slide, scale), turned off by reduced motion
 
 **Done when:** each component manages focus correctly, closes with Escape where expected, and follows the matching [WAI-ARIA pattern](https://www.w3.org/WAI/ARIA/apg/patterns/).
 
@@ -157,6 +185,8 @@ Page
 - [ ] Footer
 - [ ] Breadcrumbs
 - [ ] Pagination
+- [ ] Skip link, to jump past the header to the main content
+- [ ] Language switcher, for multilingual sites (phase 12)
 
 **Done when:** a multi-page site can be navigated on phone and desktop, with the keyboard alone.
 
@@ -181,6 +211,8 @@ Page
 - [ ] Tests for rendering, props and states
 - [ ] Tests for mouse and keyboard interaction
 - [ ] Automated accessibility checks
+- [ ] Visual regression checks for the design system, in both colour schemes
+- [ ] A size budget for each entry point (CSS and JavaScript), checked in CI
 
 - [ ] A CI job that installs the packed package in a fresh site and builds it with each entry point
 
@@ -203,6 +235,8 @@ Page
 - [ ] Theme selection mechanism, set by the site in its `app.config.ts` ([theming](docs/theming.md) lists the open questions)
 - [x] Dark mode, the default colour scheme, with a light scheme beside it ([styling](docs/styling.md#colour-schemes))
 - [ ] `useTheme()` composable (the colour scheme part is done: [composables](docs/composables.md#usetheme))
+- [ ] Colour scheme: a default chosen by the site, and following the visitor's system preference
+- [ ] Web fonts per theme, self-hosted and loaded without layout shift
 - [ ] Three example themes
 
 **Done when:** switching theme changes colours, typography, radius, shadows and spacing without changing a single component. Themes are part of the design layer.
@@ -224,6 +258,7 @@ Sections become their own part, built from the primitives and styled by the desi
 - [ ] Contact
 - [ ] Gallery
 - [ ] FAQ
+- [ ] Error pages: not found and server error, in the site's look
 
 **Done when:** a typical landing page can be assembled from sections only.
 
@@ -235,11 +270,13 @@ Sections become their own part, built from the primitives and styled by the desi
 
 Every site receives the layer whole, so each feature is **off by default** and a site turns it on in its configuration: a disabled feature registers no server route and loads no code. Features that need heavy dependencies (blog, authentication, booking, search) ship as separate optional layers that a site adds to `extends`, so sites that do not use them do not install them.
 
-- [ ] SEO helpers
-- [ ] Contact form, with its server route
+- [ ] SEO: meta and Open Graph tags, sitemap, `robots.txt`, structured data
+- [ ] Contact form, with its server route, spam protection and email delivery
 - [ ] Newsletter form
 - [ ] Analytics
 - [ ] Cookie consent
+- [ ] Multilingual sites: translated routes and content, and a language for each visitor
+- [ ] Content: Markdown pages or a headless CMS, so content can change without code
 - [ ] Blog
 - [ ] Search
 - [ ] Authentication
@@ -285,3 +322,17 @@ Project
 - [ ] Generated project ready to develop: it starts from a template and extends Nuxt Core at the latest release
 
 **Done when:** a new Nuxt Core website is running in minutes.
+
+---
+
+## Phase 15 — Public Release
+
+**Goal:** Nuxt Core usable by people outside the team. This phase can move earlier if a site needs it.
+
+- [ ] Licence
+- [ ] Published on the npm registry, alongside the Git tags
+- [ ] Version 1.0.0, once the hooks, tokens and component APIs are stable
+- [ ] Versioning policy: what counts as a breaking change (a renamed hook, token, prop or event), and an upgrade guide for each major version
+- [ ] A public documentation site, built from `docs/` and the showcase
+
+**Done when:** a developer outside the team can find, install, use and upgrade Nuxt Core without access to the repository.
