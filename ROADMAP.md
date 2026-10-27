@@ -2,13 +2,15 @@
 
 How Nuxt Core grows from a project foundation to a project generator. Each phase builds on the previous ones.
 
+Nuxt Core is a [Nuxt layer](https://nuxt.com/docs/guide/going-further/layers): a site installs one package and extends it, and receives everything below. Every phase keeps that promise: what a phase adds reaches sites through the same `extends` line, opt-in where it has a cost, and overridable by the site.
+
 The roadmap is a direction, not a schedule: phases may be added, removed or reorganised as real projects reveal new needs. It plans the work; the [documentation](docs/README.md) describes what already exists.
 
 ## Overview
 
 | Phase                                                                 | Status         | Highlights                                          |
 | --------------------------------------------------------------------- | -------------- | --------------------------------------------------- |
-| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Nuxt 4, TypeScript, SCSS, tests, workflow, docs     |
+| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Nuxt layer, TypeScript, SCSS, tests, workflow, docs |
 | [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Design tokens done; reset and base typography to go |
 | [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go              |
 | [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons                |
@@ -32,6 +34,7 @@ A phase is **done** when every item is ticked and its "Done when" condition hold
 **Goal:** a clean and reliable starting point.
 
 - [x] Nuxt 4 project structure ([architecture](docs/architecture.md))
+- [x] Packaged as a Nuxt layer, with a playground that extends it as a site does ([usage](docs/usage.md))
 - [x] TypeScript in strict mode, type-checked in CI
 - [x] SCSS integration with a global stylesheet ([styling](docs/styling.md))
 - [x] Vitest test runner ([testing](docs/testing.md))
@@ -39,7 +42,7 @@ A phase is **done** when every item is ticked and its "Done when" condition hold
 - [x] Git workflow: pull requests, CI, labels and automated releases ([CONTRIBUTING](CONTRIBUTING.md))
 - [x] Documentation system ([docs](docs/README.md))
 
-**Done when:** a new contributor can clone, install and pass `yarn check` by following the documentation alone.
+**Done when:** a new contributor can clone, install and pass `yarn check` by following the documentation alone, and a new site can install and extend the layer by following [usage.md](docs/usage.md).
 
 ---
 
@@ -152,7 +155,7 @@ Page
 
 **Goal:** every component easy to discover and understand.
 
-- [ ] A showcase page per component: variants, states and usage examples
+- [ ] A showcase page per component: variants, states and usage examples. The showcase lives in the playground, not the layer, so it adds no routes to sites
 - [ ] The props, events and slots of each component, generated or kept in sync with [components.md](docs/components.md)
 
 **Done when:** the showcase serves as the visual reference while building a new website.
@@ -168,7 +171,9 @@ Page
 - [ ] Tests for mouse and keyboard interaction
 - [ ] Automated accessibility checks
 
-**Done when:** every component from phases 4 to 7 has tests, and CI runs them on every pull request.
+- [ ] A CI job that installs the packed layer in a fresh site and builds it
+
+**Done when:** every component from phases 4 to 7 has tests, CI runs them on every pull request, and CI proves a site can install and build with the layer.
 
 ---
 
@@ -184,7 +189,7 @@ Page
           Modern        Elegant       Corporate
 ```
 
-- [ ] Theme selection mechanism ([theming](docs/theming.md) lists the open questions)
+- [ ] Theme selection mechanism, set by the site in its `app.config.ts` ([theming](docs/theming.md) lists the open questions)
 - [ ] Dark mode
 - [ ] `useTheme()` composable
 - [ ] Three example themes
@@ -215,6 +220,8 @@ Page
 
 **Goal:** functionality that keeps coming back in client websites. Only features that serve several projects belong here.
 
+Every site receives the layer whole, so each feature is **off by default** and a site turns it on in its configuration: a disabled feature registers no server route and loads no code. Features that need heavy dependencies (blog, authentication, booking, search) ship as separate optional layers that a site adds to `extends`, so sites that do not use them do not install them.
+
 - [ ] SEO helpers
 - [ ] Contact form, with its server route
 - [ ] Newsletter form
@@ -232,6 +239,8 @@ Page
 ## Phase 13 — Website Templates
 
 **Goal:** complete starting points for common kinds of websites, combining components, sections, features and themes.
+
+A template is a starter project that already extends Nuxt Core, with the theme, features, pages and placeholder content of its kind. Starting a site copies the template, so the site owns its pages while still receiving Nuxt Core updates.
 
 - [ ] Business website
 - [ ] Freelancer portfolio
@@ -259,7 +268,7 @@ Project
 └── Configuration
 ```
 
-- [ ] Generator that asks for each choice
-- [ ] Generated project ready to develop, built on Nuxt Core
+- [ ] Generator that asks for each choice, run as a single command
+- [ ] Generated project ready to develop: it starts from a template and extends Nuxt Core at the latest release
 
 **Done when:** a new Nuxt Core website is running in minutes.

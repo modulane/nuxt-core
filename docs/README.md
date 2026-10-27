@@ -6,6 +6,7 @@ This folder is the reference for how Nuxt Core is built and used. The [README](.
 
 | Guide                                 | What it covers                                                 | Status                     |
 | ------------------------------------- | -------------------------------------------------------------- | -------------------------- |
+| [Using Nuxt Core](usage.md)           | Installing the layer in a site, and overriding it              | Current                    |
 | [Getting started](getting-started.md) | Requirements, installation, commands and troubleshooting       | Current                    |
 | [Architecture](architecture.md)       | The folder structure, what belongs where, and the config files | Current                    |
 | [Conventions](conventions.md)         | TypeScript, Vue, naming, SCSS, accessibility and imports       | Current                    |
@@ -21,15 +22,16 @@ The documentation describes the code as it is on `main`, never as it is planned 
 
 **A pull request that changes behaviour, structure, commands, conventions or a public API updates the matching guide in the same pull request.** Reviewers check this like they check tests; the pull request template has a box for it.
 
-| When a pull request…                                     | It updates                                                    |
-| -------------------------------------------------------- | ------------------------------------------------------------- |
-| adds, changes or removes a component                     | [components.md](components.md)                                |
-| adds, changes or removes a composable                    | [composables.md](composables.md)                              |
-| adds or changes a design token, breakpoint or SCSS file  | [styling.md](styling.md)                                      |
-| adds a folder or moves files                             | [architecture.md](architecture.md)                            |
-| adds or changes a `package.json` script or a requirement | [getting-started.md](getting-started.md) and the README       |
-| changes a rule in code review                            | [conventions.md](conventions.md)                              |
-| completes a roadmap item                                 | [ROADMAP.md](../ROADMAP.md): tick the item, update the status |
+| When a pull request…                                      | It updates                                                    |
+| --------------------------------------------------------- | ------------------------------------------------------------- |
+| adds, changes or removes a component                      | [components.md](components.md)                                |
+| adds, changes or removes a composable                     | [composables.md](composables.md)                              |
+| adds or changes a design token, breakpoint or SCSS file   | [styling.md](styling.md)                                      |
+| adds a folder or moves files                              | [architecture.md](architecture.md)                            |
+| changes what sites receive, or how they install the layer | [usage.md](usage.md) and the README                           |
+| adds or changes a `package.json` script or a requirement  | [getting-started.md](getting-started.md) and the README       |
+| changes a rule in code review                             | [conventions.md](conventions.md)                              |
+| completes a roadmap item                                  | [ROADMAP.md](../ROADMAP.md): tick the item, update the status |
 
 ## Writing style
 

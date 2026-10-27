@@ -23,7 +23,7 @@ app/assets/scss/
     └── _utilities.scss    (empty) Single-purpose helper classes
 ```
 
-[`nuxt.config.ts`](../nuxt.config.ts) loads `main.scss` on every page through its `css` option, and `main.scss` `@use`s each partial that emits CSS, in this order: base, layout, utilities. The abstracts are not loaded globally; each stylesheet that needs them imports them itself (see [Breakpoints](#breakpoints)).
+[`nuxt.config.ts`](../nuxt.config.ts) loads `main.scss` on every page of every site through its `css` option, and `main.scss` `@use`s each partial that emits CSS, in this order: base, layout, utilities. The abstracts are not loaded globally; each stylesheet that needs them imports them itself (see [Breakpoints](#breakpoints)).
 
 Styles that belong to one component stay in that component's `<style lang="scss">` block.
 
@@ -104,8 +104,8 @@ The `respond-to()` mixin applies styles from a breakpoint up. Styles are mobile-
 
 ```vue
 <style lang="scss">
-@use '~/assets/scss/abstracts/variables' as *;
-@use '~/assets/scss/abstracts/mixins' as *;
+@use '#layers/nuxt-core/app/assets/scss/abstracts/variables' as *;
+@use '#layers/nuxt-core/app/assets/scss/abstracts/mixins' as *;
 
 .card {
   padding: var(--space-4);

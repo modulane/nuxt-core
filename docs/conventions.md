@@ -34,7 +34,7 @@ The rules code review applies. When a rule changes, change it here in the same p
 ## Imports
 
 - Do not import what Nuxt auto-imports: components, composables, Vue APIs (`ref`, `computed`) and Nuxt APIs (`useRoute`, `defineEventHandler`).
-- Import everything else explicitly, using the `~/` alias for `app/` rather than long relative paths.
+- Import everything else explicitly. In the layer, use the `#layers/nuxt-core/` alias or a relative path, never `~/`: in a site, `~/` points to the site's own `app/`, not to the layer.
 
 ## SCSS
 

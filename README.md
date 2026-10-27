@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/modulane/nuxt-core/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/modulane/nuxt-core/actions/workflows/release.yml)
 
-A reusable foundation for building modern websites with Nuxt.
+A reusable foundation for building modern websites with Nuxt, delivered as a [Nuxt layer](https://nuxt.com/docs/guide/going-further/layers).
 
 > **Build once, reuse everywhere.**
 
@@ -26,7 +26,8 @@ Nuxt Core
 
 - [Status](#status)
 - [Technology](#technology)
-- [Quick start](#quick-start)
+- [Usage](#usage)
+- [Development](#development)
 - [Documentation](#documentation)
 - [Principles](#principles)
 - [Contributing](#contributing)
@@ -45,7 +46,24 @@ Nuxt Core is in early development. The project foundation is in place; the styli
 
 The UI is built from scratch with SCSS rather than on a component library. This gives the project full control over its visual identity and lets the design system evolve on its own terms.
 
-## Quick start
+## Usage
+
+A site installs a release of Nuxt Core from GitHub and extends it:
+
+```bash
+yarn add @modulane/nuxt-core@github:modulane/nuxt-core#v0.1.0
+```
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  extends: ['@modulane/nuxt-core'],
+})
+```
+
+The site then receives the styles, components, composables and layouts, and can override any of them with a file of the same name. [Using Nuxt Core](docs/usage.md) covers npm and pnpm, the design tokens and overrides.
+
+## Development
 
 Requirements: Node.js 22.22.3, 24.15, or 26 and later, and [Corepack](https://github.com/nodejs/corepack) (included with Node.js 24 and earlier).
 
@@ -57,12 +75,13 @@ yarn install
 yarn dev
 ```
 
-The development server runs at <http://localhost:3000>. [Getting started](docs/getting-started.md) lists every command and how to fix common setup problems.
+`yarn dev` runs the playground, a development app that extends the layer as a site does, at <http://localhost:3000>. [Getting started](docs/getting-started.md) lists every command and how to fix common setup problems.
 
 ## Documentation
 
 | Guide                                      | Covers                                        |
 | ------------------------------------------ | --------------------------------------------- |
+| [Using Nuxt Core](docs/usage.md)           | Installing the layer in a site, overriding it |
 | [Getting started](docs/getting-started.md) | Requirements, installation, commands          |
 | [Architecture](docs/architecture.md)       | Folder structure and configuration files      |
 | [Conventions](docs/conventions.md)         | Coding rules applied in review                |

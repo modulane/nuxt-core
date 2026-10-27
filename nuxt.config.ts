@@ -1,10 +1,13 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+import { fileURLToPath } from 'node:url'
 
-  css: ['~/assets/scss/main.scss'],
-  typescript: {
-    strict: true,
+// Nuxt Core is a Nuxt layer: sites add it to `extends` in their own nuxt.config.
+// Paths here resolve from this file, because `~` points to the consuming site.
+// https://nuxt.com/docs/guide/going-further/layers
+export default defineNuxtConfig({
+  $meta: {
+    // Registers the `#layers/nuxt-core` alias, used to import SCSS from the layer
+    name: 'nuxt-core',
   },
+
+  css: [fileURLToPath(new URL('./app/assets/scss/main.scss', import.meta.url))],
 })
