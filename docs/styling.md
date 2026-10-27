@@ -13,8 +13,8 @@ layers/design/app/assets/scss/
 │   └── _functions.scss    (empty)
 ├── base/
 │   ├── _root.scss         Design tokens shared by every colour scheme, on :root
-│   ├── _reset.scss        (empty) Browser style reset
-│   └── _typography.scss   Page background, text colour and font
+│   ├── _reset.scss        Browser style reset
+│   └── _typography.scss   Page colours, text, headings, links, code
 ├── schemes/               Colour and shadow tokens of each colour scheme
 │   ├── _dark.scss         Dark, the default
 │   └── _light.scss        Light, with data-color-scheme="light"
@@ -24,7 +24,7 @@ layers/design/app/assets/scss/
 ├── components/            The styles of each primitive, one partial per component
 │   └── _switch.scss       .nc-switch
 └── utilities/
-    └── _utilities.scss    (empty) Single-purpose helper classes
+    └── _utilities.scss    .nc-flow
 ```
 
 The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `main.scss` on every page of every site through its `css` option. `main.scss` loads each partial that emits CSS into its [cascade layer](#the-cascade). The abstracts are not loaded globally; each stylesheet that needs them imports them itself (see [Breakpoints](#breakpoints)).
@@ -93,17 +93,23 @@ Both schemes pair a slate neutral scale with an indigo accent. In each, every te
 
 ### Typography
 
-| Token                   | Value                                                                               |
-| ----------------------- | ----------------------------------------------------------------------------------- |
-| `--font-family-body`    | `system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif` |
-| `--font-family-heading` | Same as `--font-family-body`                                                        |
-| `--font-size-sm`        | 0.875rem                                                                            |
-| `--font-size-md`        | 1rem                                                                                |
-| `--font-size-lg`        | 1.125rem                                                                            |
-| `--font-size-xl`        | 1.25rem                                                                             |
-| `--font-size-2xl`       | 1.5rem                                                                              |
-| `--font-size-3xl`       | 2.25rem                                                                             |
-| `--font-size-4xl`       | 3rem                                                                                |
+| Token                    | Value                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------ |
+| `--font-family-body`     | `system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif`              |
+| `--font-family-heading`  | Same as `--font-family-body`                                                                     |
+| `--font-family-mono`     | `ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace` |
+| `--font-size-sm`         | 0.875rem                                                                                         |
+| `--font-size-md`         | 1rem                                                                                             |
+| `--font-size-lg`         | 1.125rem                                                                                         |
+| `--font-size-xl`         | 1.25rem                                                                                          |
+| `--font-size-2xl`        | 1.5rem                                                                                           |
+| `--font-size-3xl`        | 2.25rem                                                                                          |
+| `--font-size-4xl`        | 3rem                                                                                             |
+| `--font-weight-normal`   | 400                                                                                              |
+| `--font-weight-medium`   | 500                                                                                              |
+| `--font-weight-semibold` | 600                                                                                              |
+| `--line-height-tight`    | 1.2, for headings and code blocks                                                                |
+| `--line-height-normal`   | 1.6, for running text                                                                            |
 
 ### Radius, shadows and motion
 
@@ -157,6 +163,55 @@ The `respond-to()` mixin applies styles from a breakpoint up. Styles are mobile-
 }
 </style>
 ```
+
+## Base styles
+
+Every page gets them, in the `nuxt-core.reset` and `nuxt-core.base` [cascade layers](#the-cascade), so a site's own CSS overrides any of them.
+
+### Reset
+
+[`base/_reset.scss`](../layers/design/app/assets/scss/base/_reset.scss) removes the browser defaults that get in the way, and nothing else:
+
+- Every element uses `box-sizing: border-box`.
+- Headings, paragraphs, lists, `figure`, `blockquote`, `dl` and `dd` have no margin, and `body` has none either. Spacing is set where it is wanted: by [`.nc-flow`](#nc-flow) for running text, and by each component for its own.
+- Images, videos, canvases and SVGs are blocks that never overflow their container.
+- Form controls inherit the page's font and colour.
+- Long words and URLs wrap instead of overflowing.
+- `body` fills at least the viewport, and tables collapse their borders.
+
+Lists keep their bullets and padding, only their margins go: removing the bullets is a choice for each list, and some screen readers stop announcing a list without its bullets.
+
+### Typography
+
+[`base/_typography.scss`](../layers/design/app/assets/scss/base/_typography.scss) styles plain HTML with the tokens, so content looks right without classes:
+
+| Element                         | Style                                                                                              |
+| ------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `body`                          | `--font-family-body`, `--font-size-md`, `--line-height-normal`, the scheme's colours               |
+| `h1`–`h6`                       | `--font-family-heading`, `--font-weight-semibold`, `--line-height-tight`, balanced lines           |
+| `h1`, `h2`                      | `--font-size-4xl` and `-3xl` from `$breakpoint-md`, one step smaller below it                      |
+| `h3` to `h6`                    | `--font-size-2xl`, `-xl`, `-lg` and `-md`                                                          |
+| `a`                             | `--color-primary`, underlined; the underline thickens on hover                                     |
+| `code`, `kbd`, `samp`, `pre`    | `--font-family-mono`. Inline `code` and `kbd` sit on `--color-surface`; `pre` is a scrolling block |
+| List markers                    | `--color-text-muted`                                                                               |
+| `blockquote`                    | `--color-text-muted`, with a `--color-primary` rule on its start side                              |
+| `strong`, `small`, `hr`, `mark` | Semibold; `--font-size-sm`; a `--color-border` line; a `--color-primary` tint                      |
+
+Text selection is tinted with `--color-primary`, and every focusable element shows a 2px `--color-primary` outline when it is focused with the keyboard. A component that draws its own focus indicator overrides that outline.
+
+### `.nc-flow`
+
+Spaces the children of running text, such as an article or the HTML of a rich-text field, whose margins the reset removes. Each child gets `--space-4` above it; a heading gets `--space-8` above and `--space-3` below, so it groups with the text that follows; list items get `--space-2` between them, so a list still reads as one block. Set `--flow-space` on the element to use one gap for every child instead.
+
+```html
+<article class="nc-flow">
+  <h2>Title</h2>
+  <p>First paragraph.</p>
+  <p>Second paragraph.</p>
+</article>
+```
+
+The class is in the `nuxt-core.utilities` layer and, like every class of the design system, prefixed with `nc-`.
 
 ## Layout
 

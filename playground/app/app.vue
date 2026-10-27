@@ -51,7 +51,55 @@
               >Build once, reuse everywhere</span
             >
           </li>
+          <li v-for="family in fontFamilies" :key="family" class="row">
+            <code class="row__label">{{ family }}</code>
+            <span :style="{ fontFamily: `var(${family})` }"
+              >Build once, reuse everywhere</span
+            >
+          </li>
+          <li v-for="weight in fontWeights" :key="weight" class="row">
+            <code class="row__label">{{ weight }}</code>
+            <span :style="{ fontWeight: `var(${weight})` }"
+              >Build once, reuse everywhere</span
+            >
+          </li>
+          <li v-for="lineHeight in lineHeights" :key="lineHeight" class="row">
+            <code class="row__label">{{ lineHeight }}</code>
+            <span
+              class="row__lines"
+              :style="{ lineHeight: `var(${lineHeight})` }"
+              >Build once, reuse everywhere. A layer gives every site the same
+              foundation, and each site adds only what makes it different.</span
+            >
+          </li>
         </ul>
+
+        <h3 class="subheading">Base styles, in <code>.nc-flow</code></h3>
+        <article class="nc-flow prose">
+          <h1>Heading 1</h1>
+          <p>
+            Body text with a <a href="#typography">link</a>,
+            <strong>strong text</strong>, <code>inline code</code>, a
+            <kbd>Tab</kbd> key and a <mark>highlight</mark>.
+          </p>
+          <h2>Heading 2</h2>
+          <h3>Heading 3</h3>
+          <ul class="prose__list">
+            <li>A list keeps its bullets</li>
+            <li>Its items are closer together than paragraphs</li>
+          </ul>
+          <p>
+            <small>Small print, for notes and captions.</small>
+          </p>
+          <blockquote>
+            <p>A quotation, set off from the text around it.</p>
+          </blockquote>
+          <pre><code>const { isDark } = useTheme()</code></pre>
+          <hr />
+          <h4>Heading 4</h4>
+          <h5>Heading 5</h5>
+          <h6>Heading 6</h6>
+        </article>
       </section>
 
       <section id="spacing" class="section" aria-labelledby="spacing-title">
@@ -163,6 +211,13 @@ const colors = [
 const fontSizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'].map(
   size => `--font-size-${size}`,
 )
+const fontFamilies = ['body', 'heading', 'mono'].map(
+  family => `--font-family-${family}`,
+)
+const fontWeights = ['normal', 'medium', 'semibold'].map(
+  weight => `--font-weight-${weight}`,
+)
+const lineHeights = ['tight', 'normal'].map(height => `--line-height-${height}`)
 const spaces = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20].map(
   step => `--space-${step}`,
 )
@@ -220,7 +275,7 @@ code {
   &__title {
     margin: 0;
     font-family: var(--font-family-heading);
-    font-weight: 700;
+    font-weight: var(--font-weight-semibold);
   }
 
   &__switch {
@@ -233,7 +288,7 @@ code {
     background: var(--color-surface);
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
   }
 }
 
@@ -256,7 +311,7 @@ code {
 .intro {
   padding-block: var(--space-12) var(--space-4);
 
-  h1 {
+  > h1 {
     margin-block: 0 var(--space-3);
     font-size: var(--font-size-3xl);
   }
@@ -268,7 +323,7 @@ code {
   // Keeps headings visible below the sticky header when jumping to a section
   scroll-margin-block-start: var(--space-20);
 
-  h2 {
+  > h2 {
     margin-block: 0 var(--space-6);
     font-size: var(--font-size-2xl);
   }
@@ -320,6 +375,28 @@ code {
     flex: none;
     inline-size: 9rem;
     color: var(--color-text-muted);
+  }
+
+  &__lines {
+    max-inline-size: 40ch;
+  }
+}
+
+.subheading {
+  margin-block: var(--space-8) var(--space-4);
+  font-size: var(--font-size-lg);
+}
+
+.prose {
+  max-inline-size: 65ch;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  // Restores what the playground removes from every ul, as a site's content would
+  &__list {
+    padding-inline-start: var(--space-6);
+    list-style: disc;
   }
 }
 
@@ -399,7 +476,7 @@ code {
   th {
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
-    font-weight: 400;
+    font-weight: var(--font-weight-normal);
   }
 }
 

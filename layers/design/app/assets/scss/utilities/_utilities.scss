@@ -1,0 +1,19 @@
+// Spaces the children of running text (an article, a rich-text field), whose
+// margins the reset removes. Change the gap with --flow-space.
+.nc-flow > * + * {
+  margin-block-start: var(--flow-space, var(--space-4));
+}
+
+// List items get a smaller gap than blocks, so a list still reads as one block
+.nc-flow li + li {
+  margin-block-start: var(--space-2);
+}
+
+// Headings get more room above than below, so they group with what follows
+.nc-flow > * + :is(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: var(--flow-space, var(--space-8));
+}
+
+.nc-flow > :is(h1, h2, h3, h4, h5, h6) + * {
+  margin-block-start: var(--flow-space, var(--space-3));
+}

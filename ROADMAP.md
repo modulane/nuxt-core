@@ -17,22 +17,22 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 
 ## Overview
 
-| Phase                                                                 | Status         | Highlights                                          |
-| --------------------------------------------------------------------- | -------------- | --------------------------------------------------- |
-| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Layers, TypeScript, SCSS, tests, workflow, docs     |
-| [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Design tokens done; reset and base typography to go |
-| [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go              |
-| [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons                |
-| [5. Forms](#phase-5--forms)                                           | ⬜ Planned     | Inputs, selects, checkboxes, validation             |
-| [6. Interactive Components](#phase-6--interactive-components)         | ⬜ Planned     | Modals, menus, tooltips, tabs, notifications        |
-| [7. Navigation](#phase-7--navigation)                                 | ⬜ Planned     | Header, menus, footer, breadcrumbs                  |
-| [8. Documentation & Showcase](#phase-8--documentation--showcase)      | ⬜ Planned     | A live gallery of every component                   |
-| [9. Testing](#phase-9--testing)                                       | ⬜ Planned     | Component tests for everything reused               |
-| [10. Themes](#phase-10--themes)                                       | ⬜ Planned     | Swappable visual identities                         |
-| [11. Website Sections](#phase-11--website-sections)                   | ⬜ Planned     | Heroes, features, testimonials, pricing             |
-| [12. Reusable Website Features](#phase-12--reusable-website-features) | ⬜ Planned     | SEO, contact forms, analytics, consent              |
-| [13. Website Templates](#phase-13--website-templates)                 | ⬜ Planned     | Complete starting points per type of site           |
-| [14. Project Generator](#phase-14--project-generator)                 | ⬜ Planned     | A new site from a few choices                       |
+| Phase                                                                 | Status         | Highlights                                      |
+| --------------------------------------------------------------------- | -------------- | ----------------------------------------------- |
+| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Layers, TypeScript, SCSS, tests, workflow, docs |
+| [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Tokens, reset and typography done               |
+| [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go          |
+| [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons            |
+| [5. Forms](#phase-5--forms)                                           | ⬜ Planned     | Inputs, selects, checkboxes, validation         |
+| [6. Interactive Components](#phase-6--interactive-components)         | ⬜ Planned     | Modals, menus, tooltips, tabs, notifications    |
+| [7. Navigation](#phase-7--navigation)                                 | ⬜ Planned     | Header, menus, footer, breadcrumbs              |
+| [8. Documentation & Showcase](#phase-8--documentation--showcase)      | ⬜ Planned     | A live gallery of every component               |
+| [9. Testing](#phase-9--testing)                                       | ⬜ Planned     | Component tests for everything reused           |
+| [10. Themes](#phase-10--themes)                                       | ⬜ Planned     | Swappable visual identities                     |
+| [11. Website Sections](#phase-11--website-sections)                   | ⬜ Planned     | Heroes, features, testimonials, pricing         |
+| [12. Reusable Website Features](#phase-12--reusable-website-features) | ⬜ Planned     | SEO, contact forms, analytics, consent          |
+| [13. Website Templates](#phase-13--website-templates)                 | ⬜ Planned     | Complete starting points per type of site       |
+| [14. Project Generator](#phase-14--project-generator)                 | ⬜ Planned     | A new site from a few choices                   |
 
 A phase is **done** when every item is ticked and its "Done when" condition holds. Work on a later phase can start early when it unblocks something.
 
@@ -67,8 +67,9 @@ A phase is **done** when every item is ticked and its "Done when" condition hold
 - [x] Shadows
 - [x] Motion durations and easing
 - [x] Responsive breakpoints and the `respond-to()` mixin
-- [ ] CSS reset
-- [ ] Base typography: headings, paragraphs, links, lists
+- [x] CSS reset ([styling](docs/styling.md#reset))
+- [x] Base typography: headings, paragraphs, links, lists, code ([styling](docs/styling.md#typography))
+- [x] Running-text spacing (`.nc-flow`)
 
 **Done when:** a bare HTML page with no component styles looks consistent across browsers, and every value comes from a token.
 

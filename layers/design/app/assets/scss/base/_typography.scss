@@ -1,3 +1,6 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
 // Gives the page the scheme's colours. Also set on every element that switches
 // scheme, so a scoped `data-color-scheme` repaints its own area.
 :root,
@@ -8,4 +11,130 @@
 
 body {
   font-family: var(--font-family-body);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  text-wrap: balance;
+}
+
+// The two largest levels step down on small screens, where 3rem would crowd a line
+h1 {
+  font-size: var(--font-size-3xl);
+
+  @include respond-to($breakpoint-md) {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+h2 {
+  font-size: var(--font-size-2xl);
+
+  @include respond-to($breakpoint-md) {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+}
+
+h4 {
+  font-size: var(--font-size-xl);
+}
+
+h5 {
+  font-size: var(--font-size-lg);
+}
+
+h6 {
+  font-size: var(--font-size-md);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+
+  &:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+::marker {
+  color: var(--color-text-muted);
+}
+
+strong,
+b {
+  font-weight: var(--font-weight-semibold);
+}
+
+small {
+  font-size: var(--font-size-sm);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-family-mono);
+  // Relative to the surrounding text, because monospace fonts look larger
+  font-size: 0.9em;
+}
+
+:not(pre) > code,
+kbd {
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+pre {
+  overflow-x: auto;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  line-height: var(--line-height-tight);
+}
+
+blockquote {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 3px solid var(--color-primary);
+  color: var(--color-text-muted);
+}
+
+hr {
+  border: 0;
+  border-block-start: 1px solid var(--color-border);
+}
+
+mark {
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  color: inherit;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+// One focus ring for everything focusable; it shows for keyboard users only
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }

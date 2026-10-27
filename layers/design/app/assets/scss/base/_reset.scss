@@ -1,0 +1,81 @@
+// A small modern reset: it removes the browser defaults that get in the way, and
+// leaves the look to base/_typography.scss.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// Lists keep their bullets and padding: only their margins go. Margins are set
+// where they are wanted: by .nc-flow for running text, and by each component
+// for its own spacing
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+}
+
+html {
+  // Stops mobile browsers from enlarging text after a rotation
+  text-size-adjust: none;
+}
+
+body {
+  min-block-size: 100vh;
+  min-block-size: 100dvh;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-inline-size: 100%;
+}
+
+img,
+video {
+  block-size: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+textarea:not([rows]) {
+  min-block-size: 10em;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+// Long words and URLs wrap instead of overflowing their container
+p,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
