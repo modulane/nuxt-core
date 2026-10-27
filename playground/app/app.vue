@@ -174,6 +174,7 @@ const components = [
   { name: 'BaseCard', status: 'stub', phase: 4 },
   { name: 'FormInput', status: 'stub', phase: 5 },
   { name: 'FormTextarea', status: 'stub', phase: 5 },
+  { name: 'FormSwitch', status: 'ready', phase: 5 },
   { name: 'NavigationAppHeader', status: 'stub', phase: 7 },
   { name: 'NavigationAppFooter', status: 'stub', phase: 7 },
 ]

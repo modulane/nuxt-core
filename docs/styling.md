@@ -21,7 +21,8 @@ layers/design/app/assets/scss/
 ├── layout/
 │   ├── _container.scss    .nc-container
 │   └── _grid.scss         (empty) Grid utilities
-├── components/            (none yet) The styles of each primitive, one partial per component
+├── components/            The styles of each primitive, one partial per component
+│   └── _switch.scss       .nc-switch
 └── utilities/
     └── _utilities.scss    (empty) Single-purpose helper classes
 ```

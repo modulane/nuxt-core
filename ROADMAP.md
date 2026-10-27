@@ -121,7 +121,7 @@ Page
 - [ ] Select
 - [ ] Checkbox
 - [ ] Radio button
-- [ ] Switch
+- [x] Switch ([components](docs/components.md#formswitch))
 - [ ] Form field: label, hint and error message around any control
 - [ ] Validation
 
@@ -176,7 +176,7 @@ Page
 
 **Goal:** reliable components. Protect what many projects reuse, rather than cover every line.
 
-- [ ] Component testing environment (`nuxt` environment, DOM implementation)
+- [x] Component testing environment (`nuxt` environment, DOM implementation) ([testing](docs/testing.md))
 - [ ] Tests for rendering, props and states
 - [ ] Tests for mouse and keyboard interaction
 - [ ] Automated accessibility checks

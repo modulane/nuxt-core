@@ -15,6 +15,7 @@ Nuxt registers components with their folder as a prefix, so the name to use in t
 | `<BaseCard>`            | `layers/primitives/app/components/base/Card.vue`            | Stub   | Cards (roadmap phase 4)          |
 | `<FormInput>`           | `layers/primitives/app/components/form/Input.vue`           | Stub   | Text inputs (roadmap phase 5)    |
 | `<FormTextarea>`        | `layers/primitives/app/components/form/Textarea.vue`        | Stub   | Multi-line text inputs (phase 5) |
+| `<FormSwitch>`          | `layers/primitives/app/components/form/Switch.vue`          | Ready  | On/off toggle                    |
 | `<NavigationAppHeader>` | `layers/primitives/app/components/navigation/AppHeader.vue` | Stub   | Site header (roadmap phase 7)    |
 | `<NavigationAppFooter>` | `layers/primitives/app/components/navigation/AppFooter.vue` | Stub   | Site footer (roadmap phase 7)    |
 
@@ -37,6 +38,30 @@ Centres its content and limits its width, once styled. The design system's rules
 No props, no events.
 
 **Hooks:** the root `<div>` has the class `nc-container`.
+
+## FormSwitch
+
+An on/off control that applies at once, such as dark mode. For a choice submitted with a form, use a checkbox instead (roadmap phase 5).
+
+```vue
+<FormSwitch v-model="isDark">Dark mode</FormSwitch>
+```
+
+| Prop         | Type      | Default | Description                            |
+| ------------ | --------- | ------- | -------------------------------------- |
+| `modelValue` | `boolean` | `false` | Whether it is on; bound with `v-model` |
+
+| Event               | Payload   | When                        |
+| ------------------- | --------- | --------------------------- |
+| `update:modelValue` | `boolean` | The user turns it on or off |
+
+| Slot      | Content                      |
+| --------- | ---------------------------- |
+| `default` | The visible label (optional) |
+
+**Hooks:** the root `<button>` has the class `nc-switch` and `aria-checked` (`true`, `false`); its parts are `nc-switch__track`, `nc-switch__thumb` and `nc-switch__label`. `disabled` falls through to the button.
+
+**Accessibility:** a `<button role="switch">`, so Tab focuses it, Space or Enter toggles it, and screen readers announce it as on or off. Its accessible name is the slot; without one, give it an `aria-label`. The track is hidden from assistive technology.
 
 ## Documenting a component
 

@@ -28,6 +28,10 @@
   @include meta.load-css('layout/grid');
 }
 
+@layer nuxt-core.components {
+  @include meta.load-css('components/switch');
+}
+
 @layer nuxt-core.utilities {
   @include meta.load-css('utilities/utilities');
 }

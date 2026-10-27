@@ -1,0 +1,68 @@
+// Styles <FormSwitch> through its hooks: .nc-switch, its parts and aria-checked
+.nc-switch {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &__track {
+    position: relative;
+    flex: none;
+    box-sizing: border-box;
+    inline-size: var(--space-10);
+    block-size: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    transition:
+      background-color var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard);
+  }
+
+  &__thumb {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: var(--space-1);
+    inline-size: var(--space-4);
+    block-size: var(--space-4);
+    border-radius: var(--radius-full);
+    background: var(--color-text-muted);
+    translate: 0 -50%;
+    transition:
+      inset-inline-start var(--duration-normal) var(--ease-standard),
+      background-color var(--duration-normal) var(--ease-standard);
+  }
+
+  &[aria-checked='true'] &__track {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+  }
+
+  &[aria-checked='true'] &__thumb {
+    inset-inline-start: calc(100% - var(--space-5));
+    background: var(--color-primary-contrast);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__track,
+    &__thumb {
+      transition: none;
+    }
+  }
+}
