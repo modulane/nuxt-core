@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/modulane/nuxt-core/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/modulane/nuxt-core/actions/workflows/release.yml)
 
-A reusable foundation for building modern websites with Nuxt.
+A reusable foundation for building modern websites with Nuxt, delivered as [Nuxt layers](https://nuxt.com/docs/guide/going-further/layers): accessible unstyled primitives, a design system, or both.
 
 > **Build once, reuse everywhere.**
 
@@ -26,7 +26,8 @@ Nuxt Core
 
 - [Status](#status)
 - [Technology](#technology)
-- [Quick start](#quick-start)
+- [Usage](#usage)
+- [Development](#development)
 - [Documentation](#documentation)
 - [Principles](#principles)
 - [Contributing](#contributing)
@@ -43,9 +44,34 @@ Nuxt Core is in early development. The project foundation is in place; the styli
 - [Sass](https://sass-lang.com/) (SCSS) and CSS custom properties
 - [Vitest](https://vitest.dev/)
 
-The UI is built from scratch with SCSS rather than on a component library. This gives the project full control over its visual identity and lets the design system evolve on its own terms.
+The UI is built from scratch rather than on a component library. The primitives carry the behaviour and accessibility; the design system, in SCSS, carries the look. They meet only through documented class and `data-*` hooks, so either can be replaced.
 
-## Quick start
+## Usage
+
+Nuxt Core comes in independent parts. A site picks what it needs:
+
+| Part       | `extends`                        | For                                                                                   |
+| ---------- | -------------------------------- | ------------------------------------------------------------------------------------- |
+| Everything | `@modulane/nuxt-core`            | The components, styled by the design system                                           |
+| Primitives | `@modulane/nuxt-core/primitives` | Accessible, unstyled components to style with your own CSS, Tailwind or anything else |
+| Design     | `@modulane/nuxt-core/design`     | The design tokens and styles, with your own or another library's components           |
+
+A site installs a release from GitHub and extends a part:
+
+```bash
+yarn add @modulane/nuxt-core@github:modulane/nuxt-core#v0.1.0
+```
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  extends: ['@modulane/nuxt-core'],
+})
+```
+
+The site can override any style with plain CSS, and any component, composable or layout with a file of the same name. [Using Nuxt Core](docs/usage.md) covers npm and pnpm, styling the primitives, using the design system with other components, and overrides.
+
+## Development
 
 Requirements: Node.js 22.22.3, 24.15, or 26 and later, and [Corepack](https://github.com/nodejs/corepack) (included with Node.js 24 and earlier).
 
@@ -57,12 +83,13 @@ yarn install
 yarn dev
 ```
 
-The development server runs at <http://localhost:3000>. [Getting started](docs/getting-started.md) lists every command and how to fix common setup problems.
+`yarn dev` runs the playground, a development app that extends the layer as a site does, at <http://localhost:3000>. [Getting started](docs/getting-started.md) lists every command and how to fix common setup problems.
 
 ## Documentation
 
 | Guide                                      | Covers                                        |
 | ------------------------------------------ | --------------------------------------------- |
+| [Using Nuxt Core](docs/usage.md)           | Installing the parts, styling, overriding     |
 | [Getting started](docs/getting-started.md) | Requirements, installation, commands          |
 | [Architecture](docs/architecture.md)       | Folder structure and configuration files      |
 | [Conventions](docs/conventions.md)         | Coding rules applied in review                |

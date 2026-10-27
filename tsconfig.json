@@ -1,18 +1,19 @@
 {
   // https://nuxt.com/docs/guide/concepts/typescript
+  // Types come from the playground, which extends the layer
   "files": [],
   "references": [
     {
-      "path": "./.nuxt/tsconfig.app.json"
+      "path": "./playground/.nuxt/tsconfig.app.json"
     },
     {
-      "path": "./.nuxt/tsconfig.server.json"
+      "path": "./playground/.nuxt/tsconfig.server.json"
     },
     {
-      "path": "./.nuxt/tsconfig.shared.json"
+      "path": "./playground/.nuxt/tsconfig.shared.json"
     },
     {
-      "path": "./.nuxt/tsconfig.node.json"
+      "path": "./playground/.nuxt/tsconfig.node.json"
     }
   ]
 }

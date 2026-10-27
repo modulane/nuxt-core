@@ -1,10 +1,10 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// Nuxt Core: the primitives styled by the design system. Each part is also its own
+// layer, so a site can extend only the one it needs.
+// https://nuxt.com/docs/guide/going-further/layers
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
-
-  css: ['~/assets/scss/main.scss'],
-  typescript: {
-    strict: true,
+  $meta: {
+    name: 'nuxt-core',
   },
+
+  extends: ['./layers/primitives', './layers/design'],
 })

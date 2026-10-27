@@ -14,7 +14,7 @@ CI runs `yarn check` on every pull request, with Node.js 22, 24 and 26.
 
 ## Where tests live
 
-Tests live in `tests/` and end in `.test.ts`. Name a test file after what it tests, mirroring the source path: the tests for `app/components/base/Button.vue` go in `tests/components/base/Button.test.ts`.
+Tests live in `tests/` and end in `.test.ts`. Name a test file after what it tests, mirroring the source path: the tests for `layers/primitives/app/components/base/Button.vue` go in `tests/components/base/Button.test.ts`.
 
 ## Current state
 

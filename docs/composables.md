@@ -1,13 +1,13 @@
 # Composables
 
-Every composable in `app/composables/`, and how to document a new one. Composables are auto-imported: call them without an `import`.
+Every composable, and how to document a new one. Composables are auto-imported: call them without an `import`.
 
 ## Inventory
 
-| Composable         | File                                | Status | Purpose                                                      |
-| ------------------ | ----------------------------------- | ------ | ------------------------------------------------------------ |
-| `useBreakpoints()` | `app/composables/useBreakpoints.ts` | Stub   | Reactive access to the [breakpoints](styling.md#breakpoints) |
-| `useTheme()`       | `app/composables/useTheme.ts`       | Stub   | Read and switch the [theme](theming.md)                      |
+| Composable         | File                                              | Status | Purpose                                                      |
+| ------------------ | ------------------------------------------------- | ------ | ------------------------------------------------------------ |
+| `useBreakpoints()` | `layers/design/app/composables/useBreakpoints.ts` | Stub   | Reactive access to the [breakpoints](styling.md#breakpoints) |
+| `useTheme()`       | `layers/design/app/composables/useTheme.ts`       | Stub   | Read and switch the [theme](theming.md)                      |
 
 **Stubs** reserve the name and the file, and return an empty `ref()`. Do not use them yet.
 

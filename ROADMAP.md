@@ -2,13 +2,24 @@
 
 How Nuxt Core grows from a project foundation to a project generator. Each phase builds on the previous ones.
 
+Nuxt Core is a set of [Nuxt layers](https://nuxt.com/docs/guide/going-further/layers) in one package: a site installs it once and extends the parts it wants. Every phase keeps that promise. What a phase adds lands in a part, reaches sites through `extends`, is opt-in where it has a cost, and is overridable by the site.
+
+| Part                                                  | Entry point                                | Phases                             |
+| ----------------------------------------------------- | ------------------------------------------ | ---------------------------------- |
+| Primitives: behaviour, markup, accessibility, no CSS  | `@modulane/nuxt-core/primitives`           | 3 (structure), 4 to 7              |
+| Design: tokens, global styles, the primitives' styles | `@modulane/nuxt-core/design`               | 2, 3 (styles), 4 to 7 (styles), 10 |
+| Everything: primitives styled by the design system    | `@modulane/nuxt-core`                      | All of the above                   |
+| Sections, features, templates                         | One entry point each, added by their phase | 11 to 13                           |
+
+The parts never import from each other; they meet only through the [styling hooks](docs/architecture.md#the-styling-hooks). Every component is therefore built twice over: once as a primitive, once as styles for its hooks.
+
 The roadmap is a direction, not a schedule: phases may be added, removed or reorganised as real projects reveal new needs. It plans the work; the [documentation](docs/README.md) describes what already exists.
 
 ## Overview
 
 | Phase                                                                 | Status         | Highlights                                          |
 | --------------------------------------------------------------------- | -------------- | --------------------------------------------------- |
-| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Nuxt 4, TypeScript, SCSS, tests, workflow, docs     |
+| [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Layers, TypeScript, SCSS, tests, workflow, docs     |
 | [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Design tokens done; reset and base typography to go |
 | [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go              |
 | [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons                |
@@ -32,6 +43,8 @@ A phase is **done** when every item is ticked and its "Done when" condition hold
 **Goal:** a clean and reliable starting point.
 
 - [x] Nuxt 4 project structure ([architecture](docs/architecture.md))
+- [x] Packaged as independent layers (primitives, design, both), with a playground that extends them as a site does ([architecture](docs/architecture.md), [usage](docs/usage.md))
+- [x] Design styles in cascade layers, so any site CSS overrides them
 - [x] TypeScript in strict mode, type-checked in CI
 - [x] SCSS integration with a global stylesheet ([styling](docs/styling.md))
 - [x] Vitest test runner ([testing](docs/testing.md))
@@ -39,7 +52,7 @@ A phase is **done** when every item is ticked and its "Done when" condition hold
 - [x] Git workflow: pull requests, CI, labels and automated releases ([CONTRIBUTING](CONTRIBUTING.md))
 - [x] Documentation system ([docs](docs/README.md))
 
-**Done when:** a new contributor can clone, install and pass `yarn check` by following the documentation alone.
+**Done when:** a new contributor can clone, install and pass `yarn check` by following the documentation alone, and a new site can install and extend the layer by following [usage.md](docs/usage.md).
 
 ---
 
@@ -73,7 +86,7 @@ Page
         └── Content
 ```
 
-- [x] Centred, width-limited container (`.container`, `<BaseContainer>`)
+- [x] Centred, width-limited container (`.nc-container`, `<BaseContainer>`)
 - [ ] Grid and columns
 - [ ] Spacing utilities (stacks, gaps)
 - [ ] Responsive behaviour for each of the above
@@ -95,7 +108,7 @@ Page
 - [ ] Avatar
 - [ ] Loading indicator
 
-**Done when:** each component supports the states that apply to it (default, hover, focus, disabled, loading, error), is documented in [components.md](docs/components.md) and has tests.
+**Done when:** each component supports the states that apply to it (default, hover, focus, disabled, loading, error), exposes them as hooks, is styled by the design system, is documented in [components.md](docs/components.md) and has tests. Each one works, accessibly, with the design system removed.
 
 ---
 
@@ -152,7 +165,7 @@ Page
 
 **Goal:** every component easy to discover and understand.
 
-- [ ] A showcase page per component: variants, states and usage examples
+- [ ] A showcase page per component: variants, states and usage examples. The showcase lives in the playground, not the layer, so it adds no routes to sites
 - [ ] The props, events and slots of each component, generated or kept in sync with [components.md](docs/components.md)
 
 **Done when:** the showcase serves as the visual reference while building a new website.
@@ -168,7 +181,9 @@ Page
 - [ ] Tests for mouse and keyboard interaction
 - [ ] Automated accessibility checks
 
-**Done when:** every component from phases 4 to 7 has tests, and CI runs them on every pull request.
+- [ ] A CI job that installs the packed package in a fresh site and builds it with each entry point
+
+**Done when:** every component from phases 4 to 7 has tests, CI runs them on every pull request, and CI proves a site can install and build with each part.
 
 ---
 
@@ -184,18 +199,20 @@ Page
           Modern        Elegant       Corporate
 ```
 
-- [ ] Theme selection mechanism ([theming](docs/theming.md) lists the open questions)
+- [ ] Theme selection mechanism, set by the site in its `app.config.ts` ([theming](docs/theming.md) lists the open questions)
 - [ ] Dark mode
 - [ ] `useTheme()` composable
 - [ ] Three example themes
 
-**Done when:** switching theme changes colours, typography, radius, shadows and spacing without changing a single component.
+**Done when:** switching theme changes colours, typography, radius, shadows and spacing without changing a single component. Themes are part of the design layer.
 
 ---
 
 ## Phase 11 — Website Sections
 
 **Goal:** complete reusable sections, so pages are assembled rather than built.
+
+Sections become their own part, built from the primitives and styled by the design system like the components, so a site can take them unstyled too.
 
 - [ ] Hero: centred, split, image, video
 - [ ] Features: grid, list, alternating
@@ -215,6 +232,8 @@ Page
 
 **Goal:** functionality that keeps coming back in client websites. Only features that serve several projects belong here.
 
+Every site receives the layer whole, so each feature is **off by default** and a site turns it on in its configuration: a disabled feature registers no server route and loads no code. Features that need heavy dependencies (blog, authentication, booking, search) ship as separate optional layers that a site adds to `extends`, so sites that do not use them do not install them.
+
 - [ ] SEO helpers
 - [ ] Contact form, with its server route
 - [ ] Newsletter form
@@ -232,6 +251,8 @@ Page
 ## Phase 13 — Website Templates
 
 **Goal:** complete starting points for common kinds of websites, combining components, sections, features and themes.
+
+A template is a starter project that already extends Nuxt Core, with the theme, features, pages and placeholder content of its kind. Starting a site copies the template, so the site owns its pages while still receiving Nuxt Core updates.
 
 - [ ] Business website
 - [ ] Freelancer portfolio
@@ -259,7 +280,7 @@ Project
 └── Configuration
 ```
 
-- [ ] Generator that asks for each choice
-- [ ] Generated project ready to develop, built on Nuxt Core
+- [ ] Generator that asks for each choice, run as a single command
+- [ ] Generated project ready to develop: it starts from a template and extends Nuxt Core at the latest release
 
 **Done when:** a new Nuxt Core website is running in minutes.

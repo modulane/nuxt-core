@@ -734,6 +734,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@modulane/nuxt-core@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@modulane/nuxt-core@workspace:."
+  dependencies:
+    "@nuxt/test-utils": "npm:^4.3.1"
+    "@types/node": "npm:^24"
+    nuxt: "npm:^4.5.2"
+    prettier: "npm:3.9.10"
+    sass: "npm:^1.104.0"
+    semantic-release: "npm:^25.0.9"
+    typescript: "npm:^6.0.3"
+    vitest: "npm:^5.0.0"
+    vue: "npm:^3.5.42"
+    vue-router: "npm:^5.3.0"
+    vue-tsc: "npm:^3.3.13"
+  peerDependencies:
+    nuxt: ^4.5.2
+  languageName: unknown
+  linkType: soft
+
 "@napi-rs/lzma-linux-x64-gnu@npm:1.5.1":
   version: 1.5.1
   resolution: "@napi-rs/lzma-linux-x64-gnu@npm:1.5.1"
@@ -2384,6 +2404,15 @@ __metadata:
   version: 1.0.9
   resolution: "@types/estree@npm:1.0.9"
   checksum: 10c0/3ad3286ca2988cd550dafb8f2ad599c8474868e954fa601a36655bdfefd8039f7c714b8c1c7f2ae219ffbd58bd4660e66fa7479a0120fc02d4777057d4865387
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^24":
+  version: 24.19.2
+  resolution: "@types/node@npm:24.19.2"
+  dependencies:
+    undici-types: "npm:>=7.24.0 <7.24.7"
+  checksum: 10c0/b51a7f8854007ad579dffdd0633d8addbfeb2c97cceb380f2eba0ed163638ec52e17565385a6cc04d54ac4ff99c70c64aee68a4ca45b6128c035e828794e29c5
   languageName: node
   linkType: hard
 
@@ -6883,23 +6912,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-core@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "nuxt-core@workspace:."
-  dependencies:
-    "@nuxt/test-utils": "npm:^4.3.1"
-    nuxt: "npm:^4.5.2"
-    prettier: "npm:3.9.10"
-    sass: "npm:^1.104.0"
-    semantic-release: "npm:^25.0.9"
-    typescript: "npm:^6.0.3"
-    vitest: "npm:^5.0.0"
-    vue: "npm:^3.5.42"
-    vue-router: "npm:^5.3.0"
-    vue-tsc: "npm:^3.3.13"
-  languageName: unknown
-  linkType: soft
-
 "nuxt@npm:^4.5.2":
   version: 4.6.2
   resolution: "nuxt@npm:4.6.2"
@@ -9054,6 +9066,13 @@ __metadata:
     unplugin:
       optional: true
   checksum: 10c0/7d9008259b76c4436d54ce8c88cff1849d19ca066edee4204d0576ddaa0138c53fb72deff7b4851bb1b704290577131dd7b292f69bdcf6978b19c51fe2c39bc5
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:>=7.24.0 <7.24.7":
+  version: 7.24.6
+  resolution: "undici-types@npm:7.24.6"
+  checksum: 10c0/d9cd8befb643ac904615c280a095ba4240531f6bb4a5e75a22a7483630ca8d3f1016d2ab6ace6ceda1f63b3a2db2fe037fafe121d6917a0187573aa548ff78ca
   languageName: node
   linkType: hard
 

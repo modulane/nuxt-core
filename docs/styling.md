@@ -1,11 +1,11 @@
 # Styling
 
-Nuxt Core is styled with [Sass](https://sass-lang.com/) (SCSS) and CSS custom properties, without a UI library. Custom properties hold the design values, so they can change at runtime (for [themes](theming.md)); Sass provides the structure and the helpers.
+The design system is the [design layer](architecture.md#the-parts), `@modulane/nuxt-core/design`. It is written in [Sass](https://sass-lang.com/) (SCSS) and CSS custom properties, without a UI library, and works with the Nuxt Core primitives or with any other components. Custom properties hold the design values, so they can change at runtime (for [themes](theming.md)); Sass provides the structure and the helpers.
 
 ## SCSS architecture
 
 ```text
-app/assets/scss/
+layers/design/app/assets/scss/
 ├── main.scss              Entry point, loaded on every page
 ├── abstracts/             Sass-only helpers; they emit no CSS
 │   ├── _variables.scss    Breakpoints
@@ -16,20 +16,35 @@ app/assets/scss/
 │   ├── _reset.scss        (empty) Browser style reset
 │   └── _typography.scss   (empty) Base text styles
 ├── layout/
-│   ├── _container.scss    .container
+│   ├── _container.scss    .nc-container
 │   └── _grid.scss         (empty) Grid utilities
-├── components/            (empty) Styles shared by several components
+├── components/            (none yet) The styles of each primitive, one partial per component
 └── utilities/
     └── _utilities.scss    (empty) Single-purpose helper classes
 ```
 
-[`nuxt.config.ts`](../nuxt.config.ts) loads `main.scss` on every page through its `css` option, and `main.scss` `@use`s each partial that emits CSS, in this order: base, layout, utilities. The abstracts are not loaded globally; each stylesheet that needs them imports them itself (see [Breakpoints](#breakpoints)).
+The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `main.scss` on every page of every site through its `css` option. `main.scss` loads each partial that emits CSS into its [cascade layer](#the-cascade). The abstracts are not loaded globally; each stylesheet that needs them imports them itself (see [Breakpoints](#breakpoints)).
 
-Styles that belong to one component stay in that component's `<style lang="scss">` block.
+**The primitives have no styles of their own.** The styles of a primitive live here, in `components/_<name>.scss`, and target only its [hooks](architecture.md#the-styling-hooks): the `nc-<name>` class, its `data-*` attributes and its HTML and ARIA states. That keeps the primitives usable with any styling, and the design system usable with any components.
+
+## The cascade
+
+Every rule sits in a `nuxt-core` [cascade layer](https://developer.mozilla.org/docs/Web/CSS/@layer), declared in this order, lowest priority first:
+
+| Layer                  | Contents                      |
+| ---------------------- | ----------------------------- |
+| `nuxt-core.tokens`     | The design tokens on `:root`  |
+| `nuxt-core.reset`      | The browser reset             |
+| `nuxt-core.base`       | Base typography               |
+| `nuxt-core.layout`     | `.nc-container` and the grid  |
+| `nuxt-core.components` | The styles of the primitives  |
+| `nuxt-core.utilities`  | Single-purpose helper classes |
+
+A later layer wins over an earlier one, and CSS outside any layer wins over all of them, whatever its specificity or load order. A site overrides the design system by writing plain CSS, without `!important` or longer selectors.
 
 ## Design tokens
 
-Defined in [`base/_root.scss`](../app/assets/scss/base/_root.scss) and available everywhere as `var(--name)`.
+Defined in [`base/_root.scss`](../layers/design/app/assets/scss/base/_root.scss) and available everywhere as `var(--name)`.
 
 ### Colours
 
@@ -104,8 +119,8 @@ The `respond-to()` mixin applies styles from a breakpoint up. Styles are mobile-
 
 ```vue
 <style lang="scss">
-@use '~/assets/scss/abstracts/variables' as *;
-@use '~/assets/scss/abstracts/mixins' as *;
+@use '#layers/nuxt-core-design/app/assets/scss/abstracts/variables' as *;
+@use '#layers/nuxt-core-design/app/assets/scss/abstracts/mixins' as *;
 
 .card {
   padding: var(--space-4);
@@ -119,6 +134,6 @@ The `respond-to()` mixin applies styles from a breakpoint up. Styles are mobile-
 
 ## Layout
 
-### `.container`
+### `.nc-container`
 
-Centres content and limits its width to 1200px, keeping a `--space-4` margin on each side on small screens. The [`BaseContainer`](components.md) component renders a `<div class="container">`.
+Centres content and limits its width to 1200px, keeping a `--space-4` margin on each side on small screens. The [`BaseContainer`](components.md) component renders a `<div class="nc-container">`. The class is prefixed so that it does not clash with the `.container` of Tailwind or Bootstrap.
