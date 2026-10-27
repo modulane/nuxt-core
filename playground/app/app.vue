@@ -145,7 +145,7 @@ const sections = [
   { id: 'components', title: 'Components' },
 ]
 
-// Mirrors layers/design/app/assets/scss/base/_root.scss
+// Mirrors layers/design/app/assets/scss/base/_root.scss and schemes/
 const colors = [
   '--color-primary',
   '--color-primary-contrast',

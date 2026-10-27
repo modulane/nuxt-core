@@ -10,6 +10,9 @@
 
 @layer nuxt-core.tokens {
   @include meta.load-css('base/root');
+  // Dark first: light overrides it where data-color-scheme="light" is set
+  @include meta.load-css('schemes/dark');
+  @include meta.load-css('schemes/light');
 }
 
 @layer nuxt-core.reset {

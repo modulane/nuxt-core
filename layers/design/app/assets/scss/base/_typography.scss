@@ -1,0 +1,11 @@
+// Gives the page the scheme's colours. Also set on every element that switches
+// scheme, so a scoped `data-color-scheme` repaints its own area.
+:root,
+[data-color-scheme] {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+body {
+  font-family: var(--font-family-body);
+}

@@ -200,7 +200,7 @@ Page
 ```
 
 - [ ] Theme selection mechanism, set by the site in its `app.config.ts` ([theming](docs/theming.md) lists the open questions)
-- [ ] Dark mode
+- [x] Dark mode, the default colour scheme, with a light scheme beside it ([styling](docs/styling.md#colour-schemes))
 - [ ] `useTheme()` composable
 - [ ] Three example themes
 

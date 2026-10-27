@@ -12,9 +12,12 @@ layers/design/app/assets/scss/
 │   ├── _mixins.scss       respond-to()
 │   └── _functions.scss    (empty)
 ├── base/
-│   ├── _root.scss         Design tokens on :root
+│   ├── _root.scss         Design tokens shared by every colour scheme, on :root
 │   ├── _reset.scss        (empty) Browser style reset
-│   └── _typography.scss   (empty) Base text styles
+│   └── _typography.scss   Page background, text colour and font
+├── schemes/               Colour and shadow tokens of each colour scheme
+│   ├── _dark.scss         Dark, the default
+│   └── _light.scss        Light, with data-color-scheme="light"
 ├── layout/
 │   ├── _container.scss    .nc-container
 │   └── _grid.scss         (empty) Grid utilities
@@ -33,9 +36,9 @@ Every rule sits in a `nuxt-core` [cascade layer](https://developer.mozilla.org/d
 
 | Layer                  | Contents                      |
 | ---------------------- | ----------------------------- |
-| `nuxt-core.tokens`     | The design tokens on `:root`  |
+| `nuxt-core.tokens`     | The design tokens and schemes |
 | `nuxt-core.reset`      | The browser reset             |
-| `nuxt-core.base`       | Base typography               |
+| `nuxt-core.base`       | Page colours and typography   |
 | `nuxt-core.layout`     | `.nc-container` and the grid  |
 | `nuxt-core.components` | The styles of the primitives  |
 | `nuxt-core.utilities`  | Single-purpose helper classes |
@@ -44,21 +47,35 @@ A later layer wins over an earlier one, and CSS outside any layer wins over all 
 
 ## Design tokens
 
-Defined in [`base/_root.scss`](../layers/design/app/assets/scss/base/_root.scss) and available everywhere as `var(--name)`.
+Defined in [`base/_root.scss`](../layers/design/app/assets/scss/base/_root.scss) and, for the colours and shadows, in each [colour scheme](#colour-schemes). Available everywhere as `var(--name)`.
+
+### Colour schemes
+
+The design system has two colour schemes, which give the colour and shadow tokens their values. **Dark is the default.** Light is applied by a `data-color-scheme` attribute:
+
+```html
+<html data-color-scheme="light"></html>
+```
+
+A site sets it with `useHead({ htmlAttrs: { 'data-color-scheme': 'light' } })`. The attribute also works on any element, to show one area in the other scheme, and `data-color-scheme="dark"` forces dark inside a light page. Each scheme also sets [`color-scheme`](https://developer.mozilla.org/docs/Web/CSS/color-scheme), so form controls and scrollbars match.
+
+The design system does not follow the visitor's system preference or offer a switch yet: both come with [`useTheme()`](theming.md).
 
 ### Colours
 
-| Token                        | Value     | Use                         |
-| ---------------------------- | --------- | --------------------------- |
-| `--color-primary`            | `#4f46e5` | Primary actions and accents |
-| `--color-primary-contrast`   | `#ffffff` | Text on `--color-primary`   |
-| `--color-secondary`          | `#1e293b` | Secondary actions           |
-| `--color-secondary-contrast` | `#ffffff` | Text on `--color-secondary` |
-| `--color-background`         | `#ffffff` | Page background             |
-| `--color-surface`            | `#f8fafc` | Cards and raised areas      |
-| `--color-text`               | `#0f172a` | Body text                   |
-| `--color-text-muted`         | `#64748b` | Secondary text              |
-| `--color-border`             | `#e2e8f0` | Borders and dividers        |
+| Token                        | Dark      | Light     | Use                         |
+| ---------------------------- | --------- | --------- | --------------------------- |
+| `--color-primary`            | `#818cf8` | `#4f46e5` | Primary actions and accents |
+| `--color-primary-contrast`   | `#0f172a` | `#ffffff` | Text on `--color-primary`   |
+| `--color-secondary`          | `#e2e8f0` | `#1e293b` | Secondary actions           |
+| `--color-secondary-contrast` | `#0f172a` | `#ffffff` | Text on `--color-secondary` |
+| `--color-background`         | `#0f172a` | `#ffffff` | Page background             |
+| `--color-surface`            | `#1e293b` | `#f8fafc` | Cards and raised areas      |
+| `--color-text`               | `#f1f5f9` | `#0f172a` | Body text                   |
+| `--color-text-muted`         | `#94a3b8` | `#64748b` | Secondary text              |
+| `--color-border`             | `#334155` | `#e2e8f0` | Borders and dividers        |
+
+Both schemes pair a slate neutral scale with an indigo accent. In each, every text colour meets WCAG AA (4.5:1) on `--color-background` and `--color-surface`, and each `-contrast` colour meets it on its pair.
 
 ### Spacing
 
@@ -89,21 +106,27 @@ Defined in [`base/_root.scss`](../layers/design/app/assets/scss/base/_root.scss)
 
 ### Radius, shadows and motion
 
-| Token               | Value                                                           |
-| ------------------- | --------------------------------------------------------------- |
-| `--radius-sm`       | 0.375rem                                                        |
-| `--radius-md`       | 0.625rem                                                        |
-| `--radius-lg`       | 1rem                                                            |
-| `--radius-full`     | 9999px                                                          |
-| `--shadow-sm`       | `0 1px 2px rgb(15 23 42 / 6%)`                                  |
-| `--shadow-md`       | `0 1px 3px rgb(15 23 42 / 6%), 0 4px 12px rgb(15 23 42 / 8%)`   |
-| `--shadow-lg`       | `0 4px 6px rgb(15 23 42 / 5%), 0 12px 32px rgb(15 23 42 / 12%)` |
-| `--duration-fast`   | 150ms                                                           |
-| `--duration-normal` | 200ms                                                           |
-| `--duration-slow`   | 350ms                                                           |
-| `--ease-standard`   | `cubic-bezier(0.2, 0, 0, 1)`                                    |
+| Token               | Value                               |
+| ------------------- | ----------------------------------- |
+| `--radius-sm`       | 0.375rem                            |
+| `--radius-md`       | 0.625rem                            |
+| `--radius-lg`       | 1rem                                |
+| `--radius-full`     | 9999px                              |
+| `--shadow-sm`       | Set by the colour scheme, see below |
+| `--shadow-md`       | Set by the colour scheme, see below |
+| `--shadow-lg`       | Set by the colour scheme, see below |
+| `--duration-fast`   | 150ms                               |
+| `--duration-normal` | 200ms                               |
+| `--duration-slow`   | 350ms                               |
+| `--ease-standard`   | `cubic-bezier(0.2, 0, 0, 1)`        |
 
-The colours pair a slate neutral scale with an indigo accent. Every text colour meets WCAG AA (4.5:1) on `--color-background` and `--color-surface`, and white text meets it on `--color-primary` and `--color-secondary`. The shadows are tinted with the hue of `--color-text` rather than pure black, so they belong to the palette.
+| Token         | Dark                                                       | Light                                                           |
+| ------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
+| `--shadow-sm` | `0 1px 2px rgb(0 0 0 / 30%)`                               | `0 1px 2px rgb(15 23 42 / 6%)`                                  |
+| `--shadow-md` | `0 1px 3px rgb(0 0 0 / 30%), 0 4px 12px rgb(0 0 0 / 35%)`  | `0 1px 3px rgb(15 23 42 / 6%), 0 4px 12px rgb(15 23 42 / 8%)`   |
+| `--shadow-lg` | `0 4px 6px rgb(0 0 0 / 30%), 0 12px 32px rgb(0 0 0 / 45%)` | `0 4px 6px rgb(15 23 42 / 5%), 0 12px 32px rgb(15 23 42 / 12%)` |
+
+The dark shadows are much stronger, or they would not show on a dark background. The light ones are tinted with the hue of `--color-text` rather than pure black, so they belong to the palette.
 
 ## Breakpoints
 
