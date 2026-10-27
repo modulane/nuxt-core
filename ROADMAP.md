@@ -1,18 +1,25 @@
+# Roadmap
+
+The roadmap describes the planned evolution of Nuxt Core.
+
+It is intentionally progressive: each stage builds on the previous one. It is a direction rather than a fixed schedule: phases may be added, removed or reorganized as real-world projects reveal new requirements.
+
+---
+
 ## Phase 1 — Project Foundation
 
 **Goal:** Create a clean and reliable starting point for the project.
 
 We will establish:
 
-* The Nuxt project structure
-* TypeScript configuration
-* SCSS integration
-* Testing setup
-* Basic project conventions
-* Git workflow - Thanks to [@GregoireF](https://github.com/GregoireF)
-* Initial documentation
+- The Nuxt project structure
+- TypeScript configuration
+- SCSS integration
+- Testing setup
+- Basic project conventions
+- Git workflow - Thanks to [@GregoireF](https://github.com/GregoireF)
+- Initial documentation
 
-<!-- **Status:** ✅ Completed -->
 **Status:** 🟡 In progress
 
 ---
@@ -23,14 +30,14 @@ We will establish:
 
 This includes:
 
-* CSS reset
-* Colors
-* Typography
-* Spacing
-* Border radius
-* Shadows
-* Animations and transitions
-* Responsive breakpoints
+- CSS reset
+- Colors
+- Typography
+- Spacing
+- Border radius
+- Shadows
+- Animations and transitions
+- Responsive breakpoints
 
 These rules will make it possible for every component to share the same visual language.
 
@@ -44,12 +51,12 @@ These rules will make it possible for every component to share the same visual l
 
 We will create reusable tools for:
 
-* Centering content
-* Controlling page width
-* Creating columns
-* Creating grids
-* Managing spacing
-* Building responsive layouts
+- Centering content
+- Controlling page width
+- Creating columns
+- Creating grids
+- Managing spacing
+- Building responsive layouts
 
 For example:
 
@@ -71,23 +78,23 @@ Page
 
 Examples include:
 
-* Buttons
-* Links
-* Cards
-* Badges
-* Icons
-* Dividers
-* Avatars
-* Loading indicators
+- Buttons
+- Links
+- Cards
+- Badges
+- Icons
+- Dividers
+- Avatars
+- Loading indicators
 
 Each component should support common states such as:
 
-* Default
-* Hover
-* Focus
-* Disabled
-* Loading
-* Error, when relevant
+- Default
+- Hover
+- Focus
+- Disabled
+- Loading
+- Error, when relevant
 
 **Status:** ⬜ Planned
 
@@ -99,14 +106,14 @@ Each component should support common states such as:
 
 Planned components include:
 
-* Text inputs
-* Text areas
-* Select fields
-* Checkboxes
-* Radio buttons
-* Switches
-* Form fields
-* Form validation
+- Text inputs
+- Text areas
+- Select fields
+- Checkboxes
+- Radio buttons
+- Switches
+- Form fields
+- Form validation
 
 The components will be designed with accessibility and keyboard navigation in mind.
 
@@ -120,14 +127,14 @@ The components will be designed with accessibility and keyboard navigation in mi
 
 Examples:
 
-* Modals
-* Dropdown menus
-* Tooltips
-* Popovers
-* Accordions
-* Tabs
-* Drawers
-* Notifications
+- Modals
+- Dropdown menus
+- Tooltips
+- Popovers
+- Accordions
+- Tabs
+- Drawers
+- Notifications
 
 These components should handle common interaction details such as keyboard navigation, focus management, and responsive behavior.
 
@@ -141,12 +148,12 @@ These components should handle common interaction details such as keyboard navig
 
 Planned components include:
 
-* Header
-* Navigation menu
-* Mobile navigation
-* Footer
-* Breadcrumbs
-* Pagination
+- Header
+- Navigation menu
+- Mobile navigation
+- Footer
+- Breadcrumbs
+- Pagination
 
 **Status:** ⬜ Planned
 
@@ -158,11 +165,11 @@ Planned components include:
 
 A dedicated showcase will demonstrate:
 
-* What each component looks like
-* Available variations
-* Available states
-* Component properties
-* Usage examples
+- What each component looks like
+- Available variations
+- Available states
+- Component properties
+- Usage examples
 
 The showcase will also serve as a visual reference while developing future websites.
 
@@ -176,12 +183,12 @@ The showcase will also serve as a visual reference while developing future websi
 
 Important components will receive automated tests covering things such as:
 
-* Rendering
-* Properties
-* User interactions
-* Different states
-* Keyboard interactions
-* Accessibility
+- Rendering
+- Properties
+- User interactions
+- Different states
+- Keyboard interactions
+- Accessibility
 
 The goal is not to test every line of code, but to protect the components that are reused across many projects.
 
@@ -195,12 +202,12 @@ The goal is not to test every line of code, but to protect the components that a
 
 A theme can change things such as:
 
-* Colors
-* Typography
-* Border radius
-* Shadows
-* Spacing
-* Overall visual style
+- Colors
+- Typography
+- Border radius
+- Shadows
+- Spacing
+- Overall visual style
 
 For example:
 
@@ -226,36 +233,36 @@ Examples:
 
 ### Hero sections
 
-* Centered hero
-* Split hero
-* Image hero
-* Video hero
+- Centered hero
+- Split hero
+- Image hero
+- Video hero
 
 ### Features
 
-* Feature grid
-* Feature list
-* Alternating features
+- Feature grid
+- Feature list
+- Alternating features
 
 ### About
 
-* Simple introduction
-* Image + text
-* Statistics
+- Simple introduction
+- Image + text
+- Statistics
 
 ### Testimonials
 
-* Testimonial grid
-* Testimonial carousel
-* Individual testimonial
+- Testimonial grid
+- Testimonial carousel
+- Individual testimonial
 
 ### Other sections
 
-* Pricing
-* Call to action
-* Contact
-* Gallery
-* FAQ
+- Pricing
+- Call to action
+- Contact
+- Gallery
+- FAQ
 
 These sections will allow complete pages to be assembled much faster.
 
@@ -269,15 +276,15 @@ These sections will allow complete pages to be assembled much faster.
 
 Possible features include:
 
-* SEO helpers
-* Contact forms
-* Newsletter forms
-* Analytics
-* Cookie consent
-* Blog functionality
-* Search
-* Authentication
-* Booking systems
+- SEO helpers
+- Contact forms
+- Newsletter forms
+- Analytics
+- Cookie consent
+- Blog functionality
+- Search
+- Authentication
+- Booking systems
 
 Only features that provide real value across multiple projects should become part of Nuxt Core.
 
@@ -291,14 +298,14 @@ Only features that provide real value across multiple projects should become par
 
 Potential templates include:
 
-* Business websites
-* Freelancer portfolios
-* Restaurants
-* Agencies
-* SaaS websites
-* Personal portfolios
-* Landing pages
-* E-commerce websites
+- Business websites
+- Freelancer portfolios
+- Restaurants
+- Agencies
+- SaaS websites
+- Personal portfolios
+- Landing pages
+- E-commerce websites
 
 A template will combine existing components, sections, features, and themes into a coherent website structure.
 
@@ -324,5 +331,3 @@ Project
 The project generator would then create a ready-to-develop Nuxt website using Nuxt Core.
 
 **Status:** ⬜ Planned
-
----

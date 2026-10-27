@@ -5,6 +5,6 @@ export default defineNuxtConfig({
 
   css: ['~/assets/scss/main.scss'],
   typescript: {
-    strict: true
-  }
+    strict: true,
+  },
 })

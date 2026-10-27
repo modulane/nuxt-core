@@ -1,3 +1,3 @@
-export const useUseBreakpoints = () => {
+export const useBreakpoints = () => {
   return ref()
 }

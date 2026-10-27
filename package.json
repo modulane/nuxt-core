@@ -1,23 +1,32 @@
 {
   "name": "nuxt-core",
+  "version": "0.0.0-development",
+  "description": "A reusable foundation for building modern websites with Nuxt.",
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
+    "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
     "test": "vitest run",
     "test:watch": "vitest",
-    "postinstall": "nuxt prepare",
-    "ship": "node scripts/ship.mjs",
-    "ship:dry": "node scripts/ship.mjs --dry",
-    "ship:plan": "node scripts/ship.mjs --no-pr",
-    "ship:status": "node scripts/ship-status.mjs",
-    "ship:doctor": "node scripts/ship-doctor.mjs",
-    "ship:undo": "node scripts/ship-undo.mjs",
-    "ship:watch": "node scripts/ship-watch.mjs",
-    "ship:setup": "node scripts/ship-setup.mjs"
+    "typecheck": "nuxt typecheck",
+    "check": "yarn format:check && yarn typecheck && yarn test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modulane/nuxt-core.git"
+  },
+  "homepage": "https://github.com/modulane/nuxt-core#readme",
+  "bugs": {
+    "url": "https://github.com/modulane/nuxt-core/issues"
   },
   "dependencies": {
     "nuxt": "^4.5.2",
@@ -26,9 +35,12 @@
   },
   "devDependencies": {
     "@nuxt/test-utils": "^4.3.1",
+    "prettier": "3.9.10",
     "sass": "^1.104.0",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "semantic-release": "^25.0.9",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.0",
+    "vue-tsc": "^3.3.13"
   },
-  "packageManager": "yarn@3.3.1+sha512.e355f587284d06d2c0c1c2259c68746aa1f1f6cdeedefce543cec206709beeb7951c0a27cdbfb7b5736a576854829af9c660bbe82052192c49f108a546994b71"
+  "packageManager": "yarn@4.18.1+sha512.b2e1e7524f654f2749d32b4ebcb4622473cb5bcbc485df2007e12a154e50162a4d795526768bc5f5b8f81717bfd79deb2472813d86fb5ae2eb551fa9c872b08f"
 }

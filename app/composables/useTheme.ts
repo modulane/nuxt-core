@@ -1,3 +1,3 @@
-export const useUseTheme = () => {
+export const useTheme = () => {
   return ref()
 }
