@@ -42,7 +42,7 @@ Run `yarn check` before opening a pull request; CI runs it, then `yarn build`, w
 
 ## Editor
 
-[`.vscode/extensions.json`](../.vscode/extensions.json) recommends three VS Code extensions: Vue (Official) for `.vue` files, Prettier for formatting and EditorConfig for indentation and line endings. [`.editorconfig`](../.editorconfig) applies the same rules in other editors.
+[`.vscode/extensions.json`](../.vscode/extensions.json) recommends three VS Code extensions: Vue (Official) for `.vue` files, Prettier for formatting and EditorConfig for indentation and line endings. It marks Vetur as unwanted: Vetur is for Vue 2 and does not read the types Nuxt generates, so it reports every auto-import as missing. [`.editorconfig`](../.editorconfig) applies the same rules in other editors.
 
 ## Troubleshooting
 
@@ -51,4 +51,5 @@ Run `yarn check` before opening a pull request; CI runs it, then `yarn build`, w
 | `yarn` prints version 1.x, or `install` rejects the lockfile  | Run `corepack enable`. On Node.js 25 and later, run `npm install --global corepack` first. |
 | `The engine "node" is incompatible`                           | Update Node.js to a version listed under [Requirements](#requirements).                    |
 | The editor reports missing types for auto-imports             | Run `yarn dev:prepare` to regenerate `playground/.nuxt/`.                                  |
+| `Cannot find name 'useTheme'. Vetur(2304)`, or similar        | Disable Vetur and use Vue (Official) instead, then reload the window.                      |
 | `yarn install` stops on a package that is less than a day old | Wait a day, or pin the previous version. The delay protects against compromised releases.  |
