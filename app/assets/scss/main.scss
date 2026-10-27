@@ -1,0 +1,9 @@
+// Global styles, loaded on every page through nuxt.config.ts "css".
+// Abstracts (variables, mixins, functions) emit no CSS, so they are not
+// loaded here: each file that needs them uses them directly.
+@use 'base/root';
+@use 'base/reset';
+@use 'base/typography';
+@use 'layout/container';
+@use 'layout/grid';
+@use 'utilities/utilities';

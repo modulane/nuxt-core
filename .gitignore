@@ -6,39 +6,36 @@
 .cache
 dist
 
-# Node dependencies
+# Dependencies
 node_modules
+
+# Yarn: keep only what the team shares
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
 
 # Logs
 logs
 *.log
-
-# Misc
-.DS_Store
-.fleet
-.idea
-Thumbs.db
 
 # Local env files
 .env
 .env.*
 !.env.example
 
-# IDE
+# Testing
+coverage/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors: only the shared VS Code settings are committed
+.fleet
 .idea/
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
-
-# Testing
-coverage/
-
-# Ship-it local history (yarn ship:undo)
-.ship/
-
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
