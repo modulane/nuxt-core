@@ -14,9 +14,10 @@ This is why the [conventions](conventions.md#scss) forbid hard-coded colours, sp
 
 ## Dark mode
 
-Dark mode is a **colour scheme**, a variant of each theme, not a theme of its own: a theme sets the identity (Modern, Elegant…) and each theme gives values for both schemes. The design system ships a dark scheme, the default, and a light one, selected with `data-color-scheme="light"` on `<html>` ([colour schemes](styling.md#colour-schemes)). The schemes live in [`schemes/`](../layers/design/app/assets/scss/schemes/) and set only the colour and shadow tokens.
+Dark mode is a **colour scheme**, a variant of each theme, not a theme of its own: a theme sets the identity (Modern, Elegant…) and each theme gives values for both schemes. The design system ships a dark scheme, the default, and a light one, selected with `data-color-scheme="light"` on `<html>` ([colour schemes](styling.md#colour-schemes)). [`useTheme()`](composables.md#usetheme) reads and switches the scheme and sets that attribute. The schemes live in [`schemes/`](../layers/design/app/assets/scss/schemes/) and set only the colour and shadow tokens.
 
 ## Still to decide
 
 - How a theme is selected: a class or `data-theme` attribute on `<html>`, or separate stylesheets.
-- What `useTheme()` exposes (it is a [stub](composables.md) for now): at least the current colour scheme, a way to switch it, and whether to follow the visitor's `prefers-color-scheme`.
+- What `useTheme()` adds for themes: it handles only the colour scheme for now.
+- Whether a site can change the default scheme, and whether to follow the visitor's `prefers-color-scheme`.

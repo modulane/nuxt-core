@@ -201,7 +201,7 @@ Page
 
 - [ ] Theme selection mechanism, set by the site in its `app.config.ts` ([theming](docs/theming.md) lists the open questions)
 - [x] Dark mode, the default colour scheme, with a light scheme beside it ([styling](docs/styling.md#colour-schemes))
-- [ ] `useTheme()` composable
+- [ ] `useTheme()` composable (the colour scheme part is done: [composables](docs/composables.md#usetheme))
 - [ ] Three example themes
 
 **Done when:** switching theme changes colours, typography, radius, shadows and spacing without changing a single component. Themes are part of the design layer.

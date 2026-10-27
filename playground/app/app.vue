@@ -13,6 +13,7 @@
           </li>
         </ul>
       </nav>
+      <FormSwitch v-model="isDark" class="header__switch">Dark mode</FormSwitch>
     </BaseContainer>
   </header>
 
@@ -136,6 +137,8 @@ useHead({
   htmlAttrs: { lang: 'en' },
 })
 
+const { isDark } = useTheme()
+
 const sections = [
   { id: 'colours', title: 'Colours' },
   { id: 'typography', title: 'Typography' },
@@ -218,6 +221,10 @@ code {
     margin: 0;
     font-family: var(--font-family-heading);
     font-weight: 700;
+  }
+
+  &__switch {
+    font-size: var(--font-size-sm);
   }
 
   &__tag {

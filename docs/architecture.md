@@ -49,7 +49,8 @@ nuxt-core/
 │       ├── nuxt.config.ts    Loads the global stylesheet
 │       ├── app/
 │       │   ├── assets/scss/  Tokens, global styles, primitive styles, SCSS abstracts
-│       │   └── composables/  Theme and breakpoint composables, auto-imported
+│       │   ├── composables/  Theme and breakpoint composables, auto-imported
+│       │   └── plugins/      Applies the colour scheme to <html>
 │       └── shared/types/     Types used by both app/ and server/
 ├── playground/               The development app, which extends the root layer; not shipped
 ├── tests/                    Vitest tests; not shipped
@@ -64,6 +65,7 @@ Each layer follows the [Nuxt 4 directory structure](https://nuxt.com/docs/guide/
 
 - **`app/components/`**: each `.vue` file becomes a component that can be used without importing it. The folder path is part of the name: `components/base/Button.vue` is `<BaseButton>`. Components are grouped by purpose: `base/` for basic building blocks, `form/` for form controls, `navigation/` for headers, footers and menus. See [components.md](components.md).
 - **`app/composables/`**: each exported function is auto-imported everywhere in the site's `app/`. See [composables.md](composables.md).
+- **`app/plugins/`**: each file runs once when the site starts, on the server and in the browser.
 - **`app/layouts/`**: `default.vue` wraps every page unless a page picks another layout, such as `auth.vue`. Layouts take effect once a site renders `<NuxtLayout>` and has pages.
 - **`app/assets/scss/`**: the global stylesheet and the SCSS abstracts. See [styling.md](styling.md).
 - **`shared/types/`**: types needed by both `app/` and `server/`, auto-imported in both. A type used by only one side stays next to the code that uses it.

@@ -58,9 +58,9 @@ The design system has two colour schemes, which give the colour and shadow token
 <html data-color-scheme="light"></html>
 ```
 
-A site sets it with `useHead({ htmlAttrs: { 'data-color-scheme': 'light' } })`. The attribute also works on any element, to show one area in the other scheme, and `data-color-scheme="dark"` forces dark inside a light page. Each scheme also sets [`color-scheme`](https://developer.mozilla.org/docs/Web/CSS/color-scheme), so form controls and scrollbars match.
+The design layer sets the attribute on `<html>` from [`useTheme()`](composables.md#usetheme), which remembers the visitor's choice in a cookie; a switch is one line, `<FormSwitch v-model="isDark">Dark mode</FormSwitch>`. The attribute also works on any element, to show one area in the other scheme, and `data-color-scheme="dark"` forces dark inside a light page. Each scheme also sets [`color-scheme`](https://developer.mozilla.org/docs/Web/CSS/color-scheme), so form controls and scrollbars match.
 
-The design system does not follow the visitor's system preference or offer a switch yet: both come with [`useTheme()`](theming.md).
+The design system does not follow the visitor's system preference (`prefers-color-scheme`) yet.
 
 ### Colours
 
