@@ -252,8 +252,10 @@
           </li>
           <li class="card">
             <span class="clamped"
-              >Text cut after two lines. A layer gives every site the same
-              foundation, and each site adds only what makes it different.</span
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.</span
             >
             <code>line-clamp(2)</code>
           </li>
