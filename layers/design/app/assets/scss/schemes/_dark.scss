@@ -8,9 +8,27 @@
 
   --color-primary: #818cf8;
   --color-primary-contrast: #0f172a;
+  // Hover and active shades lighten here, where the light scheme darkens them:
+  // both move away from the background
+  --color-primary-hover: #a5b4fc;
+  --color-primary-active: #c7d2fe;
 
   --color-secondary: #e2e8f0;
   --color-secondary-contrast: #0f172a;
+  --color-secondary-hover: #f1f5f9;
+  --color-secondary-active: #f8fafc;
+
+  --color-success: #4ade80;
+  --color-success-contrast: #0f172a;
+
+  --color-warning: #fbbf24;
+  --color-warning-contrast: #0f172a;
+
+  --color-danger: #f87171;
+  --color-danger-contrast: #0f172a;
+
+  --color-info: #38bdf8;
+  --color-info-contrast: #0f172a;
 
   --color-background: #0f172a;
   --color-surface: #1e293b;
@@ -19,6 +37,11 @@
   --color-text-muted: #94a3b8;
 
   --color-border: #334155;
+  // Meets 3:1 on the background and surface, for the outline of form controls
+  --color-border-strong: #718096;
+
+  // Set in each scheme rather than on :root, so a scoped scheme gets its own primary
+  --focus-ring-color: var(--color-primary);
 
   /* Shadows */
 

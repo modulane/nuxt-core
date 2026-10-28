@@ -1,4 +1,4 @@
 .nc-container {
-  width: min(100% - var(--space-4) * 2, 1200px);
+  width: min(100% - var(--space-4) * 2, var(--container-max-width));
   margin-inline: auto;
 }

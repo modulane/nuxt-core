@@ -75,8 +75,42 @@ The design system does not follow the visitor's system preference (`prefers-colo
 | `--color-text`               | `#f1f5f9` | `#0f172a` | Body text                   |
 | `--color-text-muted`         | `#94a3b8` | `#64748b` | Secondary text              |
 | `--color-border`             | `#334155` | `#e2e8f0` | Borders and dividers        |
+| `--color-border-strong`      | `#718096` | `#7c8aa0` | Outline of form controls    |
 
 Both schemes pair a slate neutral scale with an indigo accent. In each, every text colour meets WCAG AA (4.5:1) on `--color-background` and `--color-surface`, and each `-contrast` colour meets it on its pair.
+
+`--color-border` is for decoration only: dividers, and edges of cards that are already set apart by their background. A boundary the visitor needs to see to use a control (an input, a checkbox, a switch's track) uses `--color-border-strong`, which meets the 3:1 that [WCAG 1.4.11](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) asks for on `--color-background` and `--color-surface`.
+
+#### Status colours
+
+For messages and feedback: a form error, a saved notice, a warning. Each has a `-contrast` colour for text on it.
+
+| Token                      | Dark      | Light     | Use                            |
+| -------------------------- | --------- | --------- | ------------------------------ |
+| `--color-success`          | `#4ade80` | `#15803d` | Something worked               |
+| `--color-success-contrast` | `#0f172a` | `#ffffff` | Text on `--color-success`      |
+| `--color-warning`          | `#fbbf24` | `#b45309` | Something needs attention      |
+| `--color-warning-contrast` | `#0f172a` | `#ffffff` | Text on `--color-warning`      |
+| `--color-danger`           | `#f87171` | `#dc2626` | Errors and destructive actions |
+| `--color-danger-contrast`  | `#0f172a` | `#ffffff` | Text on `--color-danger`       |
+| `--color-info`             | `#38bdf8` | `#0369a1` | Neutral information            |
+| `--color-info-contrast`    | `#0f172a` | `#ffffff` | Text on `--color-info`         |
+
+Each status colour also meets WCAG AA as text on `--color-background` and `--color-surface`, so an error message can use it directly. Colour alone does not carry the meaning: a component that shows a status also says it in text or with an icon.
+
+#### Interaction states
+
+Hover and active shades of the action colours. Their `-contrast` colour stays the same.
+
+| Token                      | Dark      | Light     | Use                                   |
+| -------------------------- | --------- | --------- | ------------------------------------- |
+| `--color-primary-hover`    | `#a5b4fc` | `#4338ca` | `--color-primary` under the pointer   |
+| `--color-primary-active`   | `#c7d2fe` | `#3730a3` | `--color-primary` while pressed       |
+| `--color-secondary-hover`  | `#f1f5f9` | `#0f172a` | `--color-secondary` under the pointer |
+| `--color-secondary-active` | `#f8fafc` | `#020617` | `--color-secondary` while pressed     |
+| `--opacity-disabled`       | 0.5       | 0.5       | Opacity of a disabled control         |
+
+Each step moves away from the background: lighter in the dark scheme, darker in the light one. Contrast with the `-contrast` text therefore only grows. A disabled control is faded with `--opacity-disabled` and shows a `not-allowed` cursor; it keeps its colours, so it works for any colour and in both schemes.
 
 ### Spacing
 
@@ -134,6 +168,37 @@ Both schemes pair a slate neutral scale with an indigo accent. In each, every te
 | `--shadow-lg` | `0 4px 6px rgb(0 0 0 / 30%), 0 12px 32px rgb(0 0 0 / 45%)` | `0 4px 6px rgb(15 23 42 / 5%), 0 12px 32px rgb(15 23 42 / 12%)` |
 
 The dark shadows are much stronger, or they would not show on a dark background. The light ones are tinted with the hue of `--color-text` rather than pure black, so they belong to the palette.
+
+### Layout tokens
+
+| Token                   | Value  | Use                                               |
+| ----------------------- | ------ | ------------------------------------------------- |
+| `--container-max-width` | 1200px | Maximum width of [`.nc-container`](#nc-container) |
+
+### Borders and focus ring
+
+| Token                  | Value                              | Use                                     |
+| ---------------------- | ---------------------------------- | --------------------------------------- |
+| `--border-width-thin`  | 1px                                | Borders and dividers                    |
+| `--border-width-thick` | 3px                                | Accent rules, such as a blockquote's    |
+| `--focus-ring-width`   | 2px                                | Width of the keyboard focus outline     |
+| `--focus-ring-offset`  | 2px                                | Gap between the element and its outline |
+| `--focus-ring-color`   | `var(--color-primary)`, per scheme | Colour of the keyboard focus outline    |
+
+`--focus-ring-color` is set in each colour scheme rather than on `:root`. A custom property that refers to another is resolved where it is declared, so a ring defined once on `:root` would keep the page's primary inside an area with `data-color-scheme` set.
+
+### Layering
+
+`z-index` values for the parts of a page that overlap others, lowest first:
+
+| Token              | Value | Use                                         |
+| ------------------ | ----- | ------------------------------------------- |
+| `--z-dropdown`     | 100   | Dropdowns, popovers, tooltips               |
+| `--z-sticky`       | 200   | Sticky and fixed headers                    |
+| `--z-modal`        | 300   | Modal dialogs and their backdrop            |
+| `--z-notification` | 400   | Notifications, which must show over a modal |
+
+A dropdown opened in the page scrolls under the sticky header. A dropdown inside the header is in the header's stacking context, so it still shows over the page. A dialog opened with `showModal()` goes to the browser's top layer and needs none of these.
 
 ## Breakpoints
 
@@ -197,7 +262,7 @@ Lists keep their bullets and padding, only their margins go: removing the bullet
 | `blockquote`                    | `--color-text-muted`, with a `--color-primary` rule on its start side                              |
 | `strong`, `small`, `hr`, `mark` | Semibold; `--font-size-sm`; a `--color-border` line; a `--color-primary` tint                      |
 
-Text selection is tinted with `--color-primary`, and every focusable element shows a 2px `--color-primary` outline when it is focused with the keyboard. A component that draws its own focus indicator overrides that outline.
+Text selection is tinted with `--color-primary`, and every focusable element shows the [focus ring](#borders-and-focus-ring) when it is focused with the keyboard. A component that draws its own focus indicator overrides that outline.
 
 ### `.nc-flow`
 
@@ -217,4 +282,4 @@ The class is in the `nuxt-core.utilities` layer and, like every class of the des
 
 ### `.nc-container`
 
-Centres content and limits its width to 1200px, keeping a `--space-4` margin on each side on small screens. The [`BaseContainer`](components.md) component renders a `<div class="nc-container">`. The class is prefixed so that it does not clash with the `.container` of Tailwind or Bootstrap.
+Centres content and limits its width to `--container-max-width` (1200px), keeping a `--space-4` margin on each side on small screens. The [`BaseContainer`](components.md) component renders a `<div class="nc-container">`. The class is prefixed so that it does not clash with the `.container` of Tailwind or Bootstrap.

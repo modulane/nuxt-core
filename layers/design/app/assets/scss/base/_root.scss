@@ -49,6 +49,30 @@
   --radius-lg: 1rem;
   --radius-full: 9999px;
 
+  /* Layout */
+
+  --container-max-width: 1200px;
+
+  /* Borders */
+
+  --border-width-thin: 1px;
+  --border-width-thick: 3px;
+
+  /* Focus ring */
+
+  // Its colour, which changes with the scheme, is in schemes/
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Layering */
+
+  // Dropdowns sit under the sticky header, so one opened in the page scrolls
+  // beneath it; one inside the header shares the header's layer
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-notification: 400;
+
   /* Motion */
 
   --duration-fast: 150ms;
@@ -56,4 +80,9 @@
   --duration-slow: 350ms;
 
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* States */
+
+  // Fades a disabled control in either scheme, whatever its colours
+  --opacity-disabled: 0.5;
 }
