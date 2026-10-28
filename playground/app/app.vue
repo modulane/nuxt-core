@@ -287,6 +287,7 @@ const colors = [
   '--color-text',
   '--color-text-muted',
   '--color-border',
+  '--color-border-strong',
   ...['primary', 'secondary'].flatMap(action => [
     `--color-${action}-hover`,
     `--color-${action}-active`,

@@ -112,7 +112,7 @@ Page
 - [ ] Spacing utilities (stacks, gaps)
 - [ ] Responsive behaviour for each of the above
 - [ ] `useBreakpoints()` composable, for layout decisions CSS cannot make
-- [ ] The container's maximum width as a token
+- [x] The container's maximum width as a token ([styling](docs/styling.md#layout-tokens))
 - [ ] Page layouts (`default`, `auth`): header, main and footer areas, with the main area as the skip link's target
 
 **Done when:** a typical page layout (header, content columns, footer) can be built from layout tools alone, and adapts from phone to desktop.

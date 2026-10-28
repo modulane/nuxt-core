@@ -75,8 +75,11 @@ The design system does not follow the visitor's system preference (`prefers-colo
 | `--color-text`               | `#f1f5f9` | `#0f172a` | Body text                   |
 | `--color-text-muted`         | `#94a3b8` | `#64748b` | Secondary text              |
 | `--color-border`             | `#334155` | `#e2e8f0` | Borders and dividers        |
+| `--color-border-strong`      | `#718096` | `#7c8aa0` | Outline of form controls    |
 
 Both schemes pair a slate neutral scale with an indigo accent. In each, every text colour meets WCAG AA (4.5:1) on `--color-background` and `--color-surface`, and each `-contrast` colour meets it on its pair.
+
+`--color-border` is for decoration only: dividers, and edges of cards that are already set apart by their background. A boundary the visitor needs to see to use a control (an input, a checkbox, a switch's track) uses `--color-border-strong`, which meets the 3:1 that [WCAG 1.4.11](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) asks for on `--color-background` and `--color-surface`.
 
 #### Status colours
 
@@ -165,6 +168,12 @@ Each step moves away from the background: lighter in the dark scheme, darker in 
 | `--shadow-lg` | `0 4px 6px rgb(0 0 0 / 30%), 0 12px 32px rgb(0 0 0 / 45%)` | `0 4px 6px rgb(15 23 42 / 5%), 0 12px 32px rgb(15 23 42 / 12%)` |
 
 The dark shadows are much stronger, or they would not show on a dark background. The light ones are tinted with the hue of `--color-text` rather than pure black, so they belong to the palette.
+
+### Layout tokens
+
+| Token                   | Value  | Use                                               |
+| ----------------------- | ------ | ------------------------------------------------- |
+| `--container-max-width` | 1200px | Maximum width of [`.nc-container`](#nc-container) |
 
 ### Borders and focus ring
 
@@ -273,4 +282,4 @@ The class is in the `nuxt-core.utilities` layer and, like every class of the des
 
 ### `.nc-container`
 
-Centres content and limits its width to 1200px, keeping a `--space-4` margin on each side on small screens. The [`BaseContainer`](components.md) component renders a `<div class="nc-container">`. The class is prefixed so that it does not clash with the `.container` of Tailwind or Bootstrap.
+Centres content and limits its width to `--container-max-width` (1200px), keeping a `--space-4` margin on each side on small screens. The [`BaseContainer`](components.md) component renders a `<div class="nc-container">`. The class is prefixed so that it does not clash with the `.container` of Tailwind or Bootstrap.
