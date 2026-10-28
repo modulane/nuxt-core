@@ -18,7 +18,7 @@ Tests live in `tests/` and end in `.test.ts`. Name a test file after what it tes
 
 ## Current state
 
-Tests run in Node.js by default, which is enough for plain TypeScript such as utility functions. A test that needs Nuxt (auto-imports, `useState`, `useCookie`, `useHead`) or renders a component opts in to the `nuxt` environment with a comment on its first line:
+Tests run in Node.js by default, which is enough for plain TypeScript such as utility functions, and for the Sass helpers: [`tests/scss/`](../tests/scss) compiles snippets with `sass` and checks the CSS they produce. A test that needs Nuxt (auto-imports, `useState`, `useCookie`, `useHead`) or renders a component opts in to the `nuxt` environment with a comment on its first line:
 
 ```ts
 // @vitest-environment nuxt

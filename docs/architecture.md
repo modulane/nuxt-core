@@ -103,7 +103,7 @@ Vitest tests. See [testing.md](testing.md).
 
 A layer's `nuxt.config.ts` runs inside every site that extends it, which changes a few rules:
 
-- **Paths resolve from the file, not with `~`.** In a site, `~` points to the site's own `app/`. A layer's config builds its paths with `new URL('./app/…', import.meta.url)`. Each layer's `$meta.name` registers an alias for imports: `#layers/nuxt-core-design/` and `#layers/nuxt-core-primitives/`.
+- **Paths resolve from the file, not with `~`.** In a site, `~` points to the site's own `app/`. A layer's config builds its paths with `new URL('./app/…', import.meta.url)`. Each layer's `$meta.name` registers an alias for imports: `#layers/nuxt-core-design/` and `#layers/nuxt-core-primitives/`. The design layer also registers `#nuxt-core/scss`, for its [Sass helpers](styling.md#sass-helpers).
 - **Only reusable settings.** Site-level settings such as `compatibilityDate`, DevTools or the site's own modules stay in `playground/nuxt.config.ts`.
 - **What sites need at runtime goes in `dependencies`.** `sass` is a dependency because sites compile the design layer's SCSS. Nuxt is a peer dependency: the site provides it. Tooling stays in `devDependencies`.
 

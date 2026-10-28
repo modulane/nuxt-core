@@ -1,6 +1,10 @@
 <template>
   <NuxtRouteAnnouncer />
 
+  <a href="#content" class="nc-visually-hidden-focusable skip-link"
+    >Skip to content</a
+  >
+
   <header class="header">
     <BaseContainer class="header__inner">
       <p class="header__title">
@@ -17,7 +21,7 @@
     </BaseContainer>
   </header>
 
-  <main>
+  <main id="content">
     <BaseContainer>
       <section class="intro" aria-labelledby="intro-title">
         <h1 id="intro-title">The design system, rendered by itself</h1>
@@ -225,6 +229,47 @@
         </ul>
       </section>
 
+      <section id="sass" class="section" aria-labelledby="sass-title">
+        <h2 id="sass-title">Sass helpers</h2>
+        <p class="muted">
+          Functions and mixins from <code>@use '#nuxt-core/scss'</code>. They
+          compile to the CSS below; none of them reach the browser.
+        </p>
+        <ul class="grid">
+          <li class="card">
+            <span class="breakpoint-now" />
+            <code>respond-to()</code>
+          </li>
+          <li class="card">
+            <span class="fluid-text">Grows with the window</span>
+            <code>fluid(18px, 32px)</code>
+          </li>
+          <li class="card">
+            <span class="truncated"
+              >A single line of text that is far too long for its card</span
+            >
+            <code>truncate</code>
+          </li>
+          <li class="card">
+            <span class="clamped"
+              >Text cut after two lines. A layer gives every site the same
+              foundation, and each site adds only what makes it different.</span
+            >
+            <code>line-clamp(2)</code>
+          </li>
+          <li class="card">
+            <span class="swatch swatch--translucent" />
+            <code>translucent()</code>
+          </li>
+          <li class="card">
+            <span class="muted"
+              >Press Tab from the top of the page to show the skip link.</span
+            >
+            <code>visually-hidden-focusable</code>
+          </li>
+        </ul>
+      </section>
+
       <section
         id="components"
         class="section"
@@ -273,6 +318,7 @@ const sections = [
   { id: 'shape', title: 'Radius and shadows' },
   { id: 'borders', title: 'Borders and layering' },
   { id: 'motion', title: 'Motion' },
+  { id: 'sass', title: 'Sass helpers' },
   { id: 'components', title: 'Components' },
 ]
 
@@ -330,13 +376,10 @@ const components = [
 </script>
 
 <style lang="scss" scoped>
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/variables' as *;
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/mixins' as *;
+@use '#nuxt-core/scss' as *;
 
 ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  @include reset-list;
 }
 
 code {
@@ -345,6 +388,17 @@ code {
 
 .muted {
   color: var(--color-text-muted);
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
+  z-index: var(--z-notification);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
 }
 
 .header {
@@ -425,12 +479,12 @@ code {
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
 
-  @include respond-to($breakpoint-md) {
+  @include respond-to(md) {
     grid-template-columns: repeat(4, 1fr);
   }
 
   &--wide {
-    @include respond-to($breakpoint-lg) {
+    @include respond-to(lg) {
       grid-template-columns: repeat(5, 1fr);
     }
   }
@@ -506,9 +560,8 @@ code {
   color: var(--action-contrast);
   font: inherit;
   cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease-standard);
 
-  &:hover {
+  @include hover {
     background: var(--action-hover);
   }
 
@@ -517,9 +570,9 @@ code {
   }
 
   &:disabled {
+    @include disabled;
+
     background: var(--action);
-    cursor: not-allowed;
-    opacity: var(--opacity-disabled);
   }
 
   @each $action in primary, secondary {
@@ -531,9 +584,7 @@ code {
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
+  @include transition(background-color, $duration: fast);
 }
 
 .bar {
@@ -554,8 +605,7 @@ code {
 
   // Shows the ring permanently, as :focus-visible draws it
   &--focused {
-    outline: var(--focus-ring-width) solid var(--focus-ring-color);
-    outline-offset: var(--focus-ring-offset);
+    @include focus-ring;
   }
 
   &--focusable {
@@ -586,18 +636,14 @@ code {
 }
 
 .motion {
+  @include reset-button;
+
   display: flex;
   gap: var(--space-4);
   align-items: center;
   inline-size: 100%;
   padding: var(--space-2);
-  border: 0;
   border-radius: var(--radius-sm);
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
 
   &__track {
     position: relative;
@@ -623,11 +669,46 @@ code {
     inset-inline-start: calc(100% - var(--space-4));
   }
 
-  @media (prefers-reduced-motion: reduce) {
+  @include reduced-motion {
     &__dot {
       transition: none;
     }
   }
+}
+
+// Names the breakpoint the window is in, with one respond-to() per breakpoint
+.breakpoint-now {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+
+  &::after {
+    content: 'below sm';
+  }
+
+  @each $name, $width in $breakpoints {
+    @include respond-to($name) {
+      &::after {
+        content: '#{$name} and up';
+      }
+    }
+  }
+}
+
+.fluid-text {
+  font-size: fluid(18px, 32px);
+  line-height: var(--line-height-tight);
+}
+
+.truncated {
+  @include truncate;
+}
+
+.clamped {
+  @include line-clamp(2);
+}
+
+.swatch--translucent {
+  background: translucent(var(--color-primary), 30%);
 }
 
 .table {

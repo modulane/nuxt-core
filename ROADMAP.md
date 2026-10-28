@@ -79,6 +79,7 @@ What each phase adds meets these standards. They are not repeated in each phase'
 - [x] Shadows
 - [x] Motion durations and easing
 - [x] Responsive breakpoints and the `respond-to()` mixin
+- [x] Sass helpers for sites: unit, fluid-size and colour functions, and media query, focus, motion, text and reset mixins, through `#nuxt-core/scss` ([styling](docs/styling.md#sass-helpers))
 - [x] CSS reset ([styling](docs/styling.md#reset))
 - [x] Base typography: headings, paragraphs, links, lists, code ([styling](docs/styling.md#typography))
 - [x] Running-text spacing (`.nc-flow`)
@@ -86,7 +87,7 @@ What each phase adds meets these standards. They are not repeated in each phase'
 - [x] Interaction states: hover and active shades of the action colours, and a disabled style ([styling](docs/styling.md#interaction-states))
 - [x] Border widths and the focus ring (width, offset, colour) as tokens ([styling](docs/styling.md#borders-and-focus-ring))
 - [x] Layering scale (`z-index`) for sticky headers, dropdowns, modals and notifications ([styling](docs/styling.md#layering))
-- [ ] Visually hidden utility, for text that only screen readers announce
+- [x] Visually hidden utility, for text that only screen readers announce ([styling](docs/styling.md#nc-visually-hidden))
 - [ ] Forced colours (Windows high contrast): focus rings and component states stay visible
 - [ ] Base styles for tables, figures and description lists, which rich-text content uses
 - [ ] Browser support policy: the browsers and versions the design system targets, documented and used as the CSS build target

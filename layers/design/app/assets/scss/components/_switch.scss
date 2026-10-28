@@ -1,19 +1,16 @@
+@use '../abstracts' as *;
+
 // Styles <FormSwitch> through its hooks: .nc-switch, its parts and aria-checked
 .nc-switch {
+  @include reset-button;
+
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
-  padding: 0;
-  border: 0;
   border-radius: var(--radius-full);
-  background: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
 
   &:disabled {
-    cursor: not-allowed;
-    opacity: var(--opacity-disabled);
+    @include disabled;
   }
 
   &__track {
@@ -25,9 +22,8 @@
     border: var(--border-width-thin) solid var(--color-border-strong);
     border-radius: var(--radius-full);
     background: var(--color-surface);
-    transition:
-      background-color var(--duration-normal) var(--ease-standard),
-      border-color var(--duration-normal) var(--ease-standard);
+
+    @include transition(background-color border-color);
   }
 
   &__thumb {
@@ -39,9 +35,8 @@
     border-radius: var(--radius-full);
     background: var(--color-text-muted);
     translate: 0 -50%;
-    transition:
-      inset-inline-start var(--duration-normal) var(--ease-standard),
-      background-color var(--duration-normal) var(--ease-standard);
+
+    @include transition(inset-inline-start background-color);
   }
 
   &[aria-checked='true'] &__track {
@@ -52,12 +47,5 @@
   &[aria-checked='true'] &__thumb {
     inset-inline-start: calc(100% - var(--space-5));
     background: var(--color-primary-contrast);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    &__track,
-    &__thumb {
-      transition: none;
-    }
   }
 }

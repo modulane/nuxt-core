@@ -1,5 +1,140 @@
+@use 'sass:list';
+@use 'functions' as *;
+
+// Responsive
+
+// From a breakpoint up, for mobile-first styles. Takes a breakpoint name or a
+// length: respond-to(md) or respond-to($breakpoint-md)
 @mixin respond-to($breakpoint) {
-  @media (min-width: $breakpoint) {
+  @media (width >= #{breakpoint($breakpoint)}) {
     @content;
   }
+}
+
+// Below a breakpoint, for what only small screens need
+@mixin respond-below($breakpoint) {
+  @media (width < #{breakpoint($breakpoint)}) {
+    @content;
+  }
+}
+
+// From one breakpoint up to, but not including, another
+@mixin respond-between($from, $to) {
+  @media (#{breakpoint($from)} <= width < #{breakpoint($to)}) {
+    @content;
+  }
+}
+
+// Interaction
+
+// Hover styles, only on devices that can hover, so a tap on a touch screen does
+// not leave them stuck on
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// The keyboard focus outline, with the focus ring tokens
+@mixin focus-ring {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+// A disabled control: faded, with a not-allowed cursor. It keeps its colours, so it
+// works for any colour and in both schemes.
+@mixin disabled {
+  cursor: not-allowed;
+  opacity: var(--opacity-disabled);
+}
+
+// Motion
+
+// Transitions the given properties with the motion tokens, and not at all for
+// visitors who ask for reduced motion: transition(background-color border-color)
+@mixin transition($properties, $duration: normal) {
+  transition-property: list.join($properties, (), $separator: comma);
+  transition-duration: var(--duration-#{$duration});
+  transition-timing-function: var(--ease-standard);
+
+  @include reduced-motion {
+    transition: none;
+  }
+}
+
+// Styles for visitors who ask the system for less motion
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// Motion only for visitors who have not asked for less of it
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+// Accessibility
+
+// Hides an element visually and keeps it for screen readers, such as a label that
+// an icon shows
+@mixin visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+// Visually hidden until it, or something inside it, has focus: a skip link
+@mixin visually-hidden-focusable {
+  &:not(:focus, :focus-within) {
+    @include visually-hidden;
+  }
+}
+
+// Text
+
+// Cuts a single line of text with an ellipsis
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Cuts text after a number of lines, with an ellipsis
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+}
+
+// Resets
+
+// Removes the browser look of a <button>, to style it from scratch
+@mixin reset-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+// Removes the bullets, margin and padding of a list. Give the list role="list":
+// Safari stops announcing a list without its bullets.
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

@@ -1,0 +1,5 @@
+// The SCSS abstracts as one module: variables, functions and mixins. They emit no
+// CSS, so any stylesheet can use them: `@use '#nuxt-core/scss' as *;`
+@forward 'variables';
+@forward 'functions';
+@forward 'mixins';

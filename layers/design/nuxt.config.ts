@@ -4,8 +4,16 @@ import { fileURLToPath } from 'node:url'
 // the primitives' hooks. Works on its own, with any components.
 export default defineNuxtConfig({
   $meta: {
-    // Registers the `#layers/nuxt-core-design` alias, used to import the SCSS abstracts
+    // Registers the `#layers/nuxt-core-design` alias
     name: 'nuxt-core-design',
+  },
+
+  alias: {
+    // The SCSS abstracts (variables, functions, mixins), for any stylesheet of the
+    // site: `@use '#nuxt-core/scss' as *;`
+    '#nuxt-core/scss': fileURLToPath(
+      new URL('./app/assets/scss/abstracts/_index.scss', import.meta.url),
+    ),
   },
 
   css: [fileURLToPath(new URL('./app/assets/scss/main.scss', import.meta.url))],
