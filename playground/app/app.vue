@@ -30,11 +30,6 @@
           does. Every value below comes from a design token, so a change to a
           token shows up here first.
         </p>
-        <p class="muted">
-          To check forced colours (Windows high contrast), emulate them in the
-          browser's developer tools: in Chrome, Rendering, then
-          <code>forced-colors: active</code>.
-        </p>
       </section>
 
       <section id="colours" class="section" aria-labelledby="colours-title">
@@ -311,6 +306,103 @@
       </section>
 
       <section
+        id="accessibility"
+        class="section"
+        aria-labelledby="accessibility-title"
+      >
+        <h2 id="accessibility-title">Accessibility</h2>
+        <p class="muted">
+          Emulate these settings in the browser's developer tools (in Chrome,
+          the Rendering panel) and watch the page follow them. Press Tab from
+          the top of the page to show the skip link.
+        </p>
+
+        <h3 class="subheading">This browser's settings, live</h3>
+        <ul class="stack">
+          <li v-for="media in mediaFeatures" :key="media.query" class="row">
+            <span class="row__label">{{ media.name }}</span>
+            <span class="status" :data-status="statusOf(media.query)">{{
+              labelOf(media.query)
+            }}</span>
+            <span class="muted">{{ media.effect }}</span>
+          </li>
+        </ul>
+
+        <h3 class="subheading">Switch states</h3>
+        <p class="muted">
+          In forced colours, the thumb, the on state and the disabled state stay
+          visible. With reduced motion, the thumb moves without a transition.
+        </p>
+        <ul class="grid">
+          <li class="card">
+            <FormSwitch v-model="switches.off">Off</FormSwitch>
+            <code>aria-checked="false"</code>
+          </li>
+          <li class="card">
+            <FormSwitch v-model="switches.on">On</FormSwitch>
+            <code>aria-checked="true"</code>
+          </li>
+          <li class="card">
+            <FormSwitch v-model="switches.disabledOff" disabled
+              >Disabled, off</FormSwitch
+            >
+            <code>disabled</code>
+          </li>
+          <li class="card">
+            <FormSwitch v-model="switches.disabledOn" disabled
+              >Disabled, on</FormSwitch
+            >
+            <code>disabled</code>
+          </li>
+        </ul>
+      </section>
+
+      <section id="browsers" class="section" aria-labelledby="browsers-title">
+        <h2 id="browsers-title">Browser support</h2>
+        <p class="muted">
+          The CSS build target, set in
+          <code>layers/design/nuxt.config.ts</code>: Baseline widely available.
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Browser</th>
+              <th scope="col">From version</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="target in browserTargets" :key="target.browser">
+              <td>{{ target.browser }}</td>
+              <td>{{ target.version }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="subheading">This browser</h3>
+        <p class="muted">
+          The CSS features the design system relies on, checked live. An
+          enhancement is ignored where it is missing.
+        </p>
+        <ul class="stack">
+          <li v-for="feature in cssFeatures" :key="feature.name" class="row">
+            <span class="row__label">{{ feature.name }}</span>
+            <span
+              class="status"
+              :data-status="
+                supported[feature.name] === false && !feature.required
+                  ? 'optional'
+                  : statusOf(feature.name)
+              "
+              >{{ labelOf(feature.name) }}</span
+            >
+            <span class="muted">{{
+              feature.required ? 'Required' : 'Enhancement'
+            }}</span>
+          </li>
+        </ul>
+      </section>
+
+      <section
         id="components"
         class="section"
         aria-labelledby="components-title"
@@ -359,8 +451,119 @@ const sections = [
   { id: 'borders', title: 'Borders and layering' },
   { id: 'motion', title: 'Motion' },
   { id: 'sass', title: 'Sass helpers' },
+  { id: 'accessibility', title: 'Accessibility' },
+  { id: 'browsers', title: 'Browser support' },
   { id: 'components', title: 'Components' },
 ]
+
+const switches = reactive({
+  off: false,
+  on: true,
+  disabledOff: false,
+  disabledOn: true,
+})
+
+// The visitor settings the design system follows
+const mediaFeatures = [
+  {
+    name: 'Forced colours',
+    query: '(forced-colors: active)',
+    effect: 'System colours; the switch and mark draw their state with them',
+  },
+  {
+    name: 'Reduced motion',
+    query: '(prefers-reduced-motion: reduce)',
+    effect: 'Transitions are off',
+  },
+  {
+    name: 'Hover',
+    query: '(hover: hover)',
+    effect: 'Hover styles apply; touch screens skip them',
+  },
+]
+
+// Mirrors the cssTarget in layers/design/nuxt.config.ts
+const browserTargets = [
+  { browser: 'Chrome and Edge', version: '111' },
+  { browser: 'Firefox', version: '114' },
+  { browser: 'Safari, on macOS and iOS', version: '16.4' },
+]
+
+// Mirrors docs/styling.md#browser-support
+const cssFeatures = [
+  {
+    name: 'Cascade layers',
+    required: true,
+    test: () => 'CSSLayerBlockRule' in window,
+  },
+  {
+    name: 'color-mix()',
+    required: true,
+    test: () =>
+      CSS.supports('color', 'color-mix(in srgb, red 50%, transparent)'),
+  },
+  {
+    name: 'Range media queries',
+    required: true,
+    test: () => matchMedia('(width >= 0px)').matches,
+  },
+  {
+    name: ':focus-visible',
+    required: true,
+    test: () => CSS.supports('selector(:focus-visible)'),
+  },
+  {
+    name: 'Logical properties',
+    required: true,
+    test: () => CSS.supports('margin-inline-start', '0'),
+  },
+  {
+    name: 'dvh units',
+    required: true,
+    test: () => CSS.supports('height', '1dvh'),
+  },
+  {
+    name: 'Balanced headings',
+    required: false,
+    test: () => CSS.supports('text-wrap', 'balance'),
+  },
+]
+
+// Filled in the browser: the server cannot know them, so they start unknown
+const supported = ref<Record<string, boolean>>({})
+
+const statusOf = (key: string): string => {
+  const value = supported.value[key]
+  return value === undefined ? 'unknown' : value ? 'yes' : 'no'
+}
+
+const labelOf = (key: string): string =>
+  ({ unknown: 'Checking…', yes: 'Yes', no: 'No' })[statusOf(key)] ?? ''
+
+// Media queries update live, so emulating a setting shows here at once
+const mediaLists: [MediaQueryList, () => void][] = []
+
+onMounted(() => {
+  for (const feature of cssFeatures) {
+    supported.value[feature.name] = feature.test()
+  }
+
+  for (const { query } of mediaFeatures) {
+    const list = matchMedia(query)
+    const update = () => {
+      supported.value[query] = list.matches
+    }
+    update()
+    list.addEventListener('change', update)
+    mediaLists.push([list, update])
+  }
+})
+
+onBeforeUnmount(() => {
+  for (const [list, update] of mediaLists) {
+    list.removeEventListener('change', update)
+  }
+})
 
 // Mirrors layers/design/app/assets/scss/base/_root.scss and schemes/
 const colors = [
@@ -499,10 +702,6 @@ code {
   > h1 {
     margin-block: 0 var(--space-3);
     font-size: var(--font-size-3xl);
-  }
-
-  > p + p {
-    margin-block-start: var(--space-2);
   }
 }
 
@@ -777,6 +976,22 @@ code {
   &[data-status='ready'] {
     background: var(--color-primary);
     color: var(--color-primary-contrast);
+  }
+
+  &[data-status='yes'] {
+    background: var(--color-success);
+    color: var(--color-success-contrast);
+  }
+
+  &[data-status='no'] {
+    background: var(--color-danger);
+    color: var(--color-danger-contrast);
+  }
+
+  // A missing enhancement is not a failure
+  &[data-status='optional'] {
+    background: var(--color-warning);
+    color: var(--color-warning-contrast);
   }
 }
 </style>
