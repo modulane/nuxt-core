@@ -27,8 +27,8 @@
         <h1 id="intro-title">The design system, rendered by itself</h1>
         <p class="muted">
           This app extends <code>@modulane/nuxt-core</code> exactly as a site
-          does. Every value below comes from a design token, so a change to a
-          token shows up here first.
+          does. Each sample below is drawn with the design tokens and the Sass
+          helpers, so a change to either shows up here first.
         </p>
       </section>
 
@@ -61,7 +61,8 @@
 
         <h3 class="subheading">Interaction states</h3>
         <p class="muted">
-          Hover and press a button to see its shades. The last one is disabled.
+          Hover and press a button to see its shades. The second button of each
+          row is disabled, faded with <code>--opacity-disabled</code>.
         </p>
         <ul class="stack">
           <li v-for="action in actions" :key="action" class="row">
@@ -186,6 +187,13 @@
             <span class="bar" :style="{ inlineSize: `var(${space})` }" />
           </li>
         </ul>
+
+        <h3 class="subheading">Container</h3>
+        <p class="muted">
+          <code>--container-max-width</code> limits the width of
+          <code>.nc-container</code>, which holds this page: widen the window
+          past it to see the margins grow.
+        </p>
       </section>
 
       <section id="shape" class="section" aria-labelledby="shape-title">
@@ -247,7 +255,11 @@
 
       <section id="motion" class="section" aria-labelledby="motion-title">
         <h2 id="motion-title">Motion</h2>
-        <p class="muted">Hover or focus a row to play its duration.</p>
+        <p class="muted">
+          Hover or focus a row to play its duration, with
+          <code>--ease-standard</code>. With reduced motion, the dot jumps
+          instead.
+        </p>
         <ul class="stack">
           <li v-for="duration in durations" :key="duration">
             <button
@@ -265,8 +277,14 @@
       <section id="sass" class="section" aria-labelledby="sass-title">
         <h2 id="sass-title">Sass helpers</h2>
         <p class="muted">
-          Functions and mixins from <code>@use '#nuxt-core/scss'</code>. They
-          compile to the CSS below; none of them reach the browser.
+          Functions and mixins from <code>@use '#nuxt-core/scss'</code>. Sass
+          compiles them to plain CSS, so none of them reach the browser. Each
+          card below shows one; the playground's own styles use the others:
+          <code>hover</code>, <code>disabled</code> and
+          <code>transition()</code> on the interaction buttons,
+          <code>focus-ring</code> in Borders, <code>reduced-motion</code> in
+          Motion, <code>reset-list</code> and <code>reset-button</code>
+          throughout.
         </p>
         <ul class="grid">
           <li class="card">
@@ -321,8 +339,8 @@
         <ul class="stack">
           <li v-for="media in mediaFeatures" :key="media.query" class="row">
             <span class="row__label">{{ media.name }}</span>
-            <span class="status" :data-status="statusOf(media.query)">{{
-              labelOf(media.query)
+            <span class="status" :data-status="settingOf(media.query)">{{
+              settingLabelOf(media.query)
             }}</span>
             <span class="muted">{{ media.effect }}</span>
           </li>
@@ -346,13 +364,13 @@
             <FormSwitch v-model="switches.disabledOff" disabled
               >Disabled, off</FormSwitch
             >
-            <code>disabled</code>
+            <code>disabled, aria-checked="false"</code>
           </li>
           <li class="card">
             <FormSwitch v-model="switches.disabledOn" disabled
               >Disabled, on</FormSwitch
             >
-            <code>disabled</code>
+            <code>disabled, aria-checked="true"</code>
           </li>
         </ul>
       </section>
@@ -448,7 +466,7 @@ const sections = [
   { id: 'typography', title: 'Typography' },
   { id: 'spacing', title: 'Spacing' },
   { id: 'shape', title: 'Radius and shadows' },
-  { id: 'borders', title: 'Borders and layering' },
+  { id: 'borders', title: 'Borders, focus and layering' },
   { id: 'motion', title: 'Motion' },
   { id: 'sass', title: 'Sass helpers' },
   { id: 'accessibility', title: 'Accessibility' },
@@ -478,7 +496,7 @@ const mediaFeatures = [
   {
     name: 'Hover',
     query: '(hover: hover)',
-    effect: 'Hover styles apply; touch screens skip them',
+    effect: 'Hover styles apply; a touch screen never shows them',
   },
 ]
 
@@ -539,6 +557,13 @@ const statusOf = (key: string): string => {
 
 const labelOf = (key: string): string =>
   ({ unknown: 'Checking…', yes: 'Yes', no: 'No' })[statusOf(key)] ?? ''
+
+// A setting is a choice, not a pass or a fail: on or off, without status colours
+const settingOf = (query: string): string =>
+  ({ unknown: 'unknown', yes: 'on', no: 'off' })[statusOf(query)] ?? ''
+
+const settingLabelOf = (query: string): string =>
+  ({ unknown: 'Checking…', on: 'On', off: 'Off' })[settingOf(query)] ?? ''
 
 // Media queries update live, so emulating a setting shows here at once
 const mediaLists: [MediaQueryList, () => void][] = []
@@ -689,8 +714,11 @@ code {
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
 
-    &:hover,
     &:focus-visible {
+      color: var(--color-text);
+    }
+
+    @include hover {
       color: var(--color-text);
     }
   }
@@ -973,7 +1001,8 @@ code {
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 
-  &[data-status='ready'] {
+  &[data-status='ready'],
+  &[data-status='on'] {
     background: var(--color-primary);
     color: var(--color-primary-contrast);
   }
