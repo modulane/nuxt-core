@@ -118,6 +118,61 @@ blockquote {
   color: var(--color-text-muted);
 }
 
+// Tables, as rich-text content and data use them. Their width is left to the
+// content: a wide table goes in a scrolling container, which keeps its semantics.
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+caption {
+  padding-block-end: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: start;
+}
+
+th,
+td {
+  padding: var(--space-2) var(--space-3);
+  border-block-end: var(--border-width-thin) solid var(--color-border);
+  text-align: start;
+  vertical-align: top;
+}
+
+th {
+  font-weight: var(--font-weight-semibold);
+}
+
+// A caption after its figure, or before it
+figcaption {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+* + figcaption {
+  margin-block-start: var(--space-2);
+}
+
+figcaption:first-child {
+  margin-block-end: var(--space-2);
+}
+
+// Description lists: a semibold term, its descriptions indented below it
+dt {
+  font-weight: var(--font-weight-semibold);
+}
+
+dd {
+  padding-inline-start: var(--space-4);
+}
+
+// Each group of terms sets itself apart from the description before it, with or
+// without the <div> that HTML allows around a group
+dd + dt,
+dl > div + div {
+  margin-block-start: var(--space-3);
+}
+
 hr {
   border: 0;
   border-block-start: var(--border-width-thin) solid var(--color-border);
@@ -126,6 +181,13 @@ hr {
 mark {
   background: translucent(var(--color-primary), 30%);
   color: inherit;
+
+  // Forced colours drop the tint: use the system's own highlight
+  @include forced-colors {
+    forced-color-adjust: none;
+    background: Mark;
+    color: MarkText;
+  }
 }
 
 ::selection {

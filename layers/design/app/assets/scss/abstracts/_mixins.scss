@@ -101,6 +101,15 @@
   }
 }
 
+// Styles for forced colours, such as Windows high contrast, where the system
+// replaces the page's colours and drops its backgrounds. Use system colours here
+// (Canvas, CanvasText, Highlight, GrayText) to keep a state visible.
+@mixin forced-colors {
+  @media (forced-colors: active) {
+    @content;
+  }
+}
+
 // Text
 
 // Cuts a single line of text with an ellipsis

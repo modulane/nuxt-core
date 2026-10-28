@@ -17,4 +17,18 @@ export default defineNuxtConfig({
   },
 
   css: [fileURLToPath(new URL('./app/assets/scss/main.scss', import.meta.url))],
+
+  vite: {
+    build: {
+      // The browsers the design system supports: Baseline widely available, see
+      // docs/styling.md#browser-support. The CSS minifier lowers newer syntax for them.
+      cssTarget: [
+        'chrome111',
+        'edge111',
+        'firefox114',
+        'safari16.4',
+        'ios16.4',
+      ],
+    },
+  },
 })

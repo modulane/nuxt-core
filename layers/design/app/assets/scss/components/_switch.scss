@@ -48,4 +48,46 @@
     inset-inline-start: calc(100% - var(--space-5));
     background: var(--color-primary-contrast);
   }
+
+  // Forced colours drop the backgrounds, and with them the thumb and the checked
+  // track. Draw both with system colours instead.
+  @include forced-colors {
+    &__track,
+    &__thumb {
+      forced-color-adjust: none;
+    }
+
+    &__track {
+      border-color: CanvasText;
+      background: Canvas;
+    }
+
+    &__thumb {
+      background: CanvasText;
+    }
+
+    &[aria-checked='true'] &__track {
+      border-color: Highlight;
+      background: Highlight;
+    }
+
+    &[aria-checked='true'] &__thumb {
+      background: HighlightText;
+    }
+
+    // GrayText marks a disabled switch, without the fading that would make it
+    // hard to see; the thumb's position still shows whether it is on
+    &:disabled {
+      opacity: 1;
+    }
+
+    &:disabled &__track {
+      border-color: GrayText;
+      background: Canvas;
+    }
+
+    &:disabled &__thumb {
+      background: GrayText;
+    }
+  }
 }

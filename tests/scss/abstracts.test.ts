@@ -91,6 +91,12 @@ describe('SCSS abstracts', () => {
       )
     })
 
+    it('forced-colors() applies in forced colours mode', () => {
+      expect(compile('a { @include forced-colors { x: y } }')).toBe(
+        '@media(forced-colors: active){a{x:y}}',
+      )
+    })
+
     it('hover() applies only on devices that can hover', () => {
       expect(compile('a { @include hover { x: y } }')).toBe(
         '@media(hover: hover){a:hover{x:y}}',

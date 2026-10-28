@@ -8,6 +8,8 @@ Nuxt Core is a set of [Nuxt layers](https://nuxt.com/docs/guide/going-further/la
 - A Node.js version that Nuxt supports, listed in [getting-started.md](getting-started.md#requirements)
 - Read access to [modulane/nuxt-core](https://github.com/modulane/nuxt-core) on GitHub, while the repository is private
 
+The design system supports the browsers listed in [styling.md](styling.md#browser-support), and the design layer sets them as the site's CSS build target. A site that supports other browsers sets its own `vite.build.cssTarget`.
+
 ## Installation
 
 Nuxt Core is released as Git tags and GitHub releases, not on the npm registry. Install a release tag; the [releases page](https://github.com/modulane/nuxt-core/releases) lists them. With `v0.1.0` as the example:

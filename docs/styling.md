@@ -275,6 +275,7 @@ In a file that loads the helpers with `as *`, `rem()` hides the CSS `rem()` rema
 | `motion-safe`                        | Applies its content only for visitors who have not asked for less motion                  |
 | `visually-hidden`                    | Hides the element visually and keeps it for screen readers                                |
 | `visually-hidden-focusable`          | Hides the element visually until it, or something inside it, has focus                    |
+| `forced-colors`                      | Applies its content in [forced colours](#forced-colours), such as Windows high contrast   |
 | `truncate`                           | Cuts a single line of text with an ellipsis                                               |
 | `line-clamp($lines)`                 | Cuts text after a number of lines, with an ellipsis                                       |
 | `reset-button`                       | Removes the browser look of a `<button>`, to style it from scratch                        |
@@ -330,17 +331,22 @@ Lists keep their bullets and padding, only their margins go: removing the bullet
 
 [`base/_typography.scss`](../layers/design/app/assets/scss/base/_typography.scss) styles plain HTML with the tokens, so content looks right without classes:
 
-| Element                         | Style                                                                                              |
-| ------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `body`                          | `--font-family-body`, `--font-size-md`, `--line-height-normal`, the scheme's colours               |
-| `h1`–`h6`                       | `--font-family-heading`, `--font-weight-semibold`, `--line-height-tight`, balanced lines           |
-| `h1`, `h2`                      | `--font-size-4xl` and `-3xl` from `$breakpoint-md`, one step smaller below it                      |
-| `h3` to `h6`                    | `--font-size-2xl`, `-xl`, `-lg` and `-md`                                                          |
-| `a`                             | `--color-primary`, underlined; the underline thickens on hover                                     |
-| `code`, `kbd`, `samp`, `pre`    | `--font-family-mono`. Inline `code` and `kbd` sit on `--color-surface`; `pre` is a scrolling block |
-| List markers                    | `--color-text-muted`                                                                               |
-| `blockquote`                    | `--color-text-muted`, with a `--color-primary` rule on its start side                              |
-| `strong`, `small`, `hr`, `mark` | Semibold; `--font-size-sm`; a `--color-border` line; a `--color-primary` tint                      |
+| Element                         | Style                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `body`                          | `--font-family-body`, `--font-size-md`, `--line-height-normal`, the scheme's colours                                                                      |
+| `h1`–`h6`                       | `--font-family-heading`, `--font-weight-semibold`, `--line-height-tight`, balanced lines                                                                  |
+| `h1`, `h2`                      | `--font-size-4xl` and `-3xl` from `$breakpoint-md`, one step smaller below it                                                                             |
+| `h3` to `h6`                    | `--font-size-2xl`, `-xl`, `-lg` and `-md`                                                                                                                 |
+| `a`                             | `--color-primary`, underlined; the underline thickens on hover, on devices that can hover                                                                 |
+| `code`, `kbd`, `samp`, `pre`    | `--font-family-mono`. Inline `code` and `kbd` sit on `--color-surface`; `pre` is a scrolling block                                                        |
+| List markers                    | `--color-text-muted`                                                                                                                                      |
+| `blockquote`                    | `--color-text-muted`, with a `--color-primary` rule on its start side                                                                                     |
+| `strong`, `small`, `hr`, `mark` | Semibold; `--font-size-sm`; a `--color-border` line; a `--color-primary` tint                                                                             |
+| `table`, `th`, `td`             | Cells padded with `--space-2` and `--space-3`, a `--color-border` line under each; aligned to the start and top; semibold headers; numbers of equal width |
+| `caption`, `figcaption`         | `--color-text-muted`, `--font-size-sm`, `--space-2` from the table or figure                                                                              |
+| `dl`, `dt`, `dd`                | Semibold terms; descriptions indented by `--space-4`; `--space-3` between groups, with or without a `<div>` around each                                   |
+
+A table's width is left to its content. A table wider than a small screen goes in a scrolling container, such as `<div style="overflow-x: auto">`: turning the table itself into a scrolling block would make some screen readers stop announcing it as a table.
 
 Text selection is tinted with `--color-primary`, and every focusable element shows the [focus ring](#borders-and-focus-ring) when it is focused with the keyboard. A component that draws its own focus indicator overrides that outline.
 
@@ -367,6 +373,39 @@ Hides an element visually and keeps it for screen readers, such as the text of a
 ```
 
 Both are in the `nuxt-core.utilities` layer, and use the [`visually-hidden` mixins](#mixins).
+
+## Forced colours
+
+In [forced colours](https://developer.mozilla.org/docs/Web/CSS/@media/forced-colors), such as Windows high contrast, the system replaces the page's colours with the visitor's own and drops background colours. Most of the design system needs nothing for it: text, borders and the focus ring take the system colours and stay visible. What is drawn with a background alone would disappear, so the design system draws it with [system colours](https://developer.mozilla.org/docs/Web/CSS/system-color) instead:
+
+| Element      | In forced colours                                                                                           |
+| ------------ | ----------------------------------------------------------------------------------------------------------- |
+| `.nc-switch` | A `CanvasText` thumb on a `Canvas` track; `Highlight` and `HighlightText` when on; `GrayText` when disabled |
+| `mark`       | The system's `Mark` and `MarkText`                                                                          |
+
+The same rules apply to every component and to a site's own styles:
+
+- **Draw state with more than a background.** A component that shows a state (on, selected, current) with a background colour alone draws it with system colours in the [`forced-colors` mixin](#mixins), after `forced-color-adjust: none` on that element. Its position, shape or text should show the state too.
+- **Give a button a transparent border** rather than `border: 0` when its shape comes from its background: forced colours draw the border, so the button keeps its outline.
+- **Keep the focus outline.** Hide it with `outline-color: transparent`, never `outline: none`, and never draw focus with `box-shadow` alone: forced colours remove shadows.
+
+To check a page, emulate forced colours in the browser's developer tools: in Chrome, the Rendering panel, then `forced-colors: active`.
+
+## Browser support
+
+The design system supports the browsers in [Baseline widely available](https://web.dev/baseline): the features every major browser has shipped for at least 30 months. Today, that is:
+
+| Browser                  | From version |
+| ------------------------ | ------------ |
+| Chrome and Edge          | 111          |
+| Firefox                  | 114          |
+| Safari, on macOS and iOS | 16.4         |
+
+The CSS relies on what those versions support: cascade layers, `color-mix()`, range media queries (`width >= 768px`), `:focus-visible`, logical properties and `dvh`. A few newer features are enhancements that older browsers ignore, such as balanced headings (`text-wrap`).
+
+The list is the CSS build target. The design layer sets it as Vite's [`build.cssTarget`](https://vite.dev/config/build-options#build-csstarget) in its [`nuxt.config.ts`](../layers/design/nuxt.config.ts), so a site's build minifies the CSS for those browsers and rewrites any newer syntax they lack. A site that supports other browsers sets its own `vite.build.cssTarget`, which wins over the layer's.
+
+The versions move only by a deliberate change: raising them is a `feat:` that updates this table, the `cssTarget` and the release notes, so sites know which browsers they lose.
 
 ## Layout
 

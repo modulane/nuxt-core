@@ -30,6 +30,11 @@
           does. Every value below comes from a design token, so a change to a
           token shows up here first.
         </p>
+        <p class="muted">
+          To check forced colours (Windows high contrast), emulate them in the
+          browser's developer tools: in Chrome, Rendering, then
+          <code>forced-colors: active</code>.
+        </p>
       </section>
 
       <section id="colours" class="section" aria-labelledby="colours-title">
@@ -138,6 +143,39 @@
             <p>A quotation, set off from the text around it.</p>
           </blockquote>
           <pre><code>const { isDark } = useTheme()</code></pre>
+          <figure>
+            <blockquote>
+              <p>Build once, reuse everywhere.</p>
+            </blockquote>
+            <figcaption>A figure with its caption</figcaption>
+          </figure>
+          <table>
+            <caption>
+              A table, with a caption
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Breakpoint</th>
+                <th scope="col">Width</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>md</code></td>
+                <td>768px</td>
+              </tr>
+              <tr>
+                <td><code>lg</code></td>
+                <td>1024px</td>
+              </tr>
+            </tbody>
+          </table>
+          <dl>
+            <dt>Token</dt>
+            <dd>A named design value, as a CSS custom property.</dd>
+            <dt>Hook</dt>
+            <dd>A class or attribute a primitive exposes for styling.</dd>
+          </dl>
           <hr />
           <h4>Heading 4</h4>
           <h5>Heading 5</h5>
@@ -462,6 +500,10 @@ code {
     margin-block: 0 var(--space-3);
     font-size: var(--font-size-3xl);
   }
+
+  > p + p {
+    margin-block-start: var(--space-2);
+  }
 }
 
 .section {
@@ -556,7 +598,8 @@ code {
 // A stand-in for <BaseButton>, until it is styled, to show the interaction tokens
 .action {
   padding: var(--space-2) var(--space-4);
-  border: 0;
+  // Transparent, but drawn in forced colours, where the background is dropped
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-md);
   background: var(--action);
   color: var(--action-contrast);
@@ -713,16 +756,9 @@ code {
   background: translucent(var(--color-primary), 30%);
 }
 
+// The base table styles, full width, with quieter headings
 .table {
   inline-size: 100%;
-  border-collapse: collapse;
-
-  th,
-  td {
-    padding: var(--space-2) var(--space-3);
-    border-block-end: var(--border-width-thin) solid var(--color-border);
-    text-align: start;
-  }
 
   th {
     color: var(--color-text-muted);
