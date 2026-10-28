@@ -19,10 +19,11 @@ yarn install
 
 Every change is made on a short-lived branch and reaches `main` through a pull request:
 
-1. Create a branch named after the change: `feat/base-button`, `fix/modal-close`, `docs/readme`, …
-2. Commit and push as often as needed. Nothing is released from a branch.
-3. Open a pull request. CI checks formatting, types and tests, and builds the site with Node.js 22, 24 and 26, and a check verifies that the title follows [Conventional Commits](https://www.conventionalcommits.org/). Pull requests that change `.github/` are also audited by [zizmor](https://docs.zizmor.sh/). A final **CI passed** job succeeds only when every CI job has passed. It and the title check are the checks that must pass before a pull request can be merged, so changing the Node.js versions never requires changing the repository rules.
-4. Squash-merge it. The pull request title becomes the only commit on `main`.
+1. Create a branch from an up-to-date `main`, named after the change: `feat/base-button`, `fix/modal-close`, `docs/readme`, …
+2. Open a **draft** pull request as soon as the branch has its first commit (`gh pr create --draft`), so the work is visible while it is in progress.
+3. Push every commit to the branch as it is made. Run `yarn check` before each push. Nothing is released from a branch.
+4. When the change is complete, mark the pull request ready for review (`gh pr ready`). Only a pull request that is ready is reviewed and merged. CI checks formatting, types and tests, and builds the site with Node.js 22, 24 and 26, and a check verifies that the title follows [Conventional Commits](https://www.conventionalcommits.org/). Pull requests that change `.github/` are also audited by [zizmor](https://docs.zizmor.sh/). A final **CI passed** job succeeds only when every CI job has passed. It and the title check are the checks that must pass before a pull request can be merged, so changing the Node.js versions never requires changing the repository rules.
+5. Squash-merge it. The pull request title becomes the only commit on `main`. Delete the branch: the next change starts a new one from `main`.
 
 The pull request title decides what is released, so choose its type carefully:
 

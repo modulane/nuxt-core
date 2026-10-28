@@ -7,10 +7,11 @@ The design system is the [design layer](architecture.md#the-parts), `@modulane/n
 ```text
 layers/design/app/assets/scss/
 ├── main.scss              Entry point, loaded on every page
-├── abstracts/             Sass-only helpers; they emit no CSS
-│   ├── _variables.scss    Breakpoints
-│   ├── _mixins.scss       respond-to()
-│   └── _functions.scss    (empty)
+├── abstracts/             Sass helpers; they emit no CSS
+│   ├── _index.scss        Loads the three below; the #nuxt-core/scss alias
+│   ├── _variables.scss    Breakpoints and the root font size
+│   ├── _functions.scss    rem(), fluid(), translucent() and more
+│   └── _mixins.scss       respond-to(), focus-ring, visually-hidden and more
 ├── base/
 │   ├── _root.scss         Design tokens shared by every colour scheme, on :root
 │   ├── _reset.scss        Browser style reset
@@ -24,10 +25,10 @@ layers/design/app/assets/scss/
 ├── components/            The styles of each primitive, one partial per component
 │   └── _switch.scss       .nc-switch
 └── utilities/
-    └── _utilities.scss    .nc-flow
+    └── _utilities.scss    .nc-flow, .nc-visually-hidden
 ```
 
-The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `main.scss` on every page of every site through its `css` option. `main.scss` loads each partial that emits CSS into its [cascade layer](#the-cascade). The abstracts are not loaded globally; each stylesheet that needs them imports them itself (see [Breakpoints](#breakpoints)).
+The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `main.scss` on every page of every site through its `css` option. `main.scss` loads each partial that emits CSS into its [cascade layer](#the-cascade). The abstracts are not loaded globally; each stylesheet that needs them loads them itself (see [Sass helpers](#sass-helpers)).
 
 **The primitives have no styles of their own.** The styles of a primitive live here, in `components/_<name>.scss`, and target only its [hooks](architecture.md#the-styling-hooks): the `nc-<name>` class, its `data-*` attributes and its HTML and ARIA states. That keeps the primitives usable with any styling, and the design system usable with any components.
 
@@ -200,34 +201,114 @@ The dark shadows are much stronger, or they would not show on a dark background.
 
 A dropdown opened in the page scrolls under the sticky header. A dropdown inside the header is in the header's stacking context, so it still shows over the page. A dialog opened with `showModal()` goes to the browser's top layer and needs none of these.
 
-## Breakpoints
+## Sass helpers
 
-Breakpoints are Sass variables, because CSS custom properties cannot be used in media queries.
+The abstracts give Sass variables, functions and mixins to any stylesheet: the design layer's own, and the site's. They exist only while Sass compiles. **What reaches the browser is plain CSS**: a site gets the compiled rules and the [design tokens](#design-tokens), and none of the helpers.
 
-| Variable          | Value  |
-| ----------------- | ------ |
-| `$breakpoint-sm`  | 640px  |
-| `$breakpoint-md`  | 768px  |
-| `$breakpoint-lg`  | 1024px |
-| `$breakpoint-xl`  | 1280px |
-| `$breakpoint-2xl` | 1536px |
-
-The `respond-to()` mixin applies styles from a breakpoint up. Styles are mobile-first, so write the small-screen version first:
+The design layer is shipped as source, so the site's build compiles its SCSS and can compile the site's own with the same helpers. Load them through the `#nuxt-core/scss` alias, which the design layer registers:
 
 ```vue
 <style lang="scss">
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/variables' as *;
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/mixins' as *;
+@use '#nuxt-core/scss' as *;
 
 .card {
   padding: var(--space-4);
 
-  @include respond-to($breakpoint-md) {
+  @include respond-to(md) {
     padding: var(--space-8);
   }
 }
 </style>
 ```
+
+`as *` makes the names global in that file. If one clashes with the site's own, load them with a namespace instead: `@use '#nuxt-core/scss' as nc;`, then `nc.rem(24px)` and `@include nc.respond-to(md)`. Nothing is injected into the site's stylesheets: each file that uses the helpers says so with its `@use`. The helpers emit no CSS, so loading them in many files costs nothing.
+
+Inside the design layer, partials load them with a relative path: `@use '../abstracts' as *;`.
+
+The helpers write CSS that reads the tokens, such as `var(--focus-ring-color)`, rather than fixed values, so the result follows the colour scheme and a site's token overrides like any other rule.
+
+### Breakpoints
+
+Breakpoints are Sass variables, because CSS custom properties cannot be used in media queries.
+
+| Name  | Variable          | Value  |
+| ----- | ----------------- | ------ |
+| `sm`  | `$breakpoint-sm`  | 640px  |
+| `md`  | `$breakpoint-md`  | 768px  |
+| `lg`  | `$breakpoint-lg`  | 1024px |
+| `xl`  | `$breakpoint-xl`  | 1280px |
+| `2xl` | `$breakpoint-2xl` | 1536px |
+
+The `$breakpoints` map holds them by name. Every helper that takes a breakpoint takes its name (`md`) or any length (`$breakpoint-md`, `900px`). Styles are mobile-first: write the small-screen version first, then add to it with `respond-to()`.
+
+### Functions
+
+| Function                        | Returns                                                           | Example                                                       |
+| ------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------- |
+| `breakpoint($name)`             | The width of a breakpoint                                         | `breakpoint(md)` is `768px`                                   |
+| `rem($px)`                      | Pixels in rem, so the size follows the visitor's font size        | `rem(24px)` and `rem(24)` are `1.5rem`                        |
+| `em($px, $context: 16px)`       | Pixels in em, relative to the element's font size                 | `em(24px, 12px)` is `2em`                                     |
+| `strip-unit($number)`           | The number without its unit                                       | `strip-unit(12px)` is `12`                                    |
+| `fluid($min, $max, $from, $to)` | A size that grows with the viewport, by default from `sm` to `xl` | `fluid(16px, 24px)` is `clamp(1rem, 0.5rem + 1.25vw, 1.5rem)` |
+| `translucent($color, $opacity)` | A colour, including a token, made partly transparent              | `translucent(var(--color-primary), 30%)`                      |
+
+`rem()`, `em()` and `fluid()` take pixels, as designs give them, and refuse other units. They convert from 16px, the browser's default font size, held in `$font-size-root`. The design system never changes the root font size, so text follows the visitor's setting.
+
+`fluid()` keeps a rem term in its result, so the size still grows when the visitor zooms. Keep `$max` within about twice `$min`: a larger range can stop zoomed text from growing enough for [WCAG 1.4.4](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html).
+
+`translucent()` writes a CSS `color-mix()`, so the browser mixes the colour and it follows the colour scheme. Sass colour functions cannot do that, because a token's value is not known when Sass compiles.
+
+In a file that loads the helpers with `as *`, `rem()` hides the CSS `rem()` remainder function. A file that needs the CSS one loads the helpers with a namespace.
+
+### Mixins
+
+| Mixin                                | What it does                                                                              |
+| ------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `respond-to($breakpoint)`            | Applies its content from a breakpoint up: `@media (width >= 768px)`                       |
+| `respond-below($breakpoint)`         | Applies its content below a breakpoint: `@media (width < 768px)`                          |
+| `respond-between($from, $to)`        | Applies its content from one breakpoint up to, but not including, another                 |
+| `hover`                              | Applies its content on `:hover`, only on devices that can hover                           |
+| `focus-ring`                         | Draws the keyboard focus outline with the [focus ring tokens](#borders-and-focus-ring)    |
+| `disabled`                           | Fades the element with `--opacity-disabled` and shows a `not-allowed` cursor              |
+| `transition($properties, $duration)` | Transitions properties with `--duration-*` and `--ease-standard`; none for reduced motion |
+| `reduced-motion`                     | Applies its content for visitors who ask for less motion                                  |
+| `motion-safe`                        | Applies its content only for visitors who have not asked for less motion                  |
+| `visually-hidden`                    | Hides the element visually and keeps it for screen readers                                |
+| `visually-hidden-focusable`          | Hides the element visually until it, or something inside it, has focus                    |
+| `forced-colors`                      | Applies its content in [forced colours](#forced-colours), such as Windows high contrast   |
+| `truncate`                           | Cuts a single line of text with an ellipsis                                               |
+| `line-clamp($lines)`                 | Cuts text after a number of lines, with an ellipsis                                       |
+| `reset-button`                       | Removes the browser look of a `<button>`, to style it from scratch                        |
+| `reset-list`                         | Removes the bullets, margin and padding of a list                                         |
+
+```scss
+@use '#nuxt-core/scss' as *;
+
+.button {
+  @include reset-button;
+
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+
+  &:disabled {
+    @include disabled;
+  }
+
+  @include hover {
+    background: var(--color-primary-hover);
+  }
+
+  @include transition(background-color, $duration: fast);
+}
+```
+
+Some notes on using them:
+
+- **Put a mixin that nests a rule last.** `respond-to()`, `hover`, `transition()` and the motion mixins write a nested rule or media query. A declaration after one makes Sass split the rule in two.
+- **`hover` is for decoration only.** Touch screens never see it, so nothing a visitor needs may depend on it.
+- **`transition()` takes a space-separated list** of properties, and `$duration` as `fast`, `normal` (the default) or `slow`.
+- **A list styled with `reset-list` needs `role="list"`.** Safari stops announcing a list once its bullets are gone.
+- **`visually-hidden` is for text a screen reader needs**, such as the name of an icon-only button. To hide content from everyone, use the `hidden` attribute. The same styles exist as [utility classes](#nc-visually-hidden).
 
 ## Base styles
 
@@ -250,17 +331,22 @@ Lists keep their bullets and padding, only their margins go: removing the bullet
 
 [`base/_typography.scss`](../layers/design/app/assets/scss/base/_typography.scss) styles plain HTML with the tokens, so content looks right without classes:
 
-| Element                         | Style                                                                                              |
-| ------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `body`                          | `--font-family-body`, `--font-size-md`, `--line-height-normal`, the scheme's colours               |
-| `h1`–`h6`                       | `--font-family-heading`, `--font-weight-semibold`, `--line-height-tight`, balanced lines           |
-| `h1`, `h2`                      | `--font-size-4xl` and `-3xl` from `$breakpoint-md`, one step smaller below it                      |
-| `h3` to `h6`                    | `--font-size-2xl`, `-xl`, `-lg` and `-md`                                                          |
-| `a`                             | `--color-primary`, underlined; the underline thickens on hover                                     |
-| `code`, `kbd`, `samp`, `pre`    | `--font-family-mono`. Inline `code` and `kbd` sit on `--color-surface`; `pre` is a scrolling block |
-| List markers                    | `--color-text-muted`                                                                               |
-| `blockquote`                    | `--color-text-muted`, with a `--color-primary` rule on its start side                              |
-| `strong`, `small`, `hr`, `mark` | Semibold; `--font-size-sm`; a `--color-border` line; a `--color-primary` tint                      |
+| Element                         | Style                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `body`                          | `--font-family-body`, `--font-size-md`, `--line-height-normal`, the scheme's colours                                                                      |
+| `h1`–`h6`                       | `--font-family-heading`, `--font-weight-semibold`, `--line-height-tight`, balanced lines                                                                  |
+| `h1`, `h2`                      | `--font-size-4xl` and `-3xl` from `$breakpoint-md`, one step smaller below it                                                                             |
+| `h3` to `h6`                    | `--font-size-2xl`, `-xl`, `-lg` and `-md`                                                                                                                 |
+| `a`                             | `--color-primary`, underlined; the underline thickens on hover, on devices that can hover                                                                 |
+| `code`, `kbd`, `samp`, `pre`    | `--font-family-mono`. Inline `code` and `kbd` sit on `--color-surface`; `pre` is a scrolling block                                                        |
+| List markers                    | `--color-text-muted`                                                                                                                                      |
+| `blockquote`                    | `--color-text-muted`, with a `--color-primary` rule on its start side                                                                                     |
+| `strong`, `small`, `hr`, `mark` | Semibold; `--font-size-sm`; a `--color-border` line; a `--color-primary` tint                                                                             |
+| `table`, `th`, `td`             | Cells padded with `--space-2` and `--space-3`, a `--color-border` line under each; aligned to the start and top; semibold headers; numbers of equal width |
+| `caption`, `figcaption`         | `--color-text-muted`, `--font-size-sm`, `--space-2` from the table or figure                                                                              |
+| `dl`, `dt`, `dd`                | Semibold terms; descriptions indented by `--space-4`; `--space-3` between groups, with or without a `<div>` around each                                   |
+
+A table's width is left to its content. A table wider than a small screen goes in a scrolling container, such as `<div style="overflow-x: auto">`: turning the table itself into a scrolling block would make some screen readers stop announcing it as a table.
 
 Text selection is tinted with `--color-primary`, and every focusable element shows the [focus ring](#borders-and-focus-ring) when it is focused with the keyboard. A component that draws its own focus indicator overrides that outline.
 
@@ -277,6 +363,49 @@ Spaces the children of running text, such as an article or the HTML of a rich-te
 ```
 
 The class is in the `nuxt-core.utilities` layer and, like every class of the design system, prefixed with `nc-`.
+
+### `.nc-visually-hidden`
+
+Hides an element visually and keeps it for screen readers, such as the text of an icon-only link. `.nc-visually-hidden-focusable` does the same until the element, or something inside it, has focus: the class for a "Skip to content" link, which appears when a keyboard user tabs to it.
+
+```html
+<a href="#content" class="nc-visually-hidden-focusable">Skip to content</a>
+```
+
+Both are in the `nuxt-core.utilities` layer, and use the [`visually-hidden` mixins](#mixins).
+
+## Forced colours
+
+In [forced colours](https://developer.mozilla.org/docs/Web/CSS/@media/forced-colors), such as Windows high contrast, the system replaces the page's colours with the visitor's own and drops background colours. Most of the design system needs nothing for it: text, borders and the focus ring take the system colours and stay visible. What is drawn with a background alone would disappear, so the design system draws it with [system colours](https://developer.mozilla.org/docs/Web/CSS/system-color) instead:
+
+| Element      | In forced colours                                                                                           |
+| ------------ | ----------------------------------------------------------------------------------------------------------- |
+| `.nc-switch` | A `CanvasText` thumb on a `Canvas` track; `Highlight` and `HighlightText` when on; `GrayText` when disabled |
+| `mark`       | The system's `Mark` and `MarkText`                                                                          |
+
+The same rules apply to every component and to a site's own styles:
+
+- **Draw state with more than a background.** A component that shows a state (on, selected, current) with a background colour alone draws it with system colours in the [`forced-colors` mixin](#mixins), after `forced-color-adjust: none` on that element. Its position, shape or text should show the state too.
+- **Give a button a transparent border** rather than `border: 0` when its shape comes from its background: forced colours draw the border, so the button keeps its outline.
+- **Keep the focus outline.** Hide it with `outline-color: transparent`, never `outline: none`, and never draw focus with `box-shadow` alone: forced colours remove shadows.
+
+To check a page, emulate forced colours in the browser's developer tools: in Chrome, the Rendering panel, then `forced-colors: active`.
+
+## Browser support
+
+The design system supports the browsers in [Baseline widely available](https://web.dev/baseline): the features every major browser has shipped for at least 30 months. Today, that is:
+
+| Browser                  | From version |
+| ------------------------ | ------------ |
+| Chrome and Edge          | 111          |
+| Firefox                  | 114          |
+| Safari, on macOS and iOS | 16.4         |
+
+The CSS relies on what those versions support: cascade layers, `color-mix()`, range media queries (`width >= 768px`), `:focus-visible`, logical properties and `dvh`. A few newer features are enhancements that older browsers ignore, such as balanced headings (`text-wrap`).
+
+The list is the CSS build target. The design layer sets it as Vite's [`build.cssTarget`](https://vite.dev/config/build-options#build-csstarget) in its [`nuxt.config.ts`](../layers/design/nuxt.config.ts), so a site's build minifies the CSS for those browsers and rewrites any newer syntax they lack. A site that supports other browsers sets its own `vite.build.cssTarget`, which wins over the layer's.
+
+The versions move only by a deliberate change: raising them is a `feat:` that updates this table, the `cssTarget` and the release notes, so sites know which browsers they lose.
 
 ## Layout
 

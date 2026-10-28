@@ -8,6 +8,8 @@ Nuxt Core is a set of [Nuxt layers](https://nuxt.com/docs/guide/going-further/la
 - A Node.js version that Nuxt supports, listed in [getting-started.md](getting-started.md#requirements)
 - Read access to [modulane/nuxt-core](https://github.com/modulane/nuxt-core) on GitHub, while the repository is private
 
+The design system supports the browsers listed in [styling.md](styling.md#browser-support), and the design layer sets them as the site's CSS build target. A site that supports other browsers sets its own `vite.build.cssTarget`.
+
 ## Installation
 
 Nuxt Core is released as Git tags and GitHub releases, not on the npm registry. Install a release tag; the [releases page](https://github.com/modulane/nuxt-core/releases) lists them. With `v0.1.0` as the example:
@@ -73,15 +75,16 @@ Classes set on a primitive land on its root element, so utility-first CSS works 
 
 The design system styles the page (tokens, reset, typography, layout classes such as `.nc-container`) and the primitives' hooks. With other components, use its tokens directly: the CSS custom properties, such as `var(--color-primary)` or `var(--space-4)`, work in any stylesheet, and a component library that reads CSS variables can be pointed at them.
 
-To use the SCSS breakpoints and mixins, import them through the design layer's alias:
+The design system ships to the browser as plain CSS. Its [Sass helpers](styling.md#sass-helpers) (breakpoints, functions such as `rem()` and `fluid()`, mixins such as `respond-to()` and `focus-ring`) are for the site's own stylesheets, at build time. Load them through the `#nuxt-core/scss` alias:
 
 ```vue
 <style lang="scss">
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/variables' as *;
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/mixins' as *;
+@use '#nuxt-core/scss' as *;
 
 .hero {
-  @include respond-to($breakpoint-md) {
+  font-size: fluid(32px, 48px);
+
+  @include respond-to(md) {
     padding: var(--space-8);
   }
 }

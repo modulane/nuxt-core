@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 // Spaces the children of running text (an article, a rich-text field), whose
 // margins the reset removes. Change the gap with --flow-space.
 .nc-flow > * + * {
@@ -16,4 +18,15 @@
 
 .nc-flow > :is(h1, h2, h3, h4, h5, h6) + * {
   margin-block-start: var(--flow-space, var(--space-3));
+}
+
+// Hides an element visually and keeps it for screen readers, such as the text of
+// an icon-only link
+.nc-visually-hidden {
+  @include visually-hidden;
+}
+
+// Visually hidden until it has focus, such as a "Skip to content" link
+.nc-visually-hidden-focusable {
+  @include visually-hidden-focusable;
 }

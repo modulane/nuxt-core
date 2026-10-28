@@ -20,7 +20,7 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 | Phase                                                                 | Status         | Highlights                                      |
 | --------------------------------------------------------------------- | -------------- | ----------------------------------------------- |
 | [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Layers, TypeScript, SCSS, tests, workflow, docs |
-| [2. Styling Foundation](#phase-2--styling-foundation)                 | 🟡 In progress | Tokens, reset and typography done; states to go |
+| [2. Styling Foundation](#phase-2--styling-foundation)                 | ✅ Done        | Tokens, base styles, Sass helpers, browsers     |
 | [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container done; grid and spacing to go          |
 | [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons            |
 | [5. Forms](#phase-5--forms)                                           | ⬜ Planned     | Inputs, selects, checkboxes, validation         |
@@ -79,6 +79,7 @@ What each phase adds meets these standards. They are not repeated in each phase'
 - [x] Shadows
 - [x] Motion durations and easing
 - [x] Responsive breakpoints and the `respond-to()` mixin
+- [x] Sass helpers for sites: unit, fluid-size and colour functions, and media query, focus, motion, text and reset mixins, through `#nuxt-core/scss` ([styling](docs/styling.md#sass-helpers))
 - [x] CSS reset ([styling](docs/styling.md#reset))
 - [x] Base typography: headings, paragraphs, links, lists, code ([styling](docs/styling.md#typography))
 - [x] Running-text spacing (`.nc-flow`)
@@ -86,10 +87,10 @@ What each phase adds meets these standards. They are not repeated in each phase'
 - [x] Interaction states: hover and active shades of the action colours, and a disabled style ([styling](docs/styling.md#interaction-states))
 - [x] Border widths and the focus ring (width, offset, colour) as tokens ([styling](docs/styling.md#borders-and-focus-ring))
 - [x] Layering scale (`z-index`) for sticky headers, dropdowns, modals and notifications ([styling](docs/styling.md#layering))
-- [ ] Visually hidden utility, for text that only screen readers announce
-- [ ] Forced colours (Windows high contrast): focus rings and component states stay visible
-- [ ] Base styles for tables, figures and description lists, which rich-text content uses
-- [ ] Browser support policy: the browsers and versions the design system targets, documented and used as the CSS build target
+- [x] Visually hidden utility, for text that only screen readers announce ([styling](docs/styling.md#nc-visually-hidden))
+- [x] Forced colours (Windows high contrast): focus rings and component states stay visible ([styling](docs/styling.md#forced-colours))
+- [x] Base styles for tables, figures and description lists, which rich-text content uses ([styling](docs/styling.md#typography))
+- [x] Browser support policy: the browsers and versions the design system targets, documented and used as the CSS build target ([styling](docs/styling.md#browser-support))
 
 **Done when:** a bare HTML page with no component styles looks consistent across browsers, and every value comes from a token.
 

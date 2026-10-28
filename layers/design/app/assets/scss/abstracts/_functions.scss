@@ -1,0 +1,91 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
+@use 'variables' as *;
+
+// The value of a breakpoint, from its name or as a length: breakpoint(md) is 768px
+@function breakpoint($breakpoint) {
+  // As a string, because Sass reads an unquoted 2xl as the number 2 in "xl" units
+  $name: '#{$breakpoint}';
+
+  @if map.has-key($breakpoints, $name) {
+    @return map.get($breakpoints, $name);
+  }
+
+  $is-number: meta.type-of($breakpoint) == 'number';
+
+  @if $is-number and not math.is-unitless($breakpoint) {
+    @return $breakpoint;
+  }
+
+  @error 'Unknown breakpoint `#{$breakpoint}`. Use one of #{map.keys($breakpoints)}, or a length.';
+}
+
+// Removes the unit of a number: strip-unit(24px) is 24
+@function strip-unit($number) {
+  @return math.div($number, $number * 0 + 1);
+}
+
+// Converts pixels to rem, so a size follows the visitor's font size:
+// rem(24px) and rem(24) are 1.5rem
+@function rem($size) {
+  @return math.div(-to-px($size), $font-size-root) * 1rem;
+}
+
+// Converts pixels to em, relative to the font size of the element: em(24px) is
+// 1.5em, em(24px, 12px) is 2em
+@function em($size, $context: $font-size-root) {
+  @return math.div(-to-px($size), -to-px($context)) * 1em;
+}
+
+// A size that grows with the viewport, from $min at the $from breakpoint to $max at
+// the $to breakpoint, and stays within them outside that range:
+// fluid(16px, 24px) is clamp(1rem, 0.5rem + 1.25vw, 1.5rem).
+// The middle term is in rem plus vw, so the size still follows a page zoom.
+@function fluid($min, $max, $from: sm, $to: xl) {
+  $min: -to-px($min);
+  $max: -to-px($max);
+  $from: breakpoint($from);
+  $to: breakpoint($to);
+
+  $slope: math.div($max - $min, $to - $from);
+  $intercept: $min - $slope * $from;
+  // Four decimals are enough for a size on any screen
+  $vw: math.div(math.round(math.abs($slope) * 100 * 10000), 10000) * 1vw;
+  $operator: '+';
+
+  @if $slope < 0 {
+    $operator: '-';
+  }
+
+  // clamp() needs its smaller bound first, and the size may shrink as it grows
+  @return clamp(
+    rem(math.min($min, $max)),
+    #{rem($intercept)} #{$operator} #{$vw},
+    rem(math.max($min, $max))
+  );
+}
+
+// A colour made partly transparent, for any colour including a token:
+// translucent(var(--color-primary), 30%). It follows the colour scheme, because
+// the browser mixes the colour, not Sass.
+@function translucent($color, $opacity) {
+  @return color-mix(in srgb, #{$color} #{$opacity}, transparent);
+}
+
+// A length in pixels, from pixels or a unitless number
+@function -to-px($value) {
+  @if meta.type-of($value) != 'number' {
+    @error 'Expected a number in pixels, got `#{$value}`.';
+  }
+
+  @if math.is-unitless($value) {
+    @return $value * 1px;
+  }
+
+  @if math.unit($value) != 'px' {
+    @error 'Expected a number in pixels, got `#{$value}`.';
+  }
+
+  @return $value;
+}

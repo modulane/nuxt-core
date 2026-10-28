@@ -1,5 +1,4 @@
-@use '../abstracts/variables' as *;
-@use '../abstracts/mixins' as *;
+@use '../abstracts' as *;
 
 // Gives the page the scheme's colours. Also set on every element that switches
 // scheme, so a scoped `data-color-scheme` repaints its own area.
@@ -31,7 +30,7 @@ h6 {
 h1 {
   font-size: var(--font-size-3xl);
 
-  @include respond-to($breakpoint-md) {
+  @include respond-to(md) {
     font-size: var(--font-size-4xl);
   }
 }
@@ -39,7 +38,7 @@ h1 {
 h2 {
   font-size: var(--font-size-2xl);
 
-  @include respond-to($breakpoint-md) {
+  @include respond-to(md) {
     font-size: var(--font-size-3xl);
   }
 }
@@ -69,7 +68,7 @@ a {
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 
-  &:hover {
+  @include hover {
     text-decoration-thickness: 2px;
   }
 }
@@ -119,22 +118,83 @@ blockquote {
   color: var(--color-text-muted);
 }
 
+// Tables, as rich-text content and data use them. Their width is left to the
+// content: a wide table goes in a scrolling container, which keeps its semantics.
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+caption {
+  padding-block-end: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: start;
+}
+
+th,
+td {
+  padding: var(--space-2) var(--space-3);
+  border-block-end: var(--border-width-thin) solid var(--color-border);
+  text-align: start;
+  vertical-align: top;
+}
+
+th {
+  font-weight: var(--font-weight-semibold);
+}
+
+// A caption after its figure, or before it
+figcaption {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+* + figcaption {
+  margin-block-start: var(--space-2);
+}
+
+figcaption:first-child {
+  margin-block-end: var(--space-2);
+}
+
+// Description lists: a semibold term, its descriptions indented below it
+dt {
+  font-weight: var(--font-weight-semibold);
+}
+
+dd {
+  padding-inline-start: var(--space-4);
+}
+
+// Each group of terms sets itself apart from the description before it, with or
+// without the <div> that HTML allows around a group
+dd + dt,
+dl > div + div {
+  margin-block-start: var(--space-3);
+}
+
 hr {
   border: 0;
   border-block-start: var(--border-width-thin) solid var(--color-border);
 }
 
 mark {
-  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  background: translucent(var(--color-primary), 30%);
   color: inherit;
+
+  // Forced colours drop the tint: use the system's own highlight
+  @include forced-colors {
+    forced-color-adjust: none;
+    background: Mark;
+    color: MarkText;
+  }
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  background: translucent(var(--color-primary), 35%);
 }
 
 // One focus ring for everything focusable; it shows for keyboard users only
 :focus-visible {
-  outline: var(--focus-ring-width) solid var(--focus-ring-color);
-  outline-offset: var(--focus-ring-offset);
+  @include focus-ring;
 }

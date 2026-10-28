@@ -1,6 +1,10 @@
 <template>
   <NuxtRouteAnnouncer />
 
+  <a href="#content" class="nc-visually-hidden-focusable skip-link"
+    >Skip to content</a
+  >
+
   <header class="header">
     <BaseContainer class="header__inner">
       <p class="header__title">
@@ -17,14 +21,14 @@
     </BaseContainer>
   </header>
 
-  <main>
+  <main id="content">
     <BaseContainer>
       <section class="intro" aria-labelledby="intro-title">
         <h1 id="intro-title">The design system, rendered by itself</h1>
         <p class="muted">
           This app extends <code>@modulane/nuxt-core</code> exactly as a site
-          does. Every value below comes from a design token, so a change to a
-          token shows up here first.
+          does. Each sample below is drawn with the design tokens and the Sass
+          helpers, so a change to either shows up here first.
         </p>
       </section>
 
@@ -57,7 +61,8 @@
 
         <h3 class="subheading">Interaction states</h3>
         <p class="muted">
-          Hover and press a button to see its shades. The last one is disabled.
+          Hover and press a button to see its shades. The second button of each
+          row is disabled, faded with <code>--opacity-disabled</code>.
         </p>
         <ul class="stack">
           <li v-for="action in actions" :key="action" class="row">
@@ -134,6 +139,39 @@
             <p>A quotation, set off from the text around it.</p>
           </blockquote>
           <pre><code>const { isDark } = useTheme()</code></pre>
+          <figure>
+            <blockquote>
+              <p>Build once, reuse everywhere.</p>
+            </blockquote>
+            <figcaption>A figure with its caption</figcaption>
+          </figure>
+          <table>
+            <caption>
+              A table, with a caption
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Breakpoint</th>
+                <th scope="col">Width</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>md</code></td>
+                <td>768px</td>
+              </tr>
+              <tr>
+                <td><code>lg</code></td>
+                <td>1024px</td>
+              </tr>
+            </tbody>
+          </table>
+          <dl>
+            <dt>Token</dt>
+            <dd>A named design value, as a CSS custom property.</dd>
+            <dt>Hook</dt>
+            <dd>A class or attribute a primitive exposes for styling.</dd>
+          </dl>
           <hr />
           <h4>Heading 4</h4>
           <h5>Heading 5</h5>
@@ -149,6 +187,13 @@
             <span class="bar" :style="{ inlineSize: `var(${space})` }" />
           </li>
         </ul>
+
+        <h3 class="subheading">Container</h3>
+        <p class="muted">
+          <code>--container-max-width</code> limits the width of
+          <code>.nc-container</code>, which holds this page: widen the window
+          past it to see the margins grow.
+        </p>
       </section>
 
       <section id="shape" class="section" aria-labelledby="shape-title">
@@ -210,7 +255,11 @@
 
       <section id="motion" class="section" aria-labelledby="motion-title">
         <h2 id="motion-title">Motion</h2>
-        <p class="muted">Hover or focus a row to play its duration.</p>
+        <p class="muted">
+          Hover or focus a row to play its duration, with
+          <code>--ease-standard</code>. With reduced motion, the dot jumps
+          instead.
+        </p>
         <ul class="stack">
           <li v-for="duration in durations" :key="duration">
             <button
@@ -221,6 +270,152 @@
               <code class="row__label">{{ duration }}</code>
               <span class="motion__track"><span class="motion__dot" /></span>
             </button>
+          </li>
+        </ul>
+      </section>
+
+      <section id="sass" class="section" aria-labelledby="sass-title">
+        <h2 id="sass-title">Sass helpers</h2>
+        <p class="muted">
+          Functions and mixins from <code>@use '#nuxt-core/scss'</code>. Sass
+          compiles them to plain CSS, so none of them reach the browser. Each
+          card below shows one; the playground's own styles use the others:
+          <code>hover</code>, <code>disabled</code> and
+          <code>transition()</code> on the interaction buttons,
+          <code>focus-ring</code> in Borders, <code>reduced-motion</code> in
+          Motion, <code>reset-list</code> and <code>reset-button</code>
+          throughout.
+        </p>
+        <ul class="grid">
+          <li class="card">
+            <span class="breakpoint-now" />
+            <code>respond-to()</code>
+          </li>
+          <li class="card">
+            <span class="fluid-text">Grows with the window</span>
+            <code>fluid(18px, 32px)</code>
+          </li>
+          <li class="card">
+            <span class="truncated"
+              >A single line of text that is far too long for its card</span
+            >
+            <code>truncate</code>
+          </li>
+          <li class="card">
+            <span class="clamped"
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.</span
+            >
+            <code>line-clamp(2)</code>
+          </li>
+          <li class="card">
+            <span class="swatch swatch--translucent" />
+            <code>translucent()</code>
+          </li>
+          <li class="card">
+            <span class="muted"
+              >Press Tab from the top of the page to show the skip link.</span
+            >
+            <code>visually-hidden-focusable</code>
+          </li>
+        </ul>
+      </section>
+
+      <section
+        id="accessibility"
+        class="section"
+        aria-labelledby="accessibility-title"
+      >
+        <h2 id="accessibility-title">Accessibility</h2>
+        <p class="muted">
+          Emulate these settings in the browser's developer tools (in Chrome,
+          the Rendering panel) and watch the page follow them. Press Tab from
+          the top of the page to show the skip link.
+        </p>
+
+        <h3 class="subheading">This browser's settings, live</h3>
+        <ul class="stack">
+          <li v-for="media in mediaFeatures" :key="media.query" class="row">
+            <span class="row__label">{{ media.name }}</span>
+            <span class="status" :data-status="settingOf(media.query)">{{
+              settingLabelOf(media.query)
+            }}</span>
+            <span class="muted">{{ media.effect }}</span>
+          </li>
+        </ul>
+
+        <h3 class="subheading">Switch states</h3>
+        <p class="muted">
+          In forced colours, the thumb, the on state and the disabled state stay
+          visible. With reduced motion, the thumb moves without a transition.
+        </p>
+        <ul class="grid">
+          <li class="card">
+            <FormSwitch v-model="switches.off">Off</FormSwitch>
+            <code>aria-checked="false"</code>
+          </li>
+          <li class="card">
+            <FormSwitch v-model="switches.on">On</FormSwitch>
+            <code>aria-checked="true"</code>
+          </li>
+          <li class="card">
+            <FormSwitch v-model="switches.disabledOff" disabled
+              >Disabled, off</FormSwitch
+            >
+            <code>disabled, aria-checked="false"</code>
+          </li>
+          <li class="card">
+            <FormSwitch v-model="switches.disabledOn" disabled
+              >Disabled, on</FormSwitch
+            >
+            <code>disabled, aria-checked="true"</code>
+          </li>
+        </ul>
+      </section>
+
+      <section id="browsers" class="section" aria-labelledby="browsers-title">
+        <h2 id="browsers-title">Browser support</h2>
+        <p class="muted">
+          The CSS build target, set in
+          <code>layers/design/nuxt.config.ts</code>: Baseline widely available.
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Browser</th>
+              <th scope="col">From version</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="target in browserTargets" :key="target.browser">
+              <td>{{ target.browser }}</td>
+              <td>{{ target.version }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="subheading">This browser</h3>
+        <p class="muted">
+          The CSS features the design system relies on, checked live. An
+          enhancement is ignored where it is missing.
+        </p>
+        <ul class="stack">
+          <li v-for="feature in cssFeatures" :key="feature.name" class="row">
+            <span class="row__label">{{ feature.name }}</span>
+            <span
+              class="status"
+              :data-status="
+                supported[feature.name] === false && !feature.required
+                  ? 'optional'
+                  : statusOf(feature.name)
+              "
+              >{{ labelOf(feature.name) }}</span
+            >
+            <span class="muted">{{
+              feature.required ? 'Required' : 'Enhancement'
+            }}</span>
           </li>
         </ul>
       </section>
@@ -271,10 +466,129 @@ const sections = [
   { id: 'typography', title: 'Typography' },
   { id: 'spacing', title: 'Spacing' },
   { id: 'shape', title: 'Radius and shadows' },
-  { id: 'borders', title: 'Borders and layering' },
+  { id: 'borders', title: 'Borders, focus and layering' },
   { id: 'motion', title: 'Motion' },
+  { id: 'sass', title: 'Sass helpers' },
+  { id: 'accessibility', title: 'Accessibility' },
+  { id: 'browsers', title: 'Browser support' },
   { id: 'components', title: 'Components' },
 ]
+
+const switches = reactive({
+  off: false,
+  on: true,
+  disabledOff: false,
+  disabledOn: true,
+})
+
+// The visitor settings the design system follows
+const mediaFeatures = [
+  {
+    name: 'Forced colours',
+    query: '(forced-colors: active)',
+    effect: 'System colours; the switch and mark draw their state with them',
+  },
+  {
+    name: 'Reduced motion',
+    query: '(prefers-reduced-motion: reduce)',
+    effect: 'Transitions are off',
+  },
+  {
+    name: 'Hover',
+    query: '(hover: hover)',
+    effect: 'Hover styles apply; a touch screen never shows them',
+  },
+]
+
+// Mirrors the cssTarget in layers/design/nuxt.config.ts
+const browserTargets = [
+  { browser: 'Chrome and Edge', version: '111' },
+  { browser: 'Firefox', version: '114' },
+  { browser: 'Safari, on macOS and iOS', version: '16.4' },
+]
+
+// Mirrors docs/styling.md#browser-support
+const cssFeatures = [
+  {
+    name: 'Cascade layers',
+    required: true,
+    test: () => 'CSSLayerBlockRule' in window,
+  },
+  {
+    name: 'color-mix()',
+    required: true,
+    test: () =>
+      CSS.supports('color', 'color-mix(in srgb, red 50%, transparent)'),
+  },
+  {
+    name: 'Range media queries',
+    required: true,
+    test: () => matchMedia('(width >= 0px)').matches,
+  },
+  {
+    name: ':focus-visible',
+    required: true,
+    test: () => CSS.supports('selector(:focus-visible)'),
+  },
+  {
+    name: 'Logical properties',
+    required: true,
+    test: () => CSS.supports('margin-inline-start', '0'),
+  },
+  {
+    name: 'dvh units',
+    required: true,
+    test: () => CSS.supports('height', '1dvh'),
+  },
+  {
+    name: 'Balanced headings',
+    required: false,
+    test: () => CSS.supports('text-wrap', 'balance'),
+  },
+]
+
+// Filled in the browser: the server cannot know them, so they start unknown
+const supported = ref<Record<string, boolean>>({})
+
+const statusOf = (key: string): string => {
+  const value = supported.value[key]
+  return value === undefined ? 'unknown' : value ? 'yes' : 'no'
+}
+
+const labelOf = (key: string): string =>
+  ({ unknown: 'Checking…', yes: 'Yes', no: 'No' })[statusOf(key)] ?? ''
+
+// A setting is a choice, not a pass or a fail: on or off, without status colours
+const settingOf = (query: string): string =>
+  ({ unknown: 'unknown', yes: 'on', no: 'off' })[statusOf(query)] ?? ''
+
+const settingLabelOf = (query: string): string =>
+  ({ unknown: 'Checking…', on: 'On', off: 'Off' })[settingOf(query)] ?? ''
+
+// Media queries update live, so emulating a setting shows here at once
+const mediaLists: [MediaQueryList, () => void][] = []
+
+onMounted(() => {
+  for (const feature of cssFeatures) {
+    supported.value[feature.name] = feature.test()
+  }
+
+  for (const { query } of mediaFeatures) {
+    const list = matchMedia(query)
+    const update = () => {
+      supported.value[query] = list.matches
+    }
+    update()
+    list.addEventListener('change', update)
+    mediaLists.push([list, update])
+  }
+})
+
+onBeforeUnmount(() => {
+  for (const [list, update] of mediaLists) {
+    list.removeEventListener('change', update)
+  }
+})
 
 // Mirrors layers/design/app/assets/scss/base/_root.scss and schemes/
 const colors = [
@@ -330,13 +644,10 @@ const components = [
 </script>
 
 <style lang="scss" scoped>
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/variables' as *;
-@use '#layers/nuxt-core-design/app/assets/scss/abstracts/mixins' as *;
+@use '#nuxt-core/scss' as *;
 
 ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  @include reset-list;
 }
 
 code {
@@ -345,6 +656,17 @@ code {
 
 .muted {
   color: var(--color-text-muted);
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
+  z-index: var(--z-notification);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
 }
 
 .header {
@@ -392,8 +714,11 @@ code {
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
 
-    &:hover,
     &:focus-visible {
+      color: var(--color-text);
+    }
+
+    @include hover {
       color: var(--color-text);
     }
   }
@@ -425,12 +750,12 @@ code {
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
 
-  @include respond-to($breakpoint-md) {
+  @include respond-to(md) {
     grid-template-columns: repeat(4, 1fr);
   }
 
   &--wide {
-    @include respond-to($breakpoint-lg) {
+    @include respond-to(lg) {
       grid-template-columns: repeat(5, 1fr);
     }
   }
@@ -500,15 +825,15 @@ code {
 // A stand-in for <BaseButton>, until it is styled, to show the interaction tokens
 .action {
   padding: var(--space-2) var(--space-4);
-  border: 0;
+  // Transparent, but drawn in forced colours, where the background is dropped
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-md);
   background: var(--action);
   color: var(--action-contrast);
   font: inherit;
   cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease-standard);
 
-  &:hover {
+  @include hover {
     background: var(--action-hover);
   }
 
@@ -517,9 +842,9 @@ code {
   }
 
   &:disabled {
+    @include disabled;
+
     background: var(--action);
-    cursor: not-allowed;
-    opacity: var(--opacity-disabled);
   }
 
   @each $action in primary, secondary {
@@ -531,9 +856,7 @@ code {
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
+  @include transition(background-color, $duration: fast);
 }
 
 .bar {
@@ -554,8 +877,7 @@ code {
 
   // Shows the ring permanently, as :focus-visible draws it
   &--focused {
-    outline: var(--focus-ring-width) solid var(--focus-ring-color);
-    outline-offset: var(--focus-ring-offset);
+    @include focus-ring;
   }
 
   &--focusable {
@@ -586,18 +908,14 @@ code {
 }
 
 .motion {
+  @include reset-button;
+
   display: flex;
   gap: var(--space-4);
   align-items: center;
   inline-size: 100%;
   padding: var(--space-2);
-  border: 0;
   border-radius: var(--radius-sm);
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
 
   &__track {
     position: relative;
@@ -623,23 +941,51 @@ code {
     inset-inline-start: calc(100% - var(--space-4));
   }
 
-  @media (prefers-reduced-motion: reduce) {
+  @include reduced-motion {
     &__dot {
       transition: none;
     }
   }
 }
 
+// Names the breakpoint the window is in, with one respond-to() per breakpoint
+.breakpoint-now {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+
+  &::after {
+    content: 'below sm';
+  }
+
+  @each $name, $width in $breakpoints {
+    @include respond-to($name) {
+      &::after {
+        content: '#{$name} and up';
+      }
+    }
+  }
+}
+
+.fluid-text {
+  font-size: fluid(18px, 32px);
+  line-height: var(--line-height-tight);
+}
+
+.truncated {
+  @include truncate;
+}
+
+.clamped {
+  @include line-clamp(2);
+}
+
+.swatch--translucent {
+  background: translucent(var(--color-primary), 30%);
+}
+
+// The base table styles, full width, with quieter headings
 .table {
   inline-size: 100%;
-  border-collapse: collapse;
-
-  th,
-  td {
-    padding: var(--space-2) var(--space-3);
-    border-block-end: var(--border-width-thin) solid var(--color-border);
-    text-align: start;
-  }
 
   th {
     color: var(--color-text-muted);
@@ -655,9 +1001,26 @@ code {
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 
-  &[data-status='ready'] {
+  &[data-status='ready'],
+  &[data-status='on'] {
     background: var(--color-primary);
     color: var(--color-primary-contrast);
+  }
+
+  &[data-status='yes'] {
+    background: var(--color-success);
+    color: var(--color-success-contrast);
+  }
+
+  &[data-status='no'] {
+    background: var(--color-danger);
+    color: var(--color-danger-contrast);
+  }
+
+  // A missing enhancement is not a failure
+  &[data-status='optional'] {
+    background: var(--color-warning);
+    color: var(--color-warning-contrast);
   }
 }
 </style>

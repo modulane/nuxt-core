@@ -49,6 +49,8 @@ The [parts](architecture.md#the-parts) stay independent, so each one works witho
 
 - Design values come from the CSS custom properties in [styling.md](styling.md#design-tokens). Do not hard-code colours, spacing or font sizes.
 - Use Sass for mixins, functions and organisation, with `@use`; `@import` is deprecated.
+- Use the [Sass helpers](styling.md#sass-helpers) rather than repeating what they do: `focus-ring` for a focus outline, `transition()` for a transition, `visually-hidden` for screen-reader text. Load them with `@use '../abstracts' as *;` in the design layer, and `@use '#nuxt-core/scss' as *;` elsewhere.
+- A helper in `abstracts/` emits no CSS on its own: a mixin or function only, with `//` comments, since `/* */` comments are written to the CSS. Add one only when several stylesheets need it, and test it in `tests/scss/`.
 - Write mobile-first: base styles for small screens, `respond-to()` for larger ones.
 - Keep nesting shallow, and avoid deeply nested selectors and `!important`. Every rule goes in a `nuxt-core` cascade layer (see [styling.md](styling.md#the-cascade)), never unlayered.
 
