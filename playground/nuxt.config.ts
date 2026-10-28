@@ -3,7 +3,13 @@
 export default defineNuxtConfig({
   extends: ['..'],
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
 
   typescript: {
     strict: true,
