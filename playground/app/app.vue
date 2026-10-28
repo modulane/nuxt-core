@@ -200,7 +200,7 @@
             :style="{
               zIndex: `var(${layer})`,
               insetInlineStart: `calc(${layers.length - 1 - index} * var(--space-12))`,
-              insetBlockStart: `calc(${layers.length - 1 - index} * var(--space-6))`,
+              insetBlockStart: `calc(${layers.length - 1 - index} * var(--space-8))`,
             }"
           >
             <code>{{ layer }}</code>
@@ -567,12 +567,13 @@ code {
 .layers {
   position: relative;
   // Room for the last tile's offset
-  block-size: calc(var(--space-16) + 3 * var(--space-6));
+  block-size: calc(var(--space-16) + 3 * var(--space-8));
 
+  // The label sits in the top strip, which the tile above leaves uncovered
   &__tile {
     position: absolute;
     display: flex;
-    align-items: end;
+    align-items: start;
     inline-size: 12rem;
     block-size: var(--space-16);
     padding: var(--space-2);
