@@ -6,9 +6,25 @@
 
   --color-primary: #4f46e5;
   --color-primary-contrast: #ffffff;
+  --color-primary-hover: #4338ca;
+  --color-primary-active: #3730a3;
 
   --color-secondary: #1e293b;
   --color-secondary-contrast: #ffffff;
+  --color-secondary-hover: #0f172a;
+  --color-secondary-active: #020617;
+
+  --color-success: #15803d;
+  --color-success-contrast: #ffffff;
+
+  --color-warning: #b45309;
+  --color-warning-contrast: #ffffff;
+
+  --color-danger: #dc2626;
+  --color-danger-contrast: #ffffff;
+
+  --color-info: #0369a1;
+  --color-info-contrast: #ffffff;
 
   --color-background: #ffffff;
   --color-surface: #f8fafc;
@@ -17,6 +33,9 @@
   --color-text-muted: #64748b;
 
   --color-border: #e2e8f0;
+
+  // Set in each scheme rather than on :root, so a scoped scheme gets its own primary
+  --focus-ring-color: var(--color-primary);
 
   /* Shadows */
 

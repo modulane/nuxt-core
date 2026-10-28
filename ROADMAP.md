@@ -82,10 +82,10 @@ What each phase adds meets these standards. They are not repeated in each phase'
 - [x] CSS reset ([styling](docs/styling.md#reset))
 - [x] Base typography: headings, paragraphs, links, lists, code ([styling](docs/styling.md#typography))
 - [x] Running-text spacing (`.nc-flow`)
-- [ ] Status colours: success, warning, danger and info, each with a contrast colour, in both schemes
-- [ ] Interaction states: hover and active shades of the action colours, and a disabled style
-- [ ] Border widths and the focus ring (width, offset, colour) as tokens
-- [ ] Layering scale (`z-index`) for sticky headers, dropdowns, modals and notifications
+- [x] Status colours: success, warning, danger and info, each with a contrast colour, in both schemes ([styling](docs/styling.md#status-colours))
+- [x] Interaction states: hover and active shades of the action colours, and a disabled style ([styling](docs/styling.md#interaction-states))
+- [x] Border widths and the focus ring (width, offset, colour) as tokens ([styling](docs/styling.md#borders-and-focus-ring))
+- [x] Layering scale (`z-index`) for sticky headers, dropdowns, modals and notifications ([styling](docs/styling.md#layering))
 - [ ] Visually hidden utility, for text that only screen readers announce
 - [ ] Forced colours (Windows high contrast): focus rings and component states stay visible
 - [ ] Base styles for tables, figures and description lists, which rich-text content uses

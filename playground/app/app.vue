@@ -36,6 +36,45 @@
             <code>{{ color }}</code>
           </li>
         </ul>
+
+        <h3 class="subheading">Status colours</h3>
+        <ul class="stack">
+          <li v-for="status in statuses" :key="status" class="row">
+            <code class="row__label">--color-{{ status }}</code>
+            <span
+              class="chip"
+              :style="{
+                background: `var(--color-${status})`,
+                color: `var(--color-${status}-contrast)`,
+              }"
+              >{{ status }}</span
+            >
+            <span :style="{ color: `var(--color-${status})` }"
+              >Text in {{ status }} on the background</span
+            >
+          </li>
+        </ul>
+
+        <h3 class="subheading">Interaction states</h3>
+        <p class="muted">
+          Hover and press a button to see its shades. The last one is disabled.
+        </p>
+        <ul class="stack">
+          <li v-for="action in actions" :key="action" class="row">
+            <code class="row__label">--color-{{ action }}</code>
+            <button type="button" class="action" :class="`action--${action}`">
+              {{ action }}
+            </button>
+            <button
+              type="button"
+              class="action"
+              :class="`action--${action}`"
+              disabled
+            >
+              Disabled
+            </button>
+          </li>
+        </ul>
       </section>
 
       <section
@@ -129,6 +168,46 @@
         </ul>
       </section>
 
+      <section id="borders" class="section" aria-labelledby="borders-title">
+        <h2 id="borders-title">Borders, focus and layering</h2>
+        <ul class="grid">
+          <li v-for="width in borderWidths" :key="width" class="card">
+            <span class="shape" :style="{ borderWidth: `var(${width})` }" />
+            <code>{{ width }}</code>
+          </li>
+          <li class="card">
+            <span class="shape shape--focused" />
+            <code>--focus-ring-*</code>
+          </li>
+          <li class="card">
+            <button type="button" class="shape shape--focusable">
+              Tab to me
+            </button>
+            <code>:focus-visible</code>
+          </li>
+        </ul>
+
+        <h3 class="subheading">Layering</h3>
+        <p class="muted">
+          The tiles are in reverse order in the markup, so only their
+          <code>z-index</code> stacks them.
+        </p>
+        <ul class="layers">
+          <li
+            v-for="(layer, index) in [...layers].reverse()"
+            :key="layer"
+            class="layers__tile"
+            :style="{
+              zIndex: `var(${layer})`,
+              insetInlineStart: `calc(${layers.length - 1 - index} * var(--space-12))`,
+              insetBlockStart: `calc(${layers.length - 1 - index} * var(--space-6))`,
+            }"
+          >
+            <code>{{ layer }}</code>
+          </li>
+        </ul>
+      </section>
+
       <section id="motion" class="section" aria-labelledby="motion-title">
         <h2 id="motion-title">Motion</h2>
         <p class="muted">Hover or focus a row to play its duration.</p>
@@ -192,6 +271,7 @@ const sections = [
   { id: 'typography', title: 'Typography' },
   { id: 'spacing', title: 'Spacing' },
   { id: 'shape', title: 'Radius and shadows' },
+  { id: 'borders', title: 'Borders and layering' },
   { id: 'motion', title: 'Motion' },
   { id: 'components', title: 'Components' },
 ]
@@ -207,7 +287,13 @@ const colors = [
   '--color-text',
   '--color-text-muted',
   '--color-border',
+  ...['primary', 'secondary'].flatMap(action => [
+    `--color-${action}-hover`,
+    `--color-${action}-active`,
+  ]),
 ]
+const statuses = ['success', 'warning', 'danger', 'info']
+const actions = ['primary', 'secondary']
 const fontSizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'].map(
   size => `--font-size-${size}`,
 )
@@ -224,6 +310,10 @@ const spaces = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20].map(
 const radii = ['sm', 'md', 'lg', 'full'].map(size => `--radius-${size}`)
 const shadows = ['sm', 'md', 'lg'].map(size => `--shadow-${size}`)
 const durations = ['fast', 'normal', 'slow'].map(speed => `--duration-${speed}`)
+const borderWidths = ['thin', 'thick'].map(width => `--border-width-${width}`)
+const layers = ['dropdown', 'sticky', 'modal', 'notification'].map(
+  layer => `--z-${layer}`,
+)
 
 // Mirrors the inventory in docs/components.md
 const components = [
@@ -259,9 +349,9 @@ code {
 .header {
   position: sticky;
   inset-block-start: 0;
-  z-index: 1;
+  z-index: var(--z-sticky);
   padding-block: var(--space-3);
-  border-block-end: 1px solid var(--color-border);
+  border-block-end: var(--border-width-thin) solid var(--color-border);
   background: var(--color-background);
 
   &__inner {
@@ -319,7 +409,7 @@ code {
 
 .section {
   padding-block: var(--space-8);
-  border-block-end: 1px solid var(--color-border);
+  border-block-end: var(--border-width-thin) solid var(--color-border);
   // Keeps headings visible below the sticky header when jumping to a section
   scroll-margin-block-start: var(--space-20);
 
@@ -350,13 +440,13 @@ code {
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 1px solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-md);
 }
 
 .swatch {
   block-size: var(--space-16);
-  border: 1px solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-sm);
 }
 
@@ -390,13 +480,58 @@ code {
 .prose {
   max-inline-size: 65ch;
   padding: var(--space-6);
-  border: 1px solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-lg);
 
   // Restores what the playground removes from every ul, as a site's content would
   &__list {
     padding-inline-start: var(--space-6);
     list-style: disc;
+  }
+}
+
+.chip {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+}
+
+// A stand-in for <BaseButton>, until it is styled, to show the interaction tokens
+.action {
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--action);
+  color: var(--action-contrast);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+
+  &:hover {
+    background: var(--action-hover);
+  }
+
+  &:active {
+    background: var(--action-active);
+  }
+
+  &:disabled {
+    background: var(--action);
+    cursor: not-allowed;
+    opacity: var(--opacity-disabled);
+  }
+
+  @each $action in primary, secondary {
+    &--#{$action} {
+      --action: var(--color-#{$action});
+      --action-contrast: var(--color-#{$action}-contrast);
+      --action-hover: var(--color-#{$action}-hover);
+      --action-active: var(--color-#{$action}-active);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 
@@ -407,13 +542,44 @@ code {
 
 .shape {
   block-size: var(--space-16);
-  border: 1px solid var(--color-border);
+  border: var(--border-width-thin) solid var(--color-border);
   background: var(--color-surface);
 
   &--raised {
     border-color: transparent;
     border-radius: var(--radius-md);
     background: var(--color-background);
+  }
+
+  // Shows the ring permanently, as :focus-visible draws it
+  &--focused {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  &--focusable {
+    color: var(--color-text-muted);
+    font: inherit;
+    cursor: pointer;
+  }
+}
+
+.layers {
+  position: relative;
+  // Room for the last tile's offset
+  block-size: calc(var(--space-16) + 3 * var(--space-6));
+
+  &__tile {
+    position: absolute;
+    display: flex;
+    align-items: end;
+    inline-size: 12rem;
+    block-size: var(--space-16);
+    padding: var(--space-2);
+    border: var(--border-width-thin) solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
   }
 }
 
@@ -469,7 +635,7 @@ code {
   th,
   td {
     padding: var(--space-2) var(--space-3);
-    border-block-end: 1px solid var(--color-border);
+    border-block-end: var(--border-width-thin) solid var(--color-border);
     text-align: start;
   }
 
