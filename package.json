@@ -2,6 +2,7 @@
   "name": "@modulane/nuxt-core",
   "version": "0.0.0-development",
   "description": "A reusable foundation for building modern websites with Nuxt.",
+  "license": "MIT",
   "type": "module",
   "private": true,
   "main": "./nuxt.config.ts",

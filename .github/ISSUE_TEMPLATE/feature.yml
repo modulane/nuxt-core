@@ -1,6 +1,6 @@
 name: Feature
 description: Propose a new reusable component, section or feature
-labels: ['enhancement']
+labels: ['enhancement', 'needs-triage']
 body:
   - type: textarea
     id: problem
@@ -40,4 +40,5 @@ body:
         - 'Phase 12 — Reusable Website Features'
         - 'Phase 13 — Website Templates'
         - 'Phase 14 — Project Generator'
+        - 'Phase 15 — Public Release'
         - 'Not on the roadmap yet'

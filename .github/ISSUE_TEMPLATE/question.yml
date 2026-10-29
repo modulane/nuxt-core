@@ -1,0 +1,16 @@
+name: Question
+description: Ask how to use Nuxt Core
+labels: ['question', 'needs-triage']
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What are you trying to do, and what have you tried? Check the [documentation](https://github.com/modulane/nuxt-core/blob/main/docs/README.md) first.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Nuxt Core version
+      placeholder: v0.4.0
