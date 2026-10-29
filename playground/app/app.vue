@@ -333,6 +333,13 @@
             <code>respond-to()</code>
           </li>
           <li class="card">
+            <!-- The same breakpoints from JavaScript; "below sm" until hydrated -->
+            <span class="breakpoint-label">{{
+              activeBreakpoint ? `${activeBreakpoint} and up` : 'below sm'
+            }}</span>
+            <code>useBreakpoints()</code>
+          </li>
+          <li class="card">
             <span class="fluid-text">Grows with the window</span>
             <code>fluid(18px, 32px)</code>
           </li>
@@ -501,6 +508,7 @@ useHead({
 })
 
 const { isDark } = useTheme()
+const { active: activeBreakpoint } = useBreakpoints()
 
 const sections = [
   { id: 'colours', title: 'Colours' },
@@ -1000,11 +1008,14 @@ code {
   }
 }
 
-// Names the breakpoint the window is in, with one respond-to() per breakpoint
+.breakpoint-label,
 .breakpoint-now {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
+}
 
+// Names the breakpoint the window is in, with one respond-to() per breakpoint
+.breakpoint-now {
   &::after {
     content: 'below sm';
   }

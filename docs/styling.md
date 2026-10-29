@@ -242,7 +242,7 @@ Breakpoints are Sass variables, because CSS custom properties cannot be used in 
 | `xl`  | `$breakpoint-xl`  | 1280px |
 | `2xl` | `$breakpoint-2xl` | 1536px |
 
-The `$breakpoints` map holds them by name. Every helper that takes a breakpoint takes its name (`md`) or any length (`$breakpoint-md`, `900px`). Styles are mobile-first: write the small-screen version first, then add to it with `respond-to()`.
+The `$breakpoints` map holds them by name. Every helper that takes a breakpoint takes its name (`md`) or any length (`$breakpoint-md`, `900px`). Styles are mobile-first: write the small-screen version first, then add to it with `respond-to()`. For a decision CSS cannot make, the [`useBreakpoints()`](composables.md#usebreakpoints) composable reads the same breakpoints from JavaScript.
 
 ### Functions
 
