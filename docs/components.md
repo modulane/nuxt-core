@@ -11,6 +11,7 @@ Nuxt registers components with their folder as a prefix, so the name to use in t
 | Component               | File                                                        | Status | Purpose                          |
 | ----------------------- | ----------------------------------------------------------- | ------ | -------------------------------- |
 | `<BaseContainer>`       | `layers/primitives/app/components/base/Container.vue`       | Ready  | Centres content, limits width    |
+| `<BaseGrid>`            | `layers/primitives/app/components/base/Grid.vue`            | Ready  | Lays content out in columns      |
 | `<BaseButton>`          | `layers/primitives/app/components/base/Button.vue`          | Stub   | Buttons (roadmap phase 4)        |
 | `<BaseCard>`            | `layers/primitives/app/components/base/Card.vue`            | Stub   | Cards (roadmap phase 4)          |
 | `<FormInput>`           | `layers/primitives/app/components/form/Input.vue`           | Stub   | Text inputs (roadmap phase 5)    |
@@ -38,6 +39,36 @@ Centres its content and limits its width, once styled. The design system's rules
 No props, no events.
 
 **Hooks:** the root `<div>` has the class `nc-container`.
+
+## BaseGrid
+
+Lays its content out in columns of equal width, one column on the smallest screens. The design system's rules are in [`.nc-grid`](styling.md#nc-grid).
+
+```vue
+<BaseGrid as="ul" :columns="{ md: 2, lg: 3 }" role="list">
+  <li v-for="post in posts" :key="post.id">…</li>
+</BaseGrid>
+
+<BaseGrid fit min-column-width="12rem" :gap="4">…</BaseGrid>
+```
+
+| Prop             | Type                                                      | Default | Description                                                                              |
+| ---------------- | --------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `as`             | `string`                                                  | `'div'` | The element to render, such as `'ul'` for a list of cards                                |
+| `columns`        | `number \| { base?, sm?, md?, lg?, xl?, '2xl'?: number }` | 1       | The number of columns on every screen, or from each breakpoint up                        |
+| `fit`            | `boolean`                                                 | `false` | Fits as many columns as the width allows instead; ignores `columns`                      |
+| `minColumnWidth` | `string`                                                  | 16rem   | The minimum column width with `fit`, as a CSS length                                     |
+| `gap`            | `1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 8 \| 10 \| 12 \| 16 \| 20` | 6       | The space between rows and columns, as a step of the [spacing scale](styling.md#spacing) |
+
+| Slot      | Content          |
+| --------- | ---------------- |
+| `default` | The grid's items |
+
+No events.
+
+**Hooks:** the root element has the class `nc-grid`, and `nc-grid--fit` with `fit`. The props set the custom properties `--grid-columns`, `--grid-columns-<breakpoint>`, `--grid-min` and `--grid-gap` on it, inline; a prop that is not set leaves its property unset.
+
+**Accessibility:** the grid changes only the layout, never the order: keyboard and screen reader users meet the items in the order of the markup. A `<ul>` grid needs `role="list"`, since the design system removes its bullets and Safari stops announcing a list without them.
 
 ## FormSwitch
 

@@ -1,0 +1,42 @@
+@use '../abstracts' as *;
+
+// A grid of equal columns, one column on the smallest screens. Its settings are
+// custom properties, set on the element (the BaseGrid component sets them inline):
+// --grid-columns, and --grid-columns-md and the like from a breakpoint up;
+// --grid-gap; --grid-min for .nc-grid--fit.
+.nc-grid {
+  // Settings apply to one grid: a nested grid does not inherit them
+  --grid-columns: initial;
+  --grid-gap: initial;
+  --grid-min: initial;
+
+  @each $name, $width in $breakpoints {
+    --grid-columns-#{$name}: initial;
+  }
+
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns, 1), minmax(0, 1fr));
+  gap: var(--grid-gap, var(--space-6));
+}
+
+// Each breakpoint keeps the column count of the one below it until it sets its own
+$-columns: var(--grid-columns, 1);
+
+@each $name, $width in $breakpoints {
+  $-columns: var(--grid-columns-#{$name}, #{$-columns});
+
+  @include respond-to($name) {
+    .nc-grid {
+      grid-template-columns: repeat(#{$-columns}, minmax(0, 1fr));
+    }
+  }
+}
+
+// As many columns as fit, each at least --grid-min wide, without media queries.
+// After the breakpoints, so it wins over them.
+.nc-grid--fit {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(var(--grid-min, var(--grid-min-column-width)), 100%), 1fr)
+  );
+}
