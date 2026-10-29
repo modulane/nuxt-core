@@ -915,6 +915,9 @@ code {
 
 .layers {
   position: relative;
+  // Stacks the tiles among themselves only, so the sample's modal and
+  // notification tiles stay under the page's sticky header
+  isolation: isolate;
   // Room for the last tile's offset
   block-size: calc(var(--space-16) + 3 * var(--space-8));
 
