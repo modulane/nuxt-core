@@ -153,6 +153,49 @@ An on/off control that applies at once, such as dark mode. For a choice submitte
 
 **Accessibility:** a `<button role="switch">`, so Tab focuses it, Space or Enter toggles it, and screen readers announce it as on or off. Its accessible name is the slot; without one, give it an `aria-label`. The track is hidden from assistive technology.
 
+## Layouts
+
+The primitives layer has two [layouts](https://nuxt.com/docs/guide/directory-structure/app/layouts), in `layers/primitives/app/layouts/`. A site uses them by rendering `<NuxtLayout>` in its `app.vue`. `default` wraps every page; a page picks `auth` with `definePageMeta({ layout: 'auth' })`. The design system's rules are in [Page layouts](styling.md#page-layouts).
+
+```vue
+<!-- app.vue -->
+<template>
+  <NuxtLayout sticky-header skip-link-label="Aller au contenu">
+    <template #header>
+      <BaseContainer>…logo and navigation…</BaseContainer>
+    </template>
+
+    <NuxtPage />
+
+    <template #footer>
+      <BaseContainer>…</BaseContainer>
+    </template>
+  </NuxtLayout>
+</template>
+```
+
+| Layout    | For                                                                       |
+| --------- | ------------------------------------------------------------------------- |
+| `default` | Every page: a header, the page, and a footer at the bottom of short pages |
+| `auth`    | Sign-in and sign-up pages: one narrow column, centred in the window       |
+
+Both take the same props and slots, except `stickyHeader`, which only `default` has. `<NuxtLayout>` passes its attributes to the layout as props.
+
+| Prop            | Type      | Default             | Description                                                |
+| --------------- | --------- | ------------------- | ---------------------------------------------------------- |
+| `skipLinkLabel` | `string`  | `'Skip to content'` | The skip link's text, for the site's language              |
+| `stickyHeader`  | `boolean` | `false`             | Keeps the header at the top of the window (`default` only) |
+
+| Slot      | Content                                              |
+| --------- | ---------------------------------------------------- |
+| `header`  | The site header, such as the logo and the navigation |
+| `default` | The page                                             |
+| `footer`  | The site footer                                      |
+
+**Hooks:** the root `<div>` has the class `nc-layout`, with `nc-layout--auth` in the auth layout and `data-sticky-header` with `stickyHeader`. Its parts are `nc-layout__header`, `nc-layout__main` and `nc-layout__footer`, and the skip link has the class `nc-skip-link`.
+
+**Accessibility:** the layout provides the page's landmarks, so the slots must not add their own. It renders the header slot in a `<header>` and the footer slot in a `<footer>`, which screen readers announce as the banner and the content information; each one only when its slot is used. The page goes in `<main id="content">`. A skip link to it comes first on the page: hidden until a keyboard user tabs to it, it lets them jump past the header straight to the content.
+
 ## Documenting a component
 
 When a component moves from stub to ready, add a section with this structure, and change its status in the inventory:

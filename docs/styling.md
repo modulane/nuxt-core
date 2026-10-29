@@ -23,7 +23,8 @@ layers/design/app/assets/scss/
 │   ├── _container.scss    .nc-container
 │   ├── _grid.scss         .nc-grid
 │   ├── _stack.scss        .nc-stack
-│   └── _cluster.scss      .nc-cluster
+│   ├── _cluster.scss      .nc-cluster
+│   └── _page.scss         .nc-layout, the page layouts; .nc-skip-link
 ├── components/            The styles of each primitive, one partial per component
 │   └── _switch.scss       .nc-switch
 └── utilities/
@@ -38,14 +39,14 @@ The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `ma
 
 Every rule sits in a `nuxt-core` [cascade layer](https://developer.mozilla.org/docs/Web/CSS/@layer), declared in this order, lowest priority first:
 
-| Layer                  | Contents                                                 |
-| ---------------------- | -------------------------------------------------------- |
-| `nuxt-core.tokens`     | The design tokens and schemes                            |
-| `nuxt-core.reset`      | The browser reset                                        |
-| `nuxt-core.base`       | Page colours and typography                              |
-| `nuxt-core.layout`     | `.nc-container`, the grid, `.nc-stack` and `.nc-cluster` |
-| `nuxt-core.components` | The styles of the primitives                             |
-| `nuxt-core.utilities`  | Single-purpose helper classes                            |
+| Layer                  | Contents                                                                   |
+| ---------------------- | -------------------------------------------------------------------------- |
+| `nuxt-core.tokens`     | The design tokens and schemes                                              |
+| `nuxt-core.reset`      | The browser reset                                                          |
+| `nuxt-core.base`       | Page colours and typography                                                |
+| `nuxt-core.layout`     | `.nc-container`, the grid, `.nc-stack`, `.nc-cluster` and the page layouts |
+| `nuxt-core.components` | The styles of the primitives                                               |
+| `nuxt-core.utilities`  | Single-purpose helper classes                                              |
 
 A later layer wins over an earlier one, and CSS outside any layer wins over all of them, whatever its specificity or load order. A site overrides the design system by writing plain CSS, without `!important` or longer selectors.
 
@@ -178,6 +179,7 @@ The dark shadows are much stronger, or they would not show on a dark background.
 | ------------------------- | ------ | ----------------------------------------------------------- |
 | `--container-max-width`   | 1200px | Maximum width of [`.nc-container`](#nc-container)           |
 | `--grid-min-column-width` | 16rem  | Default minimum column width of [`.nc-grid--fit`](#nc-grid) |
+| `--auth-max-width`        | 28rem  | Maximum width of the [auth layout](#page-layouts)'s column  |
 
 ### Borders and focus ring
 
@@ -375,7 +377,7 @@ Hides an element visually and keeps it for screen readers, such as the text of a
 <a href="#content" class="nc-visually-hidden-focusable">Skip to content</a>
 ```
 
-Both are in the `nuxt-core.utilities` layer, and use the [`visually-hidden` mixins](#mixins).
+Both are in the `nuxt-core.utilities` layer, and use the [`visually-hidden` mixins](#mixins). The page layouts already render a styled skip link, [`.nc-skip-link`](#nc-skip-link).
 
 ## Forced colours
 
@@ -467,3 +469,18 @@ Each breakpoint keeps the gap of the one below it until it sets its own, so this
 ```
 
 The settings apply to one element alone: a stack inside another one starts from the defaults. A cluster runs from the inline start, so from the right in Arabic or Hebrew. Neither reorders its children, so the visual order matches the order of the keyboard and screen readers.
+
+### Page layouts
+
+The styles of the [`default` and `auth` layouts](components.md#layouts):
+
+- **`.nc-layout`** fills at least the window's height, and its main area (`.nc-layout__main`) takes the height left, so the footer of a short page sits at the bottom of the window.
+- **`.nc-layout__header`** has a `--space-3` padding above and below, a thin border below and the page background. With `data-sticky-header` on `.nc-layout`, it stays at the top of the window on the `--z-sticky` [layer](#layering).
+- **`.nc-layout__footer`** has a `--space-6` padding above and below, a thin border above, and muted, smaller text.
+- **`.nc-layout--auth`** centres one column in the main area, both ways, at most `--auth-max-width` (28rem) wide: the layout for sign-in and sign-up forms.
+
+The header and footer have no side padding: put a [`BaseContainer`](components.md#basecontainer) in them, as in the page, so their content lines up with it.
+
+### `.nc-skip-link`
+
+The layouts' "Skip to content" link, the first stop of the keyboard on every page. It stays [visually hidden](#nc-visually-hidden) until it has focus, then appears in the top corner, in `--color-primary`, above everything else on the `--z-notification` layer.
