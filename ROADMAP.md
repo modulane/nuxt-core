@@ -330,7 +330,7 @@ Project
 
 **Goal:** Nuxt Core usable by people outside the team. This phase can move earlier if a site needs it.
 
-- [ ] Licence
+- [x] Licence: MIT ([LICENSE](LICENSE))
 - [ ] Published on the npm registry, alongside the Git tags
 - [ ] Version 1.0.0, once the hooks, tokens and component APIs are stable
 - [ ] Versioning policy: what counts as a breaking change (a renamed hook, token, prop or event), and an upgrade guide for each major version

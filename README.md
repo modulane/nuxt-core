@@ -35,7 +35,7 @@ Nuxt Core
 
 ## Status
 
-Nuxt Core is in early development. The project foundation is in place; the styling foundation and layout system are in progress, and components come next. The [roadmap](ROADMAP.md) shows every phase and what is done.
+Nuxt Core is in early development. The project and styling foundations are in place; the layout system is in progress, and components come next. The [roadmap](ROADMAP.md) shows every phase and what is done.
 
 ## Technology
 
@@ -113,8 +113,8 @@ The [documentation index](docs/README.md) explains how the guides are kept up to
 
 ## Contributing
 
-Bug reports and feature ideas are welcome in the [issue tracker](https://github.com/modulane/nuxt-core/issues). [CONTRIBUTING.md](CONTRIBUTING.md) describes the workflow, labels and release process.
+Bug reports, feature ideas and pull requests are welcome. Issues labelled [`good first issue`](https://github.com/modulane/nuxt-core/labels/good%20first%20issue) and [`help wanted`](https://github.com/modulane/nuxt-core/labels/help%20wanted) are ready to pick up. [CONTRIBUTING.md](CONTRIBUTING.md) describes how to claim one, the workflow, labels and release process.
 
 ## License
 
-License information will be added when the project is ready for public distribution.
+[MIT](LICENSE)

@@ -4,6 +4,14 @@ Thank you for helping improve Nuxt Core. This guide covers the change workflow, 
 
 Nuxt Core is a reusable foundation for building Nuxt websites. Contributions should keep it simple, predictable, accessible and reusable across different projects.
 
+By contributing, you agree that your contribution is licensed under the [MIT licence](LICENSE), like the rest of the project. Everyone taking part follows the [code of conduct](https://github.com/modulane/.github/blob/main/CODE_OF_CONDUCT.md). Report security vulnerabilities privately, as the [security policy](https://github.com/modulane/.github/blob/main/SECURITY.md) describes, never in a public issue.
+
+## Finding something to work on
+
+The [roadmap](ROADMAP.md) lists what Nuxt Core still needs. Issues labelled [`good first issue`](https://github.com/modulane/nuxt-core/labels/good%20first%20issue) are small and self-contained; issues labelled [`help wanted`](https://github.com/modulane/nuxt-core/labels/help%20wanted) are larger but ready to start.
+
+Comment on an issue before starting it, so nobody works on the same thing twice, and wait for the maintainer to assign it to you. For a change with no issue, open one first, unless it is a small fix. A new component follows the existing ones: a primitive in `layers/primitives` that exposes its states as [styling hooks](docs/architecture.md#the-styling-hooks), and its styles in `layers/design`, meeting the standards [in every phase](ROADMAP.md#in-every-phase) of the roadmap.
+
 ## Development setup
 
 ```bash
@@ -52,6 +60,8 @@ The rules code review applies are in [docs/conventions.md](docs/conventions.md):
 Before adding something, ask: **is this genuinely reusable across several projects?** A feature specific to one website stays in that website. If you are unsure whether something belongs in Nuxt Core, open an issue before starting a large change.
 
 ## Labels and reviews
+
+Each issue form adds its kind label (`bug`, `enhancement` or `question`) and `needs-triage`. The maintainer removes `needs-triage` once the issue is reviewed, and adds `good first issue` or `help wanted` when it is ready to pick up. Roadmap items are grouped in one milestone per phase.
 
 The **Pull request labels** workflow labels each pull request from its title, and updates the labels when the title is edited:
 
