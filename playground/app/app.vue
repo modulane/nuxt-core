@@ -219,6 +219,22 @@
             </li>
           </BaseGrid>
         </BaseGrid>
+
+        <h3 class="subheading">Stack and cluster</h3>
+        <BaseStack :gap="{ base: 3, md: 6 }">
+          <p class="muted">
+            <code>&lt;BaseStack :gap="{ base: 3, md: 6 }"&gt;</code> spaces
+            these blocks <code>--space-3</code> apart on phones and
+            <code>--space-6</code> from <code>md</code>.
+          </p>
+          <BaseCluster as="ul" :gap="2" role="list" aria-label="Sample tags">
+            <li v-for="tag in tags" :key="tag" class="chip tag">{{ tag }}</li>
+          </BaseCluster>
+          <BaseCluster justify="between" class="card">
+            <code>&lt;BaseCluster justify="between"&gt;</code>
+            <span class="muted">spreads its items to both ends</span>
+          </BaseCluster>
+        </BaseStack>
       </section>
 
       <section id="shape" class="section" aria-labelledby="shape-title">
@@ -644,6 +660,7 @@ const fontWeights = ['normal', 'medium', 'semibold'].map(
   weight => `--font-weight-${weight}`,
 )
 const lineHeights = ['tight', 'normal'].map(height => `--line-height-${height}`)
+const tags = ['tokens', 'layout', 'accessible', 'responsive', 'light', 'nuxt']
 const spaces = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20].map(
   step => `--space-${step}`,
 )
@@ -659,6 +676,8 @@ const layers = ['dropdown', 'sticky', 'modal', 'notification'].map(
 const components = [
   { name: 'BaseContainer', status: 'ready', phase: 3 },
   { name: 'BaseGrid', status: 'ready', phase: 3 },
+  { name: 'BaseStack', status: 'ready', phase: 3 },
+  { name: 'BaseCluster', status: 'ready', phase: 3 },
   { name: 'BaseButton', status: 'stub', phase: 4 },
   { name: 'BaseCard', status: 'stub', phase: 4 },
   { name: 'FormInput', status: 'stub', phase: 5 },
@@ -846,6 +865,10 @@ code {
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
+}
+
+.tag {
+  background: var(--color-surface);
 }
 
 // A stand-in for <BaseButton>, until it is styled, to show the interaction tokens
