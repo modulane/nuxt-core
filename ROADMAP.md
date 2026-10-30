@@ -109,19 +109,10 @@ Page
 ```
 
 - [x] Centred, width-limited container (`.nc-container`, `<BaseContainer>`)
-      <<<<<<< HEAD
 - [x] Grid and columns (`.nc-grid`, `<BaseGrid>`, [styling](docs/styling.md#nc-grid))
 - [x] Spacing utilities (stacks, gaps): `.nc-stack`, `.nc-cluster`, `<BaseStack>`, `<BaseCluster>` ([styling](docs/styling.md#nc-stack))
 - [x] Responsive behaviour for each of the above
-- [ ] `useBreakpoints()` composable, for layout decisions CSS cannot make
-      \=======
-- [ ] Grid and columns
-- [ ] Spacing utilities (stacks, gaps)
-- [ ] Responsive behaviour for each of the above
 - [x] `useBreakpoints()` composable, for layout decisions CSS cannot make ([composables](docs/composables.md#usebreakpoints))
-
-> > > > > > > 07b27d7 (feat: add the useBreakpoints() composable)
-
 - [x] The container's maximum width as a token ([styling](docs/styling.md#layout-tokens))
 - [ ] Page layouts (`default`, `auth`): header, main and footer areas, with the main area as the skip link's target
 
