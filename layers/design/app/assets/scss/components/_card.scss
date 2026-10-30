@@ -1,0 +1,77 @@
+@use '../abstracts' as *;
+
+// Styles <BaseCard> through its hooks: .nc-card, its parts and data-linked
+.nc-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+
+  &__header,
+  &__body,
+  &__footer {
+    padding-inline: var(--space-6);
+  }
+
+  &__body {
+    flex: 1;
+  }
+
+  // After the header in the reading order, shown on top, flush with the card's
+  // edges. The media is rounded rather than the card clipped, which would cut
+  // the focus ring of the footer's buttons.
+  &__media {
+    order: -1;
+    margin-block-start: calc(-1 * var(--space-6));
+    overflow: hidden;
+    border-start-start-radius: var(--radius-lg);
+    border-start-end-radius: var(--radius-lg);
+
+    :is(img, video) {
+      inline-size: 100%;
+    }
+  }
+
+  // The whole card is the link: the title's ::after covers it, so the link's
+  // accessible name stays the title
+  &[data-linked] {
+    position: relative;
+
+    @include transition(box-shadow);
+    @include hover {
+      box-shadow: var(--shadow-md);
+    }
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: '';
+    }
+
+    // The ring goes around the card; transparent, not none, for forced colours
+    &:focus-visible {
+      outline-color: transparent;
+    }
+  }
+
+  &[data-linked]:hover &__link {
+    text-decoration: underline;
+  }
+
+  &[data-linked]:has(&__link:focus-visible) {
+    @include focus-ring;
+  }
+
+  // The footer's own links and buttons sit above the card's link
+  &[data-linked] &__footer :is(a, button) {
+    position: relative;
+  }
+}

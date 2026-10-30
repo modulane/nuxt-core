@@ -1,0 +1,83 @@
+@use '../abstracts' as *;
+
+// Styles <BaseButton> through its hooks: .nc-button, its parts, data-variant,
+// data-size, data-loading and disabled
+.nc-button {
+  position: relative;
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  // Transparent rather than none: forced colours draw it, so the button keeps
+  // its outline there
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  text-align: center;
+  cursor: pointer;
+
+  @include transition(background-color border-color color);
+
+  &[data-size='sm'] {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+
+  &[data-size='md'] {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-md);
+  }
+
+  &[data-size='lg'] {
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--font-size-lg);
+  }
+
+  @each $variant in primary, secondary {
+    &[data-variant='#{$variant}'] {
+      background: var(--color-#{$variant});
+      color: var(--color-#{$variant}-contrast);
+    }
+
+    &[data-variant='#{$variant}']:not(:disabled, [aria-disabled='true']) {
+      @include hover {
+        background: var(--color-#{$variant}-hover);
+      }
+
+      &:active {
+        background: var(--color-#{$variant}-active);
+      }
+    }
+  }
+
+  &:disabled {
+    @include disabled;
+  }
+
+  &[data-loading] {
+    cursor: progress;
+  }
+
+  // The label keeps its place, so the width does not change. Opacity only:
+  // hiding it would also remove the button's accessible name.
+  &[data-loading] &__label,
+  &[data-loading] &__start,
+  &[data-loading] &__end {
+    opacity: 0;
+  }
+
+  &__spinner {
+    position: absolute;
+    inset: 0;
+    justify-content: center;
+  }
+
+  @include forced-colors {
+    &:disabled {
+      border-color: GrayText;
+      color: GrayText;
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+// Styles <BaseAvatar> through its hooks: .nc-avatar, its parts and data-size
+.nc-avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+
+  &[data-size='sm'] {
+    inline-size: var(--space-8);
+    block-size: var(--space-8);
+    font-size: var(--font-size-sm);
+  }
+
+  &[data-size='md'] {
+    inline-size: var(--space-10);
+    block-size: var(--space-10);
+    font-size: var(--font-size-md);
+  }
+
+  &[data-size='lg'] {
+    inline-size: var(--space-16);
+    block-size: var(--space-16);
+    font-size: var(--font-size-xl);
+  }
+
+  &__image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+}

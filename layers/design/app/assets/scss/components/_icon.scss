@@ -1,0 +1,19 @@
+// Styles <BaseIcon> through its hooks: .nc-icon and data-flip-rtl. Its size
+// follows the text around it, and an SVG drawn in currentColor takes its colour.
+.nc-icon {
+  display: inline-flex;
+  flex: none;
+  inline-size: 1em;
+  block-size: 1em;
+  vertical-align: -0.125em;
+
+  > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+}
+
+// Not :dir(rtl), which the oldest supported browsers lack
+[dir='rtl'] .nc-icon[data-flip-rtl] {
+  scale: -1 1;
+}

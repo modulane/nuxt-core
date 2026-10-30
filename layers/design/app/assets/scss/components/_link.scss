@@ -1,0 +1,16 @@
+@use '../abstracts' as *;
+
+// Styles <BaseLink> through its hooks: .nc-link, its part and data-external.
+// Its colour, underline and hover come from the base styles of every <a>.
+.nc-link {
+  &__new-tab {
+    @include visually-hidden;
+  }
+
+  &[data-external]::after {
+    margin-inline-start: var(--space-1);
+    content: '\2197';
+    // The same arrow, hidden from screen readers where the syntax is supported
+    content: '\2197' / '';
+  }
+}

@@ -22,7 +22,7 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 | [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done    | Layers, TypeScript, SCSS, tests, workflow, docs |
 | [2. Styling Foundation](#phase-2--styling-foundation)                 | ✅ Done    | Tokens, base styles, Sass helpers, browsers     |
 | [3. Layout System](#phase-3--layout-system)                           | ✅ Done    | Container, grid, spacing, breakpoints, layouts  |
-| [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned | Buttons, links, cards, badges, icons            |
+| [4. Core UI Components](#phase-4--core-ui-components)                 | ✅ Done    | Buttons, links, cards, badges, icons            |
 | [5. Forms](#phase-5--forms)                                           | ⬜ Planned | Inputs, selects, checkboxes, validation         |
 | [6. Interactive Components](#phase-6--interactive-components)         | ⬜ Planned | Modals, menus, tooltips, tabs, notifications    |
 | [7. Navigation](#phase-7--navigation)                                 | ⬜ Planned | Header, menus, footer, breadcrumbs              |
@@ -124,16 +124,16 @@ Page
 
 **Goal:** the basic components almost every website uses.
 
-- [ ] Button
-- [ ] Link
-- [ ] Card
-- [ ] Badge
-- [ ] Icon (source to decide: inline SVG or `@nuxt/icon`)
-- [ ] Divider
-- [ ] Avatar
-- [ ] Loading indicator
-- [ ] Alert: a static message in each status colour
-- [ ] Image: responsive and lazy-loaded, with a fixed aspect ratio so the page does not shift (with or without `@nuxt/image`)
+- [x] Button ([components](docs/components.md#basebutton))
+- [x] Link ([components](docs/components.md#baselink))
+- [x] Card ([components](docs/components.md#basecard))
+- [x] Badge ([components](docs/components.md#basebadge))
+- [x] Icon: inline SVG in a wrapper, with no icon dependency; a site can still put `@nuxt/icon` inside it ([components](docs/components.md#baseicon))
+- [x] Divider ([components](docs/components.md#basedivider))
+- [x] Avatar ([components](docs/components.md#baseavatar))
+- [x] Loading indicator ([components](docs/components.md#basespinner))
+- [x] Alert: a static message in each status colour ([components](docs/components.md#basealert))
+- [x] Image: responsive and lazy-loaded, with a fixed aspect ratio so the page does not shift (with or without `@nuxt/image`) ([components](docs/components.md#baseimage))
 
 **Done when:** each component supports the states that apply to it (default, hover, focus, disabled, loading, error), exposes them as hooks, is styled by the design system, is documented in [components.md](docs/components.md) and has tests. Each one works, accessibly, with the design system removed.
 
