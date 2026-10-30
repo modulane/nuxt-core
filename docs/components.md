@@ -12,6 +12,8 @@ Nuxt registers components with their folder as a prefix, so the name to use in t
 | ----------------------- | ----------------------------------------------------------- | ------ | -------------------------------- |
 | `<BaseContainer>`       | `layers/primitives/app/components/base/Container.vue`       | Ready  | Centres content, limits width    |
 | `<BaseGrid>`            | `layers/primitives/app/components/base/Grid.vue`            | Ready  | Lays content out in columns      |
+| `<BaseStack>`           | `layers/primitives/app/components/base/Stack.vue`           | Ready  | Spaces content vertically        |
+| `<BaseCluster>`         | `layers/primitives/app/components/base/Cluster.vue`         | Ready  | Lays content out in a row        |
 | `<BaseButton>`          | `layers/primitives/app/components/base/Button.vue`          | Stub   | Buttons (roadmap phase 4)        |
 | `<BaseCard>`            | `layers/primitives/app/components/base/Card.vue`            | Stub   | Cards (roadmap phase 4)          |
 | `<FormInput>`           | `layers/primitives/app/components/form/Input.vue`           | Stub   | Text inputs (roadmap phase 5)    |
@@ -69,6 +71,63 @@ No events.
 **Hooks:** the root element has the class `nc-grid`, and `nc-grid--fit` with `fit`. The props set the custom properties `--grid-columns`, `--grid-columns-<breakpoint>`, `--grid-min` and `--grid-gap` on it, inline; a prop that is not set leaves its property unset.
 
 **Accessibility:** the grid changes only the layout, never the order: keyboard and screen reader users meet the items in the order of the markup. A `<ul>` grid needs `role="list"`, since the design system removes its bullets and Safari stops announcing a list without them.
+
+## BaseStack
+
+Spaces its children vertically, with no margins on them. The design system's rules are in [`.nc-stack`](styling.md#nc-stack). For running text, such as the HTML of a rich-text field, use [`.nc-flow`](styling.md#nc-flow) instead.
+
+```vue
+<BaseStack :gap="{ base: 4, md: 8 }">
+  <h2>Section title</h2>
+  <p>…</p>
+</BaseStack>
+```
+
+| Prop  | Type                                                   | Default | Description                                                                                    |
+| ----- | ------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------- |
+| `as`  | `string`                                               | `'div'` | The element to render, such as `'ul'` for a list                                               |
+| `gap` | step, or `{ base?, sm?, md?, lg?, xl?, '2xl'?: step }` | 4       | The space between the children, as a step of the [spacing scale](styling.md#spacing) (1 to 20) |
+
+| Slot      | Content               |
+| --------- | --------------------- |
+| `default` | The children to space |
+
+No events.
+
+**Hooks:** the root element has the class `nc-stack`. `gap` sets `--stack-gap` and `--stack-gap-<breakpoint>` on it, inline.
+
+**Accessibility:** a `<ul>` stack needs `role="list"`, since the design system removes its bullets and Safari stops announcing a list without them.
+
+## BaseCluster
+
+Lays its children out in a row that wraps onto more lines when it runs out of room: tags, buttons, footer links. The design system's rules are in [`.nc-cluster`](styling.md#nc-cluster).
+
+```vue
+<BaseCluster as="ul" :gap="2" role="list" aria-label="Tags">
+  <li v-for="tag in tags" :key="tag">{{ tag }}</li>
+</BaseCluster>
+
+<BaseCluster justify="between">
+  <p>© 2026</p>
+  <a href="/privacy">Privacy</a>
+</BaseCluster>
+```
+
+| Prop      | Type                                                   | Default   | Description                                                                                    |
+| --------- | ------------------------------------------------------ | --------- | ---------------------------------------------------------------------------------------------- |
+| `as`      | `string`                                               | `'div'`   | The element to render, such as `'ul'` for a list of tags                                       |
+| `gap`     | step, or `{ base?, sm?, md?, lg?, xl?, '2xl'?: step }` | 3         | The space between the children, as a step of the [spacing scale](styling.md#spacing) (1 to 20) |
+| `justify` | `'start' \| 'center' \| 'end' \| 'between'`            | `'start'` | Where the items sit on each line; `between` spreads them to both ends                          |
+
+| Slot      | Content                 |
+| --------- | ----------------------- |
+| `default` | The children to lay out |
+
+No events.
+
+**Hooks:** the root element has the class `nc-cluster`. `gap` sets `--cluster-gap` and `--cluster-gap-<breakpoint>` on it, and `justify` sets `--cluster-justify`, inline.
+
+**Accessibility:** as for `BaseStack`, a `<ul>` cluster needs `role="list"`.
 
 ## FormSwitch
 

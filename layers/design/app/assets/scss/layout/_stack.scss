@@ -1,0 +1,30 @@
+@use '../abstracts' as *;
+
+// Spaces its children vertically, with no margins of their own. Its settings are
+// custom properties, set on the element (the BaseStack component sets them inline):
+// --stack-gap, and --stack-gap-md and the like from a breakpoint up.
+.nc-stack {
+  // Settings apply to one stack: a nested stack does not inherit them
+  --stack-gap: initial;
+
+  @each $name, $width in $breakpoints {
+    --stack-gap-#{$name}: initial;
+  }
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, var(--space-4));
+}
+
+// Each breakpoint keeps the gap of the one below it until it sets its own
+$-gap: var(--stack-gap, var(--space-4));
+
+@each $name, $width in $breakpoints {
+  $-gap: var(--stack-gap-#{$name}, #{$-gap});
+
+  @include respond-to($name) {
+    .nc-stack {
+      gap: $-gap;
+    }
+  }
+}

@@ -26,6 +26,8 @@
 @layer nuxt-core.layout {
   @include meta.load-css('layout/container');
   @include meta.load-css('layout/grid');
+  @include meta.load-css('layout/stack');
+  @include meta.load-css('layout/cluster');
 }
 
 @layer nuxt-core.components {

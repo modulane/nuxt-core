@@ -21,7 +21,9 @@ layers/design/app/assets/scss/
 │   └── _light.scss        Light, with data-color-scheme="light"
 ├── layout/
 │   ├── _container.scss    .nc-container
-│   └── _grid.scss         .nc-grid
+│   ├── _grid.scss         .nc-grid
+│   ├── _stack.scss        .nc-stack
+│   └── _cluster.scss      .nc-cluster
 ├── components/            The styles of each primitive, one partial per component
 │   └── _switch.scss       .nc-switch
 └── utilities/
@@ -36,14 +38,14 @@ The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `ma
 
 Every rule sits in a `nuxt-core` [cascade layer](https://developer.mozilla.org/docs/Web/CSS/@layer), declared in this order, lowest priority first:
 
-| Layer                  | Contents                      |
-| ---------------------- | ----------------------------- |
-| `nuxt-core.tokens`     | The design tokens and schemes |
-| `nuxt-core.reset`      | The browser reset             |
-| `nuxt-core.base`       | Page colours and typography   |
-| `nuxt-core.layout`     | `.nc-container` and the grid  |
-| `nuxt-core.components` | The styles of the primitives  |
-| `nuxt-core.utilities`  | Single-purpose helper classes |
+| Layer                  | Contents                                                 |
+| ---------------------- | -------------------------------------------------------- |
+| `nuxt-core.tokens`     | The design tokens and schemes                            |
+| `nuxt-core.reset`      | The browser reset                                        |
+| `nuxt-core.base`       | Page colours and typography                              |
+| `nuxt-core.layout`     | `.nc-container`, the grid, `.nc-stack` and `.nc-cluster` |
+| `nuxt-core.components` | The styles of the primitives                             |
+| `nuxt-core.utilities`  | Single-purpose helper classes                            |
 
 A later layer wins over an earlier one, and CSS outside any layer wins over all of them, whatever its specificity or load order. A site overrides the design system by writing plain CSS, without `!important` or longer selectors.
 
@@ -439,3 +441,29 @@ Each breakpoint keeps the column count of the one below it until it sets its own
 `.nc-grid--fit` ignores the column counts and fits as many columns as the width allows, each at least `--grid-min` wide (`--grid-min-column-width`, 16rem, by default), without media queries: the grid for a list of cards. The columns keep that width when a row is not full, so cards line up from one row to the next. A column never grows wider than the grid, so a small screen gets one full-width column.
 
 A grid's settings apply to it alone: a grid inside another one starts from the defaults. The items flow in reading order, from the inline start (right to left in Arabic or Hebrew), and the grid never reorders them, so the visual order matches the order of the keyboard and screen readers. A site that needs other columns, such as a wide main column beside a sidebar, writes its own `grid-template-columns` on the element: its CSS wins over the [cascade layer](#the-cascade).
+
+### `.nc-stack`
+
+Spaces its children vertically, `--space-4` apart, so they need no margins of their own: the blocks of a page section, the fields of a form. It is a flex column, so each child takes the full width. The [`BaseStack`](components.md#basestack) component renders it. For running text, such as the HTML of a rich-text field, use [`.nc-flow`](#nc-flow): it spaces headings differently from paragraphs.
+
+### `.nc-cluster`
+
+Lays its children out in a row, `--space-3` apart, that wraps onto more lines when it runs out of room: tags, the buttons of a form, the links of a footer. The items are centred on each line's height. The [`BaseCluster`](components.md#basecluster) component renders it.
+
+### Gaps
+
+A stack and a cluster are set with custom properties on the element, which their components set from their props:
+
+| Property                                          | Default                            | Sets                                                                             |
+| ------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------------- |
+| `--stack-gap`, `--cluster-gap`                    | `var(--space-4)`, `var(--space-3)` | The space between the children on every screen                                   |
+| `--stack-gap-md`, `--cluster-gap-md` and the like | The breakpoint below               | The space from that [breakpoint](#breakpoints) up: `sm`, `md`, `lg`, `xl`, `2xl` |
+| `--cluster-justify`                               | `flex-start`                       | Where the items sit on each line, as a `justify-content` value                   |
+
+Each breakpoint keeps the gap of the one below it until it sets its own, so this stack's children are `--space-4` apart on phones and `--space-8` from `md`:
+
+```html
+<div class="nc-stack" style="--stack-gap-md: var(--space-8)">…</div>
+```
+
+The settings apply to one element alone: a stack inside another one starts from the defaults. A cluster runs from the inline start, so from the right in Arabic or Hebrew. Neither reorders its children, so the visual order matches the order of the keyboard and screen readers.

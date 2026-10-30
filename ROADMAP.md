@@ -21,7 +21,7 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 | --------------------------------------------------------------------- | -------------- | ----------------------------------------------- |
 | [1. Project Foundation](#phase-1--project-foundation)                 | ✅ Done        | Layers, TypeScript, SCSS, tests, workflow, docs |
 | [2. Styling Foundation](#phase-2--styling-foundation)                 | ✅ Done        | Tokens, base styles, Sass helpers, browsers     |
-| [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Container and grid done; spacing to go          |
+| [3. Layout System](#phase-3--layout-system)                           | 🟡 In progress | Breakpoints and page layouts to go              |
 | [4. Core UI Components](#phase-4--core-ui-components)                 | ⬜ Planned     | Buttons, links, cards, badges, icons            |
 | [5. Forms](#phase-5--forms)                                           | ⬜ Planned     | Inputs, selects, checkboxes, validation         |
 | [6. Interactive Components](#phase-6--interactive-components)         | ⬜ Planned     | Modals, menus, tooltips, tabs, notifications    |
@@ -110,8 +110,8 @@ Page
 
 - [x] Centred, width-limited container (`.nc-container`, `<BaseContainer>`)
 - [x] Grid and columns (`.nc-grid`, `<BaseGrid>`, [styling](docs/styling.md#nc-grid))
-- [ ] Spacing utilities (stacks, gaps)
-- [ ] Responsive behaviour for each of the above
+- [x] Spacing utilities (stacks, gaps): `.nc-stack`, `.nc-cluster`, `<BaseStack>`, `<BaseCluster>` ([styling](docs/styling.md#nc-stack))
+- [x] Responsive behaviour for each of the above
 - [ ] `useBreakpoints()` composable, for layout decisions CSS cannot make
 - [x] The container's maximum width as a token ([styling](docs/styling.md#layout-tokens))
 - [ ] Page layouts (`default`, `auth`): header, main and footer areas, with the main area as the skip link's target
