@@ -1,27 +1,26 @@
 <template>
   <NuxtRouteAnnouncer />
 
-  <a href="#content" class="nc-visually-hidden-focusable skip-link"
-    >Skip to content</a
-  >
+  <!-- The default layout, with its skip link, header, main area and footer -->
+  <NuxtLayout sticky-header>
+    <template #header>
+      <BaseContainer class="header">
+        <p class="header__title">
+          Nuxt Core <span class="header__tag">playground</span>
+        </p>
+        <nav aria-label="Sections">
+          <ul class="nav">
+            <li v-for="section in sections" :key="section.id">
+              <a :href="`#${section.id}`">{{ section.title }}</a>
+            </li>
+          </ul>
+        </nav>
+        <FormSwitch v-model="isDark" class="header__switch"
+          >Dark mode</FormSwitch
+        >
+      </BaseContainer>
+    </template>
 
-  <header class="header">
-    <BaseContainer class="header__inner">
-      <p class="header__title">
-        Nuxt Core <span class="header__tag">playground</span>
-      </p>
-      <nav aria-label="Sections">
-        <ul class="nav">
-          <li v-for="section in sections" :key="section.id">
-            <a :href="`#${section.id}`">{{ section.title }}</a>
-          </li>
-        </ul>
-      </nav>
-      <FormSwitch v-model="isDark" class="header__switch">Dark mode</FormSwitch>
-    </BaseContainer>
-  </header>
-
-  <main id="content">
     <BaseContainer>
       <section class="intro" aria-labelledby="intro-title">
         <h1 id="intro-title">The design system, rendered by itself</h1>
@@ -498,7 +497,16 @@
         </table>
       </section>
     </BaseContainer>
-  </main>
+
+    <template #footer>
+      <BaseContainer>
+        <p>
+          Nuxt Core is open source, under the MIT licence.
+          <a href="https://github.com/modulane/nuxt-core">Source on GitHub</a>
+        </p>
+      </BaseContainer>
+    </template>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
@@ -711,32 +719,12 @@ code {
   color: var(--color-text-muted);
 }
 
-.skip-link {
-  position: fixed;
-  inset-block-start: var(--space-2);
-  inset-inline-start: var(--space-2);
-  z-index: var(--z-notification);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
-}
-
 .header {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: var(--z-sticky);
-  padding-block: var(--space-3);
-  border-block-end: var(--border-width-thin) solid var(--color-border);
-  background: var(--color-background);
-
-  &__inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2) var(--space-6);
-    align-items: center;
-    justify-content: space-between;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  align-items: center;
+  justify-content: space-between;
 
   &__title {
     margin: 0;

@@ -1,0 +1,58 @@
+@use '../abstracts' as *;
+
+// The page layouts: a header, a main area that takes the remaining height, so a
+// short page keeps its footer at the bottom of the window, and a footer.
+.nc-layout {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+}
+
+.nc-layout__header {
+  padding-block: var(--space-3);
+  border-block-end: var(--border-width-thin) solid var(--color-border);
+  background: var(--color-background);
+}
+
+.nc-layout[data-sticky-header] .nc-layout__header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-sticky);
+}
+
+.nc-layout__main {
+  flex: 1;
+}
+
+.nc-layout__footer {
+  padding-block: var(--space-6);
+  border-block-start: var(--border-width-thin) solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+// One narrow column, centred in the window: sign-in and sign-up forms
+.nc-layout--auth .nc-layout__main {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: var(--space-8) var(--space-4);
+
+  > * {
+    inline-size: min(100%, var(--auth-max-width));
+  }
+}
+
+// Hidden until a keyboard user tabs to it, the first stop on every page
+.nc-skip-link {
+  @include visually-hidden-focusable;
+
+  position: fixed;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
+  z-index: var(--z-notification);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}

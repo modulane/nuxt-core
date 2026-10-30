@@ -11,7 +11,7 @@ This folder is the reference for how Nuxt Core is built and used. The [README](.
 | [Architecture](architecture.md)       | The folder structure, what belongs where, and the config files  | Current                    |
 | [Conventions](conventions.md)         | TypeScript, Vue, naming, SCSS, accessibility and imports        | Current                    |
 | [Styling](styling.md)                 | The SCSS architecture, tokens, Sass helpers and browser support | Current                    |
-| [Components](components.md)           | Every component, and the template for documenting one           | Inventory only: no API yet |
+| [Components](components.md)           | Every component, and the template for documenting one           | Current                    |
 | [Composables](composables.md)         | Every composable, and the template for documenting one          | Current                    |
 | [Testing](testing.md)                 | How tests run, where they live and what to test                 | Current                    |
 | [Theming](theming.md)                 | How themes will work                                            | Planned (roadmap phase 10) |
