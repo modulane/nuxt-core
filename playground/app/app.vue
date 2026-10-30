@@ -194,6 +194,31 @@
           <code>.nc-container</code>, which holds this page: widen the window
           past it to see the margins grow.
         </p>
+
+        <h3 class="subheading">Grid</h3>
+        <!-- A one-column grid spaces the samples, each a grid of its own -->
+        <BaseGrid :gap="4">
+          <p class="muted">
+            <code>&lt;BaseGrid :columns="{ sm: 2, lg: 4 }"&gt;</code>: one
+            column on phones, two from <code>sm</code>, four from
+            <code>lg</code>.
+          </p>
+          <BaseGrid as="ul" :columns="{ sm: 2, lg: 4 }" role="list">
+            <li v-for="item in 8" :key="item" class="card">
+              <code>{{ item }}</code>
+            </li>
+          </BaseGrid>
+
+          <p class="muted">
+            <code>&lt;BaseGrid fit min-column-width="10rem" :gap="3"&gt;</code>:
+            as many columns of at least 10rem as fit, without breakpoints.
+          </p>
+          <BaseGrid as="ul" fit min-column-width="10rem" :gap="3" role="list">
+            <li v-for="item in 8" :key="item" class="card">
+              <code>{{ item }}</code>
+            </li>
+          </BaseGrid>
+        </BaseGrid>
       </section>
 
       <section id="shape" class="section" aria-labelledby="shape-title">
@@ -633,6 +658,7 @@ const layers = ['dropdown', 'sticky', 'modal', 'notification'].map(
 // Mirrors the inventory in docs/components.md
 const components = [
   { name: 'BaseContainer', status: 'ready', phase: 3 },
+  { name: 'BaseGrid', status: 'ready', phase: 3 },
   { name: 'BaseButton', status: 'stub', phase: 4 },
   { name: 'BaseCard', status: 'stub', phase: 4 },
   { name: 'FormInput', status: 'stub', phase: 5 },
@@ -889,6 +915,9 @@ code {
 
 .layers {
   position: relative;
+  // Stacks the tiles among themselves only, so the sample's modal and
+  // notification tiles stay under the page's sticky header
+  isolation: isolate;
   // Room for the last tile's offset
   block-size: calc(var(--space-16) + 3 * var(--space-8));
 

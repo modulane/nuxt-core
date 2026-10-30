@@ -21,7 +21,7 @@ layers/design/app/assets/scss/
 │   └── _light.scss        Light, with data-color-scheme="light"
 ├── layout/
 │   ├── _container.scss    .nc-container
-│   └── _grid.scss         (empty) Grid utilities
+│   └── _grid.scss         .nc-grid
 ├── components/            The styles of each primitive, one partial per component
 │   └── _switch.scss       .nc-switch
 └── utilities/
@@ -172,9 +172,10 @@ The dark shadows are much stronger, or they would not show on a dark background.
 
 ### Layout tokens
 
-| Token                   | Value  | Use                                               |
-| ----------------------- | ------ | ------------------------------------------------- |
-| `--container-max-width` | 1200px | Maximum width of [`.nc-container`](#nc-container) |
+| Token                     | Value  | Use                                                         |
+| ------------------------- | ------ | ----------------------------------------------------------- |
+| `--container-max-width`   | 1200px | Maximum width of [`.nc-container`](#nc-container)           |
+| `--grid-min-column-width` | 16rem  | Default minimum column width of [`.nc-grid--fit`](#nc-grid) |
 
 ### Borders and focus ring
 
@@ -412,3 +413,29 @@ The versions move only by a deliberate change: raising them is a `feat:` that up
 ### `.nc-container`
 
 Centres content and limits its width to `--container-max-width` (1200px), keeping a `--space-4` margin on each side on small screens. The [`BaseContainer`](components.md) component renders a `<div class="nc-container">`. The class is prefixed so that it does not clash with the `.container` of Tailwind or Bootstrap.
+
+### `.nc-grid`
+
+Lays content out in columns of equal width, one column on the smallest screens. It is set with custom properties on the element, which the [`BaseGrid`](components.md#basegrid) component sets from its props:
+
+| Property                                                                                                 | Default                   | Sets                                                          |
+| -------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------- |
+| `--grid-columns`                                                                                         | 1                         | The number of columns on every screen                         |
+| `--grid-columns-sm`, `--grid-columns-md`, `--grid-columns-lg`, `--grid-columns-xl`, `--grid-columns-2xl` | The breakpoint below      | The number of columns from that [breakpoint](#breakpoints) up |
+| `--grid-gap`                                                                                             | `var(--space-6)`          | The space between rows and columns                            |
+| `--grid-min`                                                                                             | `--grid-min-column-width` | The minimum column width, with `.nc-grid--fit`                |
+
+Each breakpoint keeps the column count of the one below it until it sets its own, so the grid below has one column on phones, two from `md` and three from `lg`:
+
+```html
+<div
+  class="nc-grid"
+  style="--grid-columns-md: 2; --grid-columns-lg: 3; --grid-gap: var(--space-8)"
+>
+  …
+</div>
+```
+
+`.nc-grid--fit` ignores the column counts and fits as many columns as the width allows, each at least `--grid-min` wide (`--grid-min-column-width`, 16rem, by default), without media queries: the grid for a list of cards. The columns keep that width when a row is not full, so cards line up from one row to the next. A column never grows wider than the grid, so a small screen gets one full-width column.
+
+A grid's settings apply to it alone: a grid inside another one starts from the defaults. The items flow in reading order, from the inline start (right to left in Arabic or Hebrew), and the grid never reorders them, so the visual order matches the order of the keyboard and screen readers. A site that needs other columns, such as a wide main column beside a sidebar, writes its own `grid-template-columns` on the element: its CSS wins over the [cascade layer](#the-cascade).
