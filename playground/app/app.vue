@@ -512,7 +512,7 @@
           </BaseCluster>
         </BaseStack>
 
-        <pre class="usage"><code>{{ usage.button }}</code></pre>
+        <pre class="usage"><code>{{ buttonSnippet }}</code></pre>
 
         <h3 class="subheading">Links</h3>
         <BaseCluster :gap="6">
@@ -523,7 +523,7 @@
           </BaseLink>
         </BaseCluster>
 
-        <pre class="usage"><code>{{ usage.link }}</code></pre>
+        <pre class="usage"><code>{{ linkSnippet }}</code></pre>
 
         <h3 class="subheading">Cards</h3>
         <BaseGrid as="ul" :columns="{ md: 3 }" :gap="4" role="list">
@@ -555,7 +555,7 @@
           </BaseCard>
         </BaseGrid>
 
-        <pre class="usage"><code>{{ usage.card }}</code></pre>
+        <pre class="usage"><code>{{ cardSnippet }}</code></pre>
 
         <h3 class="subheading">Badges</h3>
         <BaseCluster :gap="2">
@@ -565,7 +565,7 @@
           </BaseBadge>
         </BaseCluster>
 
-        <pre class="usage"><code>{{ usage.badge }}</code></pre>
+        <pre class="usage"><code>{{ badgeSnippet }}</code></pre>
 
         <h3 class="subheading">Icons</h3>
         <BaseCluster :gap="6">
@@ -607,7 +607,7 @@
           </span>
         </BaseCluster>
 
-        <pre class="usage"><code>{{ usage.icon }}</code></pre>
+        <pre class="usage"><code>{{ iconSnippet }}</code></pre>
 
         <h3 class="subheading">Dividers</h3>
         <BaseStack :gap="3">
@@ -620,7 +620,7 @@
           </BaseCluster>
         </BaseStack>
 
-        <pre class="usage"><code>{{ usage.divider }}</code></pre>
+        <pre class="usage"><code>{{ dividerSnippet }}</code></pre>
 
         <h3 class="subheading">Avatars</h3>
         <BaseCluster :gap="3">
@@ -631,7 +631,7 @@
           <BaseAvatar name="Broken Image" src="/missing.jpg" size="lg" />
         </BaseCluster>
 
-        <pre class="usage"><code>{{ usage.avatar }}</code></pre>
+        <pre class="usage"><code>{{ avatarSnippet }}</code></pre>
 
         <h3 class="subheading">Loading indicator</h3>
         <p class="muted">With reduced motion, the ring stands still.</p>
@@ -641,7 +641,7 @@
           <span class="icon-large"><BaseSpinner /></span>
         </BaseCluster>
 
-        <pre class="usage"><code>{{ usage.spinner }}</code></pre>
+        <pre class="usage"><code>{{ spinnerSnippet }}</code></pre>
 
         <h3 class="subheading">Alerts</h3>
         <BaseStack :gap="3">
@@ -667,7 +667,7 @@
           </BaseAlert>
         </BaseStack>
 
-        <pre class="usage"><code>{{ usage.alert }}</code></pre>
+        <pre class="usage"><code>{{ alertSnippet }}</code></pre>
 
         <h3 class="subheading">Images</h3>
         <p class="muted">
@@ -698,7 +698,7 @@
           />
         </BaseGrid>
 
-        <pre class="usage"><code>{{ usage.image }}</code></pre>
+        <pre class="usage"><code>{{ imageSnippet }}</code></pre>
 
         <h3 class="subheading">Inventory</h3>
         <table class="table">
@@ -923,21 +923,20 @@ const layers = ['dropdown', 'sticky', 'modal', 'notification'].map(
 )
 
 // The code of each component demo, shown under it
-const usage = {
-  button: `<BaseButton @click="save">Save</BaseButton>
+const buttonSnippet = `<BaseButton @click="save">Save</BaseButton>
 <BaseButton variant="secondary" size="sm">Cancel</BaseButton>
 <BaseButton type="submit" :loading="sending">Send</BaseButton>
 <BaseButton disabled>Unavailable</BaseButton>
 <BaseButton size="lg">
   <template #start><BaseIcon><svg>…</svg></BaseIcon></template>
   Large, with an icon
-</BaseButton>`,
-  link: `<BaseLink to="/about">About us</BaseLink>
+</BaseButton>`
+const linkSnippet = `<BaseLink to="/about">About us</BaseLink>
 <BaseLink to="https://nuxt.com">Nuxt</BaseLink>
 <BaseLink to="https://github.com/modulane/nuxt-core" new-tab>
   Source
-</BaseLink>`,
-  card: `<BaseGrid as="ul" :columns="{ md: 3 }" role="list">
+</BaseLink>`
+const cardSnippet = `<BaseGrid as="ul" :columns="{ md: 3 }" role="list">
   <BaseCard as="li" :to="post.path">
     <template #media>
       <BaseImage :src="post.image" alt="" width="1200" height="800" ratio="16 / 9" />
@@ -946,33 +945,33 @@ const usage = {
     <p>{{ post.summary }}</p>
     <template #footer><BaseButton size="sm">Save</BaseButton></template>
   </BaseCard>
-</BaseGrid>`,
-  badge: `<BaseBadge>Draft</BaseBadge>
+</BaseGrid>`
+const badgeSnippet = `<BaseBadge>Draft</BaseBadge>
 <BaseBadge status="success">In stock</BaseBadge>
-<BaseBadge status="danger">Sold out</BaseBadge>`,
-  icon: `<!-- Decorative, beside text that says it -->
+<BaseBadge status="danger">Sold out</BaseBadge>`
+const iconSnippet = `<!-- Decorative, beside text that says it -->
 <BaseIcon><svg viewBox="0 0 24 24" stroke="currentColor">…</svg></BaseIcon>
 
 <!-- Meaningful, alone -->
 <BaseIcon label="Next"><svg>…</svg></BaseIcon>
 
 <!-- Mirrored in right-to-left languages -->
-<BaseIcon flip-rtl><svg>…</svg></BaseIcon>`,
-  divider: `<BaseDivider />
+<BaseIcon flip-rtl><svg>…</svg></BaseIcon>`
+const dividerSnippet = `<BaseDivider />
 
 <BaseCluster>
   <span>Share</span>
   <BaseDivider orientation="vertical" decorative />
   <span>Print</span>
-</BaseCluster>`,
-  avatar: `<BaseAvatar name="Ada Lovelace" size="sm" />
+</BaseCluster>`
+const avatarSnippet = `<BaseAvatar name="Ada Lovelace" size="sm" />
 <BaseAvatar name="Margaret Hamilton" src="/team/margaret.jpg" size="lg" />
 
 <!-- The name is written beside it -->
-<BaseAvatar name="Ada Lovelace" decorative /> Ada Lovelace`,
-  spinner: `<BaseSpinner v-if="pending" />
-<BaseSpinner label="Chargement" />`,
-  alert: `<BaseAlert>
+<BaseAvatar name="Ada Lovelace" decorative /> Ada Lovelace`
+const spinnerSnippet = `<BaseSpinner v-if="pending" />
+<BaseSpinner label="Chargement" />`
+const alertSnippet = `<BaseAlert>
   <template #title>Info</template>
   The shop closes at 6 pm today.
 </BaseAlert>
@@ -980,14 +979,13 @@ const usage = {
 <!-- Read out as it appears, after the visitor's action -->
 <BaseAlert v-if="sent" status="success" announce>
   Your message was sent.
-</BaseAlert>`,
-  image: `<BaseImage src="/team.jpg" alt="The team" width="1200" height="800" />
+</BaseAlert>`
+const imageSnippet = `<BaseImage src="/team.jpg" alt="The team" width="1200" height="800" />
 <BaseImage src="/team.jpg" alt="The team" width="1200" height="800" ratio="16 / 9" />
 <BaseImage src="/logo.png" alt="Logo" width="400" height="400" ratio="1" fit="contain" />
 
 <!-- Above the fold -->
-<BaseImage src="/hero.jpg" alt="…" width="1920" height="1080" priority />`,
-}
+<BaseImage src="/hero.jpg" alt="…" width="1920" height="1080" priority />`
 
 // Mirrors the inventory in docs/components.md
 const components = [
