@@ -497,15 +497,16 @@
             <BaseButton size="md">Medium</BaseButton>
             <BaseButton size="lg">
               <template #start>
-                <BaseIcon
-                  ><svg
+                <BaseIcon>
+                  <svg
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
                   >
-                    <path d="M5 12h14M13 6l6 6-6 6" /></svg
-                ></BaseIcon>
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </BaseIcon>
               </template>
               Large, with an icon
             </BaseButton>
@@ -570,39 +571,42 @@
         <h3 class="subheading">Icons</h3>
         <BaseCluster :gap="6">
           <span>
-            <BaseIcon
-              ><svg
+            <BaseIcon>
+              <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               >
-                <path d="M5 12h14M13 6l6 6-6 6" /></svg
-            ></BaseIcon>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </BaseIcon>
             Beside text, decorative
           </span>
           <span class="icon-large">
-            <BaseIcon label="Next"
-              ><svg
+            <BaseIcon label="Next">
+              <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               >
-                <path d="M5 12h14M13 6l6 6-6 6" /></svg
-            ></BaseIcon>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </BaseIcon>
             Follows the font size
           </span>
           <span dir="rtl">
-            <BaseIcon flip-rtl
-              ><svg
+            <BaseIcon flip-rtl>
+              <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               >
-                <path d="M5 12h14M13 6l6 6-6 6" /></svg
-            ></BaseIcon>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </BaseIcon>
             يمين إلى يسار
           </span>
         </BaseCluster>
