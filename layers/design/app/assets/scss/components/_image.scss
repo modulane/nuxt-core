@@ -1,0 +1,17 @@
+// Styles <BaseImage> through its hooks: .nc-image, data-fit and --image-ratio.
+// The reset already makes every image a fluid block.
+.nc-image {
+  // Fills the reserved space while the image loads
+  background: var(--color-surface);
+
+  // data-fit is set only with a ratio
+  &[data-fit] {
+    inline-size: 100%;
+    aspect-ratio: var(--image-ratio);
+    object-fit: cover;
+  }
+
+  &[data-fit='contain'] {
+    object-fit: contain;
+  }
+}

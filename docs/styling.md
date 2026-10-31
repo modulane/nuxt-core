@@ -26,6 +26,16 @@ layers/design/app/assets/scss/
 │   ├── _cluster.scss      .nc-cluster
 │   └── _page.scss         .nc-layout, the page layouts; .nc-skip-link
 ├── components/            The styles of each primitive, one partial per component
+│   ├── _alert.scss        .nc-alert
+│   ├── _avatar.scss       .nc-avatar
+│   ├── _badge.scss        .nc-badge
+│   ├── _button.scss       .nc-button
+│   ├── _card.scss         .nc-card
+│   ├── _divider.scss      .nc-divider
+│   ├── _icon.scss         .nc-icon
+│   ├── _image.scss        .nc-image
+│   ├── _link.scss         .nc-link
+│   ├── _spinner.scss      .nc-spinner
 │   └── _switch.scss       .nc-switch
 └── utilities/
     └── _utilities.scss    .nc-flow, .nc-visually-hidden
@@ -163,6 +173,7 @@ Each step moves away from the background: lighter in the dark scheme, darker in 
 | `--duration-fast`   | 150ms                               |
 | `--duration-normal` | 200ms                               |
 | `--duration-slow`   | 350ms                               |
+| `--duration-spin`   | 1s, one turn of a loading spinner   |
 | `--ease-standard`   | `cubic-bezier(0.2, 0, 0, 1)`        |
 
 | Token         | Dark                                                       | Light                                                           |
@@ -387,6 +398,9 @@ In [forced colours](https://developer.mozilla.org/docs/Web/CSS/@media/forced-col
 | ------------ | ----------------------------------------------------------------------------------------------------------- |
 | `.nc-switch` | A `CanvasText` thumb on a `Canvas` track; `Highlight` and `HighlightText` when on; `GrayText` when disabled |
 | `mark`       | The system's `Mark` and `MarkText`                                                                          |
+| `.nc-button` | Its transparent border outlines it; `GrayText` when disabled                                                |
+| `.nc-badge`  | Its transparent border outlines it                                                                          |
+| `.nc-alert`  | The tint goes; its thick start border still marks it                                                        |
 
 The same rules apply to every component and to a site's own styles:
 

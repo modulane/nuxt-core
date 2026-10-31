@@ -1,0 +1,13 @@
+// Styles <BaseDivider> through its hooks: .nc-divider and data-orientation.
+// Its spacing comes from the parent's gap.
+.nc-divider {
+  margin: 0;
+  border: 0;
+  border-block-start: var(--border-width-thin) solid var(--color-border);
+
+  &[data-orientation='vertical'] {
+    align-self: stretch;
+    border-block-start: 0;
+    border-inline-start: var(--border-width-thin) solid var(--color-border);
+  }
+}

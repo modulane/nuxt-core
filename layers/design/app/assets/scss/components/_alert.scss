@@ -1,0 +1,25 @@
+@use '../abstracts' as *;
+
+// Styles <BaseAlert> through its hooks: .nc-alert, its parts and data-status.
+// Forced colours drop the tint; the thick start border still marks the alert.
+.nc-alert {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-inline-start-width: var(--border-width-thick);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  &__title {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  @each $status in info, success, warning, danger {
+    &[data-status='#{$status}'] {
+      border-color: var(--color-#{$status});
+      background: translucent(var(--color-#{$status}), 12%);
+    }
+  }
+}

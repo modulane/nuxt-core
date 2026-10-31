@@ -1,0 +1,32 @@
+@use '../abstracts' as *;
+
+// Styles <BaseSpinner> through its hooks: .nc-spinner and its parts
+.nc-spinner {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+
+  &__circle {
+    flex: none;
+    inline-size: 1em;
+    block-size: 1em;
+    border: var(--border-width-thick) solid currentcolor;
+    border-block-start-color: transparent;
+    border-radius: var(--radius-full);
+
+    // Reduced motion leaves a still ring; the label still says it is loading
+    @include motion-safe {
+      animation: nc-spin var(--duration-spin) linear infinite;
+    }
+  }
+
+  &__label {
+    @include visually-hidden;
+  }
+}
+
+@keyframes nc-spin {
+  to {
+    rotate: 1turn;
+  }
+}

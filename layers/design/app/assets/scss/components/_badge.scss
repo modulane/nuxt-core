@@ -1,0 +1,29 @@
+@use '../abstracts' as *;
+
+// Styles <BaseBadge> through its hooks: .nc-badge and data-status
+.nc-badge {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--space-2);
+  // Transparent rather than none: forced colours drop the background and draw
+  // the border, which then outlines the badge
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  white-space: nowrap;
+
+  &[data-status='neutral'] {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  @each $status in success, warning, danger, info {
+    &[data-status='#{$status}'] {
+      background: var(--color-#{$status});
+      color: var(--color-#{$status}-contrast);
+    }
+  }
+}

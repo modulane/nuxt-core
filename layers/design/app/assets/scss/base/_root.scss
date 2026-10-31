@@ -80,6 +80,8 @@
   --duration-fast: 150ms;
   --duration-normal: 200ms;
   --duration-slow: 350ms;
+  // One turn of a loading spinner: an animation, slower than any transition
+  --duration-spin: 1s;
 
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 

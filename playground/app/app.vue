@@ -473,6 +473,238 @@
         aria-labelledby="components-title"
       >
         <h2 id="components-title">Components</h2>
+
+        <h3 class="subheading">Buttons</h3>
+        <p class="muted">
+          Hover, press and tab to them. The loading one keeps focus and ignores
+          clicks; in forced colours, the outline and the disabled state stay
+          visible.
+        </p>
+        <BaseStack :gap="3">
+          <BaseCluster :gap="2">
+            <BaseButton>Primary</BaseButton>
+            <BaseButton variant="secondary">Secondary</BaseButton>
+            <BaseButton disabled>Disabled</BaseButton>
+            <BaseButton :loading="loading" @click="clicks++">
+              Clicked {{ clicks }} times
+            </BaseButton>
+            <BaseButton variant="secondary" @click="loading = !loading">
+              {{ loading ? 'Stop loading' : 'Start loading' }}
+            </BaseButton>
+          </BaseCluster>
+          <BaseCluster :gap="2">
+            <BaseButton size="sm">Small</BaseButton>
+            <BaseButton size="md">Medium</BaseButton>
+            <BaseButton size="lg">
+              <template #start>
+                <BaseIcon>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </BaseIcon>
+              </template>
+              Large, with an icon
+            </BaseButton>
+          </BaseCluster>
+        </BaseStack>
+
+        <pre class="usage"><code>{{ buttonSnippet }}</code></pre>
+
+        <h3 class="subheading">Links</h3>
+        <BaseCluster :gap="6">
+          <BaseLink to="#colours">An internal link</BaseLink>
+          <BaseLink to="https://nuxt.com">An external link</BaseLink>
+          <BaseLink to="https://github.com/modulane/nuxt-core" new-tab>
+            A link in a new tab
+          </BaseLink>
+        </BaseCluster>
+
+        <pre class="usage"><code>{{ linkSnippet }}</code></pre>
+
+        <h3 class="subheading">Cards</h3>
+        <BaseGrid as="ul" :columns="{ md: 3 }" :gap="4" role="list">
+          <BaseCard as="li">
+            <template #header><h4>A plain card</h4></template>
+            <p>A header and a body, nothing else.</p>
+          </BaseCard>
+          <BaseCard as="li">
+            <template #media>
+              <BaseImage
+                src="/sample.svg"
+                alt=""
+                width="1200"
+                height="800"
+                ratio="16 / 9"
+              />
+            </template>
+            <template #header><h4>With media</h4></template>
+            <p>The image comes after the title in the markup, and on top.</p>
+          </BaseCard>
+          <BaseCard as="li" to="#components">
+            <template #header><h4>A linked card</h4></template>
+            <p>Click anywhere: the title is the link.</p>
+            <template #footer>
+              <BaseButton size="sm" variant="secondary" @click="clicks++">
+                Its own button
+              </BaseButton>
+            </template>
+          </BaseCard>
+        </BaseGrid>
+
+        <pre class="usage"><code>{{ cardSnippet }}</code></pre>
+
+        <h3 class="subheading">Badges</h3>
+        <BaseCluster :gap="2">
+          <BaseBadge>Neutral</BaseBadge>
+          <BaseBadge v-for="status in statuses" :key="status" :status="status">
+            {{ status }}
+          </BaseBadge>
+        </BaseCluster>
+
+        <pre class="usage"><code>{{ badgeSnippet }}</code></pre>
+
+        <h3 class="subheading">Icons</h3>
+        <BaseCluster :gap="6">
+          <span>
+            <BaseIcon>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </BaseIcon>
+            Beside text, decorative
+          </span>
+          <span class="icon-large">
+            <BaseIcon label="Next">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </BaseIcon>
+            Follows the font size
+          </span>
+          <span dir="rtl">
+            <BaseIcon flip-rtl>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </BaseIcon>
+            يمين إلى يسار
+          </span>
+        </BaseCluster>
+
+        <pre class="usage"><code>{{ iconSnippet }}</code></pre>
+
+        <h3 class="subheading">Dividers</h3>
+        <BaseStack :gap="3">
+          <p>Above a horizontal divider.</p>
+          <BaseDivider />
+          <BaseCluster :gap="3">
+            <span>Share</span>
+            <BaseDivider orientation="vertical" decorative />
+            <span>Print</span>
+          </BaseCluster>
+        </BaseStack>
+
+        <pre class="usage"><code>{{ dividerSnippet }}</code></pre>
+
+        <h3 class="subheading">Avatars</h3>
+        <BaseCluster :gap="3">
+          <BaseAvatar name="Ada Lovelace" size="sm" />
+          <BaseAvatar name="Grace Hopper" />
+          <BaseAvatar name="Alan Turing" size="lg" />
+          <BaseAvatar name="Margaret Hamilton" src="/sample.svg" size="lg" />
+          <BaseAvatar name="Broken Image" src="/missing.jpg" size="lg" />
+        </BaseCluster>
+
+        <pre class="usage"><code>{{ avatarSnippet }}</code></pre>
+
+        <h3 class="subheading">Loading indicator</h3>
+        <p class="muted">With reduced motion, the ring stands still.</p>
+        <BaseCluster :gap="6">
+          <BaseSpinner />
+          <BaseSpinner label="Chargement" />
+          <span class="icon-large"><BaseSpinner /></span>
+        </BaseCluster>
+
+        <pre class="usage"><code>{{ spinnerSnippet }}</code></pre>
+
+        <h3 class="subheading">Alerts</h3>
+        <BaseStack :gap="3">
+          <BaseAlert>
+            <template #title>Info</template>
+            The shop closes at 6 pm today.
+          </BaseAlert>
+          <BaseAlert status="success">Your message was sent.</BaseAlert>
+          <BaseAlert status="warning"
+            >Your session ends in 5 minutes.</BaseAlert
+          >
+          <BaseAlert status="danger">
+            <template #title>Error</template>
+            The form has two errors.
+          </BaseAlert>
+          <div>
+            <BaseButton variant="secondary" @click="announced = !announced">
+              {{ announced ? 'Hide' : 'Show' }} an announced alert
+            </BaseButton>
+          </div>
+          <BaseAlert v-if="announced" status="success" announce>
+            Read out by screen readers as it appears.
+          </BaseAlert>
+        </BaseStack>
+
+        <pre class="usage"><code>{{ alertSnippet }}</code></pre>
+
+        <h3 class="subheading">Images</h3>
+        <p class="muted">
+          The same image: its own shape, cropped to 16 / 9, and fitted in a
+          square. Each reserves its space before it loads.
+        </p>
+        <BaseGrid :columns="{ md: 3 }" :gap="4">
+          <BaseImage
+            src="/sample.svg"
+            alt="Mountains"
+            width="1200"
+            height="800"
+          />
+          <BaseImage
+            src="/sample.svg"
+            alt="Mountains, cropped"
+            width="1200"
+            height="800"
+            ratio="16 / 9"
+          />
+          <BaseImage
+            src="/sample.svg"
+            alt="Mountains, fitted"
+            width="1200"
+            height="800"
+            ratio="1"
+            fit="contain"
+          />
+        </BaseGrid>
+
+        <pre class="usage"><code>{{ imageSnippet }}</code></pre>
+
+        <h3 class="subheading">Inventory</h3>
         <table class="table">
           <thead>
             <tr>
@@ -531,6 +763,10 @@ const sections = [
   { id: 'components', title: 'Components' },
 ]
 
+const loading = ref(false)
+const clicks = ref(0)
+const announced = ref(false)
+
 const switches = reactive({
   off: false,
   on: true,
@@ -543,7 +779,7 @@ const mediaFeatures = [
   {
     name: 'Forced colours',
     query: '(forced-colors: active)',
-    effect: 'System colours; the switch and mark draw their state with them',
+    effect: 'System colours; components draw their outline and state with them',
   },
   {
     name: 'Reduced motion',
@@ -664,7 +900,7 @@ const colors = [
     `--color-${action}-active`,
   ]),
 ]
-const statuses = ['success', 'warning', 'danger', 'info']
+const statuses = ['success', 'warning', 'danger', 'info'] as const
 const actions = ['primary', 'secondary']
 const fontSizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'].map(
   size => `--font-size-${size}`,
@@ -682,11 +918,78 @@ const spaces = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20].map(
 )
 const radii = ['sm', 'md', 'lg', 'full'].map(size => `--radius-${size}`)
 const shadows = ['sm', 'md', 'lg'].map(size => `--shadow-${size}`)
-const durations = ['fast', 'normal', 'slow'].map(speed => `--duration-${speed}`)
+const durations = ['fast', 'normal', 'slow', 'spin'].map(
+  speed => `--duration-${speed}`,
+)
 const borderWidths = ['thin', 'thick'].map(width => `--border-width-${width}`)
 const layers = ['dropdown', 'sticky', 'modal', 'notification'].map(
   layer => `--z-${layer}`,
 )
+
+// The code of each component demo, shown under it
+const buttonSnippet = `<BaseButton @click="save">Save</BaseButton>
+<BaseButton variant="secondary" size="sm">Cancel</BaseButton>
+<BaseButton type="submit" :loading="sending">Send</BaseButton>
+<BaseButton disabled>Unavailable</BaseButton>
+<BaseButton size="lg">
+  <template #start><BaseIcon><svg>…</svg></BaseIcon></template>
+  Large, with an icon
+</BaseButton>`
+const linkSnippet = `<BaseLink to="/about">About us</BaseLink>
+<BaseLink to="https://nuxt.com">Nuxt</BaseLink>
+<BaseLink to="https://github.com/modulane/nuxt-core" new-tab>
+  Source
+</BaseLink>`
+const cardSnippet = `<BaseGrid as="ul" :columns="{ md: 3 }" role="list">
+  <BaseCard as="li" :to="post.path">
+    <template #media>
+      <BaseImage :src="post.image" alt="" width="1200" height="800" ratio="16 / 9" />
+    </template>
+    <template #header><h3>{{ post.title }}</h3></template>
+    <p>{{ post.summary }}</p>
+    <template #footer><BaseButton size="sm">Save</BaseButton></template>
+  </BaseCard>
+</BaseGrid>`
+const badgeSnippet = `<BaseBadge>Draft</BaseBadge>
+<BaseBadge status="success">In stock</BaseBadge>
+<BaseBadge status="danger">Sold out</BaseBadge>`
+const iconSnippet = `<!-- Decorative, beside text that says it -->
+<BaseIcon><svg viewBox="0 0 24 24" stroke="currentColor">…</svg></BaseIcon>
+
+<!-- Meaningful, alone -->
+<BaseIcon label="Next"><svg>…</svg></BaseIcon>
+
+<!-- Mirrored in right-to-left languages -->
+<BaseIcon flip-rtl><svg>…</svg></BaseIcon>`
+const dividerSnippet = `<BaseDivider />
+
+<BaseCluster>
+  <span>Share</span>
+  <BaseDivider orientation="vertical" decorative />
+  <span>Print</span>
+</BaseCluster>`
+const avatarSnippet = `<BaseAvatar name="Ada Lovelace" size="sm" />
+<BaseAvatar name="Margaret Hamilton" src="/team/margaret.jpg" size="lg" />
+
+<!-- The name is written beside it -->
+<BaseAvatar name="Ada Lovelace" decorative /> Ada Lovelace`
+const spinnerSnippet = `<BaseSpinner v-if="pending" />
+<BaseSpinner label="Chargement" />`
+const alertSnippet = `<BaseAlert>
+  <template #title>Info</template>
+  The shop closes at 6 pm today.
+</BaseAlert>
+
+<!-- Read out as it appears, after the visitor's action -->
+<BaseAlert v-if="sent" status="success" announce>
+  Your message was sent.
+</BaseAlert>`
+const imageSnippet = `<BaseImage src="/team.jpg" alt="The team" width="1200" height="800" />
+<BaseImage src="/team.jpg" alt="The team" width="1200" height="800" ratio="16 / 9" />
+<BaseImage src="/logo.png" alt="Logo" width="400" height="400" ratio="1" fit="contain" />
+
+<!-- Above the fold -->
+<BaseImage src="/hero.jpg" alt="…" width="1920" height="1080" priority />`
 
 // Mirrors the inventory in docs/components.md
 const components = [
@@ -694,8 +997,16 @@ const components = [
   { name: 'BaseGrid', status: 'ready', phase: 3 },
   { name: 'BaseStack', status: 'ready', phase: 3 },
   { name: 'BaseCluster', status: 'ready', phase: 3 },
-  { name: 'BaseButton', status: 'stub', phase: 4 },
-  { name: 'BaseCard', status: 'stub', phase: 4 },
+  { name: 'BaseButton', status: 'ready', phase: 4 },
+  { name: 'BaseLink', status: 'ready', phase: 4 },
+  { name: 'BaseCard', status: 'ready', phase: 4 },
+  { name: 'BaseBadge', status: 'ready', phase: 4 },
+  { name: 'BaseIcon', status: 'ready', phase: 4 },
+  { name: 'BaseDivider', status: 'ready', phase: 4 },
+  { name: 'BaseAvatar', status: 'ready', phase: 4 },
+  { name: 'BaseSpinner', status: 'ready', phase: 4 },
+  { name: 'BaseAlert', status: 'ready', phase: 4 },
+  { name: 'BaseImage', status: 'ready', phase: 4 },
   { name: 'FormInput', status: 'stub', phase: 5 },
   { name: 'FormTextarea', status: 'stub', phase: 5 },
   { name: 'FormSwitch', status: 'ready', phase: 5 },
@@ -837,6 +1148,20 @@ code {
   &__lines {
     max-inline-size: 40ch;
   }
+}
+
+.icon-large {
+  font-size: var(--font-size-2xl);
+}
+
+.usage {
+  margin-block-start: var(--space-4);
+  padding: var(--space-4);
+  overflow-x: auto;
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--font-size-sm);
 }
 
 .subheading {

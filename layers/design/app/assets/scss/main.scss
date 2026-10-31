@@ -32,6 +32,16 @@
 }
 
 @layer nuxt-core.components {
+  @include meta.load-css('components/alert');
+  @include meta.load-css('components/avatar');
+  @include meta.load-css('components/badge');
+  @include meta.load-css('components/button');
+  @include meta.load-css('components/card');
+  @include meta.load-css('components/divider');
+  @include meta.load-css('components/icon');
+  @include meta.load-css('components/image');
+  @include meta.load-css('components/link');
+  @include meta.load-css('components/spinner');
   @include meta.load-css('components/switch');
 }
 
