@@ -54,6 +54,7 @@ nuxt-core/
 │       └── shared/types/     Types used by both app/ and server/
 ├── playground/               The development app, which extends the root layer; not shipped
 ├── tests/                    Vitest tests; not shipped
+├── scripts/                  Scripts CI runs; not shipped
 └── docs/                     This documentation; not shipped
 ```
 
@@ -80,6 +81,10 @@ A minimal Nuxt app whose `nuxt.config.ts` extends the root layer with `extends: 
 ### `tests/`
 
 Vitest tests. See [testing.md](testing.md).
+
+### `scripts/`
+
+Node.js scripts that CI runs. `generate-coverage-badge.js` turns the coverage summary into the badge in the README. See [testing.md](testing.md#running-the-tests).
 
 ## Configuration files
 

@@ -1,6 +1,9 @@
 # Nuxt Core
 
 [![CI](https://github.com/modulane/nuxt-core/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/modulane/nuxt-core/actions/workflows/release.yml)
+![Coverage](https://modulane.github.io/nuxt-core/coverage.svg)
+[![Latest release](https://img.shields.io/github/v/release/modulane/nuxt-core)](https://github.com/modulane/nuxt-core/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 A reusable foundation for building modern websites with Nuxt, delivered as [Nuxt layers](https://nuxt.com/docs/guide/going-further/layers): accessible unstyled primitives, a design system, or both.
 

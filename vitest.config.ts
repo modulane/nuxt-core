@@ -12,5 +12,13 @@ export default defineVitestConfig({
         domEnvironment: 'happy-dom',
       },
     },
+    // Used by `yarn coverage`. Only the layers' code counts, not the
+    // playground or the tests.
+    coverage: {
+      provider: 'v8',
+      include: ['layers/*/app/**/*.{ts,vue}'],
+      reporter: ['text', 'lcov', 'json-summary'],
+      thresholds: { lines: 90, statements: 90 },
+    },
   },
 })

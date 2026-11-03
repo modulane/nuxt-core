@@ -30,7 +30,7 @@ Every change is made on a short-lived branch and reaches `main` through a pull r
 1. Create a branch from an up-to-date `main`, named after the change: `feat/base-button`, `fix/modal-close`, `docs/readme`, …
 2. Open a **draft** pull request as soon as the branch has its first commit (`gh pr create --draft`), so the work is visible while it is in progress.
 3. Push every commit to the branch as it is made. Run `yarn check` before each push. Nothing is released from a branch.
-4. When the change is complete, mark the pull request ready for review (`gh pr ready`). Only a pull request that is ready is reviewed and merged. CI checks formatting, types and tests, and builds the site with Node.js 22, 24 and 26, and a check verifies that the title follows [Conventional Commits](https://www.conventionalcommits.org/). Pull requests that change `.github/` are also audited by [zizmor](https://docs.zizmor.sh/). A final **CI passed** job succeeds only when every CI job has passed. It and the title check are the checks that must pass before a pull request can be merged, so changing the Node.js versions never requires changing the repository rules.
+4. When the change is complete, mark the pull request ready for review (`gh pr ready`). Only a pull request that is ready is reviewed and merged. CI checks formatting, types and tests, and builds the site with Node.js 22, 24 and 26. It also measures test coverage, which must stay at 90% of the lines or more. A check verifies that the title follows [Conventional Commits](https://www.conventionalcommits.org/). Pull requests that change `.github/` are also audited by [zizmor](https://docs.zizmor.sh/). A final **CI passed** job succeeds only when every CI job has passed. It and the title check are the checks that must pass before a pull request can be merged, so changing the Node.js versions never requires changing the repository rules.
 5. Squash-merge it. The pull request title becomes the only commit on `main`. Delete the branch: the next change starts a new one from `main`.
 
 The pull request title decides what is released, so choose its type carefully:
@@ -83,7 +83,7 @@ Releases are fully automated with [semantic-release](https://semantic-release.gi
 
 1. A pull request is merged into `main`.
 2. The **Release** workflow starts on that commit. Its first job runs the **CI** workflow.
-3. If CI succeeds, the release job runs semantic-release in the same run, on the same commit.
+3. If CI succeeds, the release job runs semantic-release in the same run, on the same commit. CI also publishes the coverage badge to GitHub Pages.
 4. semantic-release reads the commits since the last release tag. If none of them is a `fix:` or `feat:`, it stops and nothing is released.
 5. Otherwise it computes the next version, creates the `vX.Y.Z` git tag and a GitHub release with notes generated from the commits, and comments on the issues and pull requests it includes.
 
