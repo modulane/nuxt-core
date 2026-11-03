@@ -62,6 +62,41 @@ jobs:
       - name: Build
         run: yarn build
 
+  coverage:
+    name: Code coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run tests with coverage
+        run: yarn coverage
+
+      - name: Generate coverage badge
+        run: node scripts/generate-coverage-badge.js
+
+      - name: Upload Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: coverage/badge
+
   # The one CI check the main ruleset requires, so adding or dropping a Node.js
   # version in the matrix never means editing the ruleset. It runs even when a
   # job it needs fails or is cancelled, because GitHub treats a skipped
@@ -69,7 +104,7 @@ jobs:
   ci-passed:
     name: CI passed
     if: always()
-    needs: [test]
+    needs: [test, coverage]
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -91,3 +126,23 @@ jobs:
               exit 1
             fi
           done
+
+  deploy-badge:
+    name: Deploy coverage badge
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      pages: write # publish the badge to GitHub Pages
+      id-token: write # prove to Pages that the deployment comes from this run
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

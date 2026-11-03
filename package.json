@@ -24,6 +24,7 @@
     "dev:prepare": "nuxt prepare playground",
     "test": "vitest run",
     "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
     "typecheck": "nuxt typecheck playground",
     "check": "yarn format:check && yarn typecheck && yarn test",
     "format": "prettier --write .",
@@ -49,13 +50,14 @@
   "devDependencies": {
     "@nuxt/test-utils": "^4.3.1",
     "@types/node": "^24",
+    "@vitest/coverage-v8": "^5.1.0",
     "@vue/test-utils": "^2.5.1",
     "happy-dom": "^21.0.4",
     "nuxt": "^4.6.4",
     "prettier": "3.9.10",
     "semantic-release": "^25.0.9",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.0",
+    "vitest": "^5.1.0",
     "vue": "^3.5.42",
     "vue-router": "^5.3.0",
     "vue-tsc": "^3.3.13"
