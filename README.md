@@ -35,7 +35,7 @@ Nuxt Core
 
 ## Status
 
-Nuxt Core is in early development. The project and styling foundations are in place; the layout system is in progress, and components come next. The [roadmap](ROADMAP.md) shows every phase and what is done.
+Nuxt Core is in early development, before 1.0.0. The project foundation, styling foundation, layout system and core UI components are done; forms come next. The [roadmap](ROADMAP.md) shows every phase and what is done.
 
 ## Technology
 
@@ -59,7 +59,7 @@ Nuxt Core comes in independent parts. A site picks what it needs:
 A site installs a release from GitHub and extends a part:
 
 ```bash
-yarn add @modulane/nuxt-core@github:modulane/nuxt-core#v0.1.0
+yarn add @modulane/nuxt-core@github:modulane/nuxt-core#v0.9.0
 ```
 
 ```ts
