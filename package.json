@@ -51,7 +51,7 @@
     "@types/node": "^24",
     "@vue/test-utils": "^2.5.1",
     "happy-dom": "^21.0.4",
-    "nuxt": "^4.5.2",
+    "nuxt": "^4.6.4",
     "prettier": "3.9.10",
     "semantic-release": "^25.0.9",
     "typescript": "^6.0.3",
