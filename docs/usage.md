@@ -6,23 +6,22 @@ Nuxt Core is a set of [Nuxt layers](https://nuxt.com/docs/guide/going-further/la
 
 - Nuxt 4.5.2 or later, the `peerDependencies` range in `package.json`
 - A Node.js version that Nuxt supports, listed in [getting-started.md](getting-started.md#requirements)
-- Read access to [modulane/nuxt-core](https://github.com/modulane/nuxt-core) on GitHub, while the repository is private
 
 The design system supports the browsers listed in [styling.md](styling.md#browser-support), and the design layer sets them as the site's CSS build target. A site that supports other browsers sets its own `vite.build.cssTarget`.
 
 ## Installation
 
-Nuxt Core is released as Git tags and GitHub releases, not on the npm registry. Install a release tag; the [releases page](https://github.com/modulane/nuxt-core/releases) lists them. With `v0.1.0` as the example:
+Nuxt Core is released as Git tags and GitHub releases, not on the npm registry. Install a release tag; the [releases page](https://github.com/modulane/nuxt-core/releases) lists them. With `v0.9.0` as the example; use the latest tag:
 
 ```bash
 # Yarn
-yarn add @modulane/nuxt-core@github:modulane/nuxt-core#v0.1.0
+yarn add @modulane/nuxt-core@github:modulane/nuxt-core#v0.9.0
 
 # npm
-npm install github:modulane/nuxt-core#v0.1.0
+npm install github:modulane/nuxt-core#v0.9.0
 
 # pnpm
-pnpm add github:modulane/nuxt-core#v0.1.0
+pnpm add github:modulane/nuxt-core#v0.9.0
 ```
 
 The package manager installs the layers' own dependencies, such as `sass`, with it. With pnpm, which does not hoist dependencies, also add `sass` to the site: Vite looks for it from the site's root.

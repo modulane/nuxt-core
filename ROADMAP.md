@@ -33,7 +33,7 @@ The roadmap is a direction, not a schedule: phases may be added, removed or reor
 | [12. Reusable Website Features](#phase-12--reusable-website-features) | ⬜ Planned | SEO, contact forms, analytics, consent          |
 | [13. Website Templates](#phase-13--website-templates)                 | ⬜ Planned | Complete starting points per type of site       |
 | [14. Project Generator](#phase-14--project-generator)                 | ⬜ Planned | A new site from a few choices                   |
-| [15. Public Release](#phase-15--public-release)                       | ⬜ Planned | Licence, npm, 1.0.0 and a documentation site    |
+| [15. Public Release](#phase-15--public-release)                       | ⬜ Planned | Public repo, npm, 1.0.0, documentation site     |
 
 A phase is **done** when every item is ticked and its "Done when" condition holds. Work on a later phase can start early when it unblocks something.
 
@@ -331,6 +331,7 @@ Project
 **Goal:** Nuxt Core usable by people outside the team. This phase can move earlier if a site needs it.
 
 - [x] Licence: MIT ([LICENSE](LICENSE))
+- [ ] Public repository, with `main` protected, private vulnerability reporting and secret scanning turned on
 - [ ] Published on the npm registry, alongside the Git tags
 - [ ] Version 1.0.0, once the hooks, tokens and component APIs are stable
 - [ ] Versioning policy: what counts as a breaking change (a renamed hook, token, prop or event), and an upgrade guide for each major version
