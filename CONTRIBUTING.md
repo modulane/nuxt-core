@@ -30,7 +30,7 @@ Every change is made on a short-lived branch and reaches `main` through a pull r
 1. Create a branch from an up-to-date `main`, named after the change: `feat/base-button`, `fix/modal-close`, `docs/readme`, …
 2. Open a **draft** pull request as soon as the branch has its first commit (`gh pr create --draft`), so the work is visible while it is in progress.
 3. Push every commit to the branch as it is made. Run `yarn check` before each push. Nothing is released from a branch.
-4. When the change is complete, mark the pull request ready for review (`gh pr ready`). Only a pull request that is ready is reviewed and merged. CI checks formatting, types and tests, and builds the site with Node.js 22, 24 and 26. It also measures test coverage, which must stay at 90% of the lines or more. A check verifies that the title follows [Conventional Commits](https://www.conventionalcommits.org/). Pull requests that change `.github/` are also audited by [zizmor](https://docs.zizmor.sh/). A final **CI passed** job succeeds only when every CI job has passed. It and the title check are the checks that must pass before a pull request can be merged, so changing the Node.js versions never requires changing the repository rules.
+4. When the change is complete, mark the pull request ready for review (`gh pr ready`). Only a pull request that is ready is reviewed and merged. CI checks formatting, types and tests, and builds the site with Node.js 22, 24 and 26. It also measures test coverage, which must stay at 90% of the lines or more. A check verifies that the title follows [Conventional Commits](https://www.conventionalcommits.org/). Pull requests that change `.github/` are also audited by [zizmor](https://docs.zizmor.sh/). A final **CI passed** job succeeds only when every CI job has passed. It, the title check and the **AI disclosure** check (see [AI use](#ai-use)) are the checks that must pass before a pull request can be merged, so changing the Node.js versions never requires changing the repository rules.
 5. Squash-merge it. The pull request title becomes the only commit on `main`. Delete the branch: the next change starts a new one from `main`.
 
 The pull request title decides what is released, so choose its type carefully:
@@ -46,6 +46,16 @@ Keep the summary lowercase and in the imperative: `feat: add base button`, not `
 **Do not mark changes as breaking before 1.0.0.** A `!` after the type (`feat!:`) or a `BREAKING CHANGE:` footer makes a major release, which would release 1.0.0 early. Until then, describe incompatible changes in the pull request and release them as `feat:`.
 
 A pull request represents one coherent change. Its description explains what changed and why, and the [pull request template](.github/PULL_REQUEST_TEMPLATE.md) lists what to check before asking for review.
+
+### AI use
+
+AI tools are allowed, but their use is never hidden. The rule is the same for the maintainer and for contributors.
+
+- **Pull requests:** fill in the **AI use** section of the [pull request template](.github/PULL_REQUEST_TEMPLATE.md). Tick **No AI tool was used**, or tick **AI tools were used** and name each tool and what it did under it, for example "Claude Code wrote the first draft of the tests; I reviewed and changed them". The **AI disclosure** check fails until exactly one box is ticked, and a pull request cannot be merged without it. Editing the description runs the check again. Dependabot pull requests are exempt.
+- **Issues:** every issue form asks the same question.
+- **Comments and reviews:** say so when an AI tool wrote or drafted what you post. No check can verify this, so it relies on you.
+
+You are responsible for everything you submit, whoever or whatever wrote it: read it, test it, and be ready to explain it.
 
 ## Documentation
 
