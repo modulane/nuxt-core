@@ -101,6 +101,7 @@ Node.js scripts that CI runs. `generate-coverage-badge.js` turns the coverage su
 | [`.yarnrc.yml`](../.yarnrc.yml)                                           | Yarn settings: install into `node_modules`, no telemetry                                    |
 | [`.prettierrc.json`](../.prettierrc.json)                                 | Formatting rules, shared with the other modulane projects                                   |
 | [`.editorconfig`](../.editorconfig)                                       | Indentation, line endings and final newlines for every editor                               |
+| [`.gitattributes`](../.gitattributes)                                     | LF line endings in every checkout, also where Git converts to CRLF on Windows               |
 | [`.releaserc.json`](../.releaserc.json)                                   | semantic-release: GitHub releases from Conventional Commit titles                           |
 | [`.github/`](../.github)                                                  | Workflows, issue forms, labels, Dependabot and code owners; see CONTRIBUTING                |
 
