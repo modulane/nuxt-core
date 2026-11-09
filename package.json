@@ -26,9 +26,10 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "typecheck": "nuxt typecheck playground",
-    "check": "yarn format:check && yarn typecheck && yarn test",
+    "check": "yarn format:check && yarn lint && yarn typecheck && yarn test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "lint": "eslint ."
   },
   "prettier": "@modulane/prettier-config",
   "engines": {
@@ -49,11 +50,14 @@
     "sass": "^1.104.0"
   },
   "devDependencies": {
+    "@modulane/eslint-config": "^1.0.1",
     "@modulane/prettier-config": "^1.0.0",
+    "@nuxt/eslint-config": "^1.17.0",
     "@nuxt/test-utils": "^4.3.1",
     "@types/node": "^24",
     "@vitest/coverage-v8": "^5.1.0",
     "@vue/test-utils": "^2.5.1",
+    "eslint": "^10.14.0",
     "happy-dom": "^21.0.4",
     "nuxt": "^4.6.4",
     "prettier": "3.9.10",
