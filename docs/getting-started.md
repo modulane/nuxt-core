@@ -25,19 +25,20 @@ yarn dev:prepare
 
 ## Commands
 
-| Command            | Purpose                                           |
-| ------------------ | ------------------------------------------------- |
-| `yarn dev`         | Start the playground on <http://localhost:3000>   |
-| `yarn dev:prepare` | Generate the types in `playground/.nuxt/`         |
-| `yarn build`       | Build the playground into `playground/.output/`   |
-| `yarn generate`    | Pre-render the playground as static files         |
-| `yarn preview`     | Preview the playground's production build         |
-| `yarn test`        | Run the test suite once                           |
-| `yarn test:watch`  | Run the tests again on every change               |
-| `yarn coverage`    | Run the tests once and report their code coverage |
-| `yarn typecheck`   | Type-check the project with `vue-tsc`             |
-| `yarn format`      | Format every file with Prettier                   |
-| `yarn check`       | Check formatting, types and tests, as CI does     |
+| Command            | Purpose                                             |
+| ------------------ | --------------------------------------------------- |
+| `yarn dev`         | Start the playground on <http://localhost:3000>     |
+| `yarn dev:prepare` | Generate the types in `playground/.nuxt/`           |
+| `yarn build`       | Build the playground into `playground/.output/`     |
+| `yarn generate`    | Pre-render the playground as static files           |
+| `yarn preview`     | Preview the playground's production build           |
+| `yarn test`        | Run the test suite once                             |
+| `yarn test:watch`  | Run the tests again on every change                 |
+| `yarn coverage`    | Run the tests once and report their code coverage   |
+| `yarn typecheck`   | Type-check the project with `vue-tsc`               |
+| `yarn format`      | Format every file with Prettier                     |
+| `yarn lint`        | Check code quality and common errors with ESLint    |
+| `yarn check`       | Check formatting, lint, types and tests, as CI does |
 
 Run `yarn check` before opening a pull request; CI runs it, then `yarn build`, with Node.js 22, 24 and 26.
 

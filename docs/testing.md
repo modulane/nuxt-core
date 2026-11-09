@@ -9,7 +9,7 @@ Tests use [Vitest](https://vitest.dev/), configured through [`@nuxt/test-utils`]
 | `yarn test`       | Runs every test once                                             |
 | `yarn test:watch` | Reruns the affected tests on every change                        |
 | `yarn coverage`   | Runs every test once and reports the code coverage of the layers |
-| `yarn check`      | Formatting, type check and tests, as CI does                     |
+| `yarn check`      | Formatting, lint, type check and tests, as CI does               |
 
 CI runs `yarn check` on every pull request, with Node.js 22, 24 and 26. It also runs `yarn coverage`, which fails when the tests cover less than 90% of the lines or statements in `layers/`. On `main`, the coverage it measures becomes the badge in the README, published to GitHub Pages by [`scripts/generate-coverage-badge.js`](../scripts/generate-coverage-badge.js).
 
