@@ -731,6 +731,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@modulane/nuxt-core@workspace:."
   dependencies:
+    "@modulane/prettier-config": "npm:^1.0.0"
     "@nuxt/test-utils": "npm:^4.3.1"
     "@types/node": "npm:^24"
     "@vitest/coverage-v8": "npm:^5.1.0"
@@ -749,6 +750,15 @@ __metadata:
     nuxt: ^4.5.2
   languageName: unknown
   linkType: soft
+
+"@modulane/prettier-config@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@modulane/prettier-config@npm:1.0.0"
+  peerDependencies:
+    prettier: ^3.0.0
+  checksum: 10c0/987978cbe3ed5e052c571a4022bb13693a9accd64533089b81646c429fbb48b9d24eda18665542c78ee07e428120944b1cb3665e244f122ce5bbf408d0629cbd
+  languageName: node
+  linkType: hard
 
 "@napi-rs/lzma-linux-x64-gnu@npm:1.5.1":
   version: 1.5.1

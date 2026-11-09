@@ -30,6 +30,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
+  "prettier": "@modulane/prettier-config",
   "engines": {
     "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
@@ -48,6 +49,7 @@
     "sass": "^1.104.0"
   },
   "devDependencies": {
+    "@modulane/prettier-config": "^1.0.0",
     "@nuxt/test-utils": "^4.3.1",
     "@types/node": "^24",
     "@vitest/coverage-v8": "^5.1.0",

@@ -4,7 +4,7 @@ The rules code review applies. When a rule changes, change it here in the same p
 
 ## Formatting
 
-[Prettier](https://prettier.io/) formats every file, with the rules in [`.prettierrc.json`](../.prettierrc.json): no semicolons, single quotes, trailing commas. Run `yarn format` before committing, or let the editor format on save. CI fails on unformatted files.
+[Prettier](https://prettier.io/) formats every file, with the rules every modulane project shares, from [`@modulane/prettier-config`](https://github.com/modulane/configs/tree/main/packages/prettier-config): no semicolons, single quotes, trailing commas. Run `yarn format` before committing, or let the editor format on save. CI fails on unformatted files.
 
 ## TypeScript
 
