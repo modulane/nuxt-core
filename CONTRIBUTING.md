@@ -45,6 +45,8 @@ Keep the summary lowercase and in the imperative: `feat: add base button`, not `
 
 **Do not mark changes as breaking before 1.0.0.** A `!` after the type (`feat!:`) or a `BREAKING CHANGE:` footer makes a major release, which would release 1.0.0 early. Until then, describe incompatible changes in the pull request and release them as `feat:`.
 
+For a `feat:` or `fix:`, fill in the **Release notes** section of the pull request template: what users will notice, as a list with one item per feature or fix. Each item becomes its own entry in the GitHub release. Start an item with `fix:` or `feat:` when its type differs from the title's, and mention the issue it closes, for example `(#12)`. Leave the section empty for any other change.
+
 A pull request represents one coherent change. Its description explains what changed and why, and the [pull request template](.github/PULL_REQUEST_TEMPLATE.md) lists what to check before asking for review.
 
 ### AI use
@@ -96,6 +98,7 @@ Releases are fully automated with [semantic-release](https://semantic-release.gi
 3. If CI succeeds, the release job runs semantic-release in the same run, on the same commit. CI also publishes the coverage badge to GitHub Pages.
 4. semantic-release reads the commits since the last release tag. If none of them is a `fix:` or `feat:`, it stops and nothing is released.
 5. Otherwise it computes the next version, creates the `vX.Y.Z` git tag and a GitHub release with notes generated from the commits, and comments on the issues and pull requests it includes.
+6. A last job rebuilds the GitHub releases from the **Release notes** section of each pull request: one entry per feature or fix it lists, with the issues it closes. Every run rebuilds every release, so a change to a pull request's notes reaches its release on the next run, or right away by running the Release workflow by hand.
 
 The version in `package.json` is always `0.0.0-development`. The real version exists only in git tags; the history starts from the `v0.0.0` tag.
 
