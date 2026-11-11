@@ -2,6 +2,10 @@
 
 <!-- What this pull request changes, and why. Link the issue it closes: "Closes #12". -->
 
+## Release notes
+
+<!-- For a feat: or fix:, what users will notice, as a list with one item per feature or fix: each item becomes its own entry in the GitHub release. Start an item with fix: or feat: when its type differs from the title's, and mention the issue it closes, for example (#12). Leave it empty for any other change. -->
+
 ## AI use
 
 <!-- Required, for everyone. Tick exactly one box: the "AI disclosure" check fails until you do. -->
@@ -18,3 +22,4 @@
 - [ ] The documentation in `docs/` matches the change (see [docs/README.md](https://github.com/modulane/nuxt-core/blob/main/docs/README.md))
 - [ ] The roadmap is updated if this completes a roadmap item
 - [ ] Interactive changes work with the keyboard and a screen reader
+- [ ] The README, roadmap and guides are up to date with the change
