@@ -13,6 +13,8 @@ Tests use [Vitest](https://vitest.dev/), configured through [`@nuxt/test-utils`]
 
 CI runs `yarn check` on every pull request, with Node.js 22, 24 and 26. It also runs `yarn coverage`, which fails when the tests cover less than 90% of the lines or statements in `layers/`. On `main`, the coverage it measures becomes the badge in the README, published to GitHub Pages by [`scripts/generate-coverage-badge.js`](../scripts/generate-coverage-badge.js).
 
+The scripts start Vitest through [`scripts/vitest.js`](../scripts/vitest.js), not with `vitest` directly. On Windows, a terminal can open in `e:\` instead of `E:\`, and Vitest started from there loads itself twice and fails every test with "failed to find the current suite". The script moves to the real path first. Run Vitest through it, or through `yarn test`, rather than with `npx vitest`.
+
 ## Where tests live
 
 Tests live in `tests/` and end in `.test.ts`. Name a test file after what it tests, mirroring the source path: the tests for `layers/primitives/app/components/base/Button.vue` go in `tests/components/base/Button.test.ts`.
