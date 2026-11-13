@@ -4,10 +4,11 @@ Every composable, and how to document a new one. Composables are auto-imported: 
 
 ## Inventory
 
-| Composable         | File                                              | Status | Purpose                                                        |
-| ------------------ | ------------------------------------------------- | ------ | -------------------------------------------------------------- |
-| `useBreakpoints()` | `layers/design/app/composables/useBreakpoints.ts` | Ready  | Reactive access to the [breakpoints](styling.md#breakpoints)   |
-| `useTheme()`       | `layers/design/app/composables/useTheme.ts`       | Ready  | Read and switch the [colour scheme](styling.md#colour-schemes) |
+| Composable         | File                                               | Status | Purpose                                                        |
+| ------------------ | -------------------------------------------------- | ------ | -------------------------------------------------------------- |
+| `useBreakpoints()` | `layers/design/app/composables/useBreakpoints.ts`  | Ready  | Reactive access to the [breakpoints](styling.md#breakpoints)   |
+| `useSanitize()`    | `layers/primitives/app/composables/useSanitize.ts` | Ready  | Clean text, URLs and payloads from outside                     |
+| `useTheme()`       | `layers/design/app/composables/useTheme.ts`        | Ready  | Read and switch the [colour scheme](styling.md#colour-schemes) |
 
 ## useBreakpoints
 
@@ -38,6 +39,60 @@ No options.
 Every caller shares one state, and the page listens to one media query per breakpoint, whatever the number of callers.
 
 **SSR:** runs on the server, which cannot know the window's width: there, and in the browser until hydration is over, it reports the smallest screen (`active` is `undefined`, `isBelow('sm')` is true), as mobile-first CSS does. The browser then updates it to the real width, so content that depends on it changes once the page has loaded. That is why CSS is the better tool for what is visible on the first paint.
+
+## useSanitize
+
+Cleans what comes from outside the site: a form, a query string, an API response, a paste. It removes the characters used to hide or spoof text, tidies the value, and checks URLs before they go into a link or a redirect. [`<FormInput>`](components.md#forminput) uses it as the visitor types.
+
+```vue
+<template>
+  <a v-if="href" :href="href">{{ label }}</a>
+</template>
+
+<script setup lang="ts">
+const { sanitize, safeUrl } = useSanitize()
+const route = useRoute()
+
+const label = computed(() =>
+  sanitize(String(route.query.label ?? ''), { maxLength: 80 }),
+)
+const href = computed(() => safeUrl(String(route.query.next ?? '')))
+</script>
+```
+
+No options.
+
+| Returns        | Type                                                               | Description                                                                                                               |
+| -------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `stripUnsafe`  | `(value: string, options?: { multiline?: boolean }) => string`     | Removes the unsafe characters, and line breaks unless `multiline`; changes nothing else, so it can run on every keystroke |
+| `sanitize`     | `(value: string, options?: SanitizeOptions) => string`             | `stripUnsafe`, then the canonical Unicode form (NFC), no outer spaces, and at most `maxLength` characters                 |
+| `sanitizeDeep` | `<T>(value: T, options?: SanitizeOptions) => T`                    | `sanitize` on every string and key of an object or array, at any depth                                                    |
+| `escapeHtml`   | `(value: string) => string`                                        | Escapes `& < > " '`, for HTML built by hand                                                                               |
+| `safeUrl`      | `(value: string, options?: SafeUrlOptions) => string \| undefined` | The normalized URL when it is safe for an `href` or a redirect, `undefined` otherwise                                     |
+
+| `SanitizeOptions` | Type      | Default | Description                                                             |
+| ----------------- | --------- | ------- | ----------------------------------------------------------------------- |
+| `multiline`       | `boolean` | `false` | Keeps line breaks and tabs, for a textarea; `\r\n` and `\r` become `\n` |
+| `maxLength`       | `number`  | none    | The longest value kept, in characters; an emoji is never cut in two     |
+
+| `SafeUrlOptions` | Type       | Default                                  | Description                                                 |
+| ---------------- | ---------- | ---------------------------------------- | ----------------------------------------------------------- |
+| `protocols`      | `string[]` | `['http:', 'https:', 'mailto:', 'tel:']` | The schemes allowed, with their colon                       |
+| `relative`       | `boolean`  | `true`                                   | Allows a path on the same site: `/about`, `?page=2`, `#top` |
+
+What counts as unsafe:
+
+- **Characters:** control characters, and the invisible ones that hide text or reverse its direction to spoof it: zero-width spaces, bidirectional marks and overrides (`invoice` + U+202E + `fdp.exe` shows as `invoiceexe.pdf`), line and paragraph separators, invisible operators, and tag characters, which can carry hidden text such as instructions for an AI that reads the page. The zero-width joiner and non-joiner stay, since emoji and scripts such as Persian need them, and so do the tags of the England, Scotland and Wales flags.
+- **Keys:** `sanitizeDeep` drops `__proto__`, `constructor` and `prototype`, which would change the prototype of an object the payload is merged into, and drops circular references. Numbers, booleans, `null` and objects that are not plain, such as a `Date` or a `File`, are kept as they are.
+- **URLs:** `safeUrl` refuses `javascript:`, `data:` and every scheme not in `protocols`, even disguised as `java\tscript:` or with leading control characters; `//evil.com` and `/\evil.com`, which browsers read as another site; and a user name or password before the host, as in `https://bank.com@evil.com`.
+
+What it does not do:
+
+- **It does not replace the server's checks.** A request does not have to come from the site's forms, so the server validates and escapes every value it receives. The functions are pure and work on the server too, but Nitro does not auto-import the app's composables: import the file there.
+- **It does not sanitize HTML.** Vue already escapes `{{ }}` and bound attributes, so plain text needs nothing. HTML meant for `v-html` needs a real HTML sanitizer, such as [DOMPurify](https://github.com/cure53/DOMPurify); `escapeHtml` turns markup into text, it does not keep the safe part of it.
+- **It does not touch passwords.** Do not run a password through it: it must stay exactly what the visitor chose.
+
+**SSR:** runs on the server and in the browser alike: the functions have no state and give the same result on both.
 
 ## useTheme
 

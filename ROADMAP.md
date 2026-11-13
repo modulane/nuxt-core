@@ -145,6 +145,7 @@ Page
 **Goal:** common forms that are quick to build and accessible.
 
 - [ ] Text input
+- [x] `useSanitize()` composable, to clean text, URLs and payloads from outside ([composables](docs/composables.md#usesanitize))
 - [ ] Textarea
 - [ ] Select
 - [ ] Checkbox
