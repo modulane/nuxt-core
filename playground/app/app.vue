@@ -727,6 +727,203 @@
 
         <pre class="usage"><code>{{ imageSnippet }}</code></pre>
 
+        <h3 class="subheading">Inputs</h3>
+        <p class="muted">
+          One per type: each brings its own mobile keyboard and browser
+          validation. Email suggests a domain as you type, in grey; Tab fills it
+          in.
+        </p>
+        <BaseGrid :columns="{ md: 2 }" :gap="4">
+          <FormInput
+            v-for="input in inputs"
+            :key="input.type"
+            :type="input.type"
+            :name="input.name"
+            :label="input.label"
+            :autocomplete="input.autocomplete"
+          />
+        </BaseGrid>
+
+        <h3 class="subheading">Floating label</h3>
+        <p class="muted">
+          An alternative style: the label rests inside the empty field, and
+          moves above it on focus or once filled.
+        </p>
+        <BaseGrid :columns="{ md: 2 }" :gap="4">
+          <FormInput
+            v-model="floating.name"
+            variant="floating"
+            name="floating-name"
+            label="Name"
+            autocomplete="name"
+          />
+          <FormInput
+            v-model="floating.email"
+            variant="floating"
+            type="email"
+            name="floating-email"
+            label="Email, filled"
+            autocomplete="email"
+          />
+          <FormInput
+            v-model="floating.search"
+            variant="floating"
+            type="search"
+            name="floating-q"
+            label="Search, with its icon"
+            autocomplete="off"
+          />
+          <FormInput
+            v-model="floating.password"
+            variant="floating"
+            type="password"
+            name="floating-password"
+            label="Password, with its toggle"
+          />
+        </BaseGrid>
+
+        <h3 class="subheading">Ring focus</h3>
+        <p class="muted">
+          An alternative focus style: tab to a field, and the global ring is
+          drawn around it instead of its own border thickening.
+        </p>
+        <BaseGrid :columns="{ md: 2 }" :gap="4">
+          <FormInput
+            v-model="ringFocus.name"
+            focus-style="ring"
+            name="ring-name"
+            label="Name"
+            autocomplete="name"
+          />
+          <FormInput
+            v-model="ringFocus.email"
+            focus-style="ring"
+            variant="floating"
+            type="email"
+            name="ring-email"
+            label="Email, floating label"
+            autocomplete="email"
+          />
+          <FormInput
+            v-model="ringFocus.phone"
+            focus-style="ring"
+            type="tel"
+            name="ring-phone"
+            label="Phone, with its country picker"
+            autocomplete="tel"
+          />
+          <FormInput
+            v-model="ringFocus.invalid"
+            focus-style="ring"
+            name="ring-invalid"
+            label="Invalid"
+            aria-invalid="true"
+          />
+        </BaseGrid>
+
+        <h3 class="subheading">Input states</h3>
+        <BaseGrid :columns="{ md: 2 }" :gap="4">
+          <FormInput
+            v-model="inputValues.placeholder"
+            name="placeholder"
+            label="With a placeholder"
+            placeholder="ada@example.com"
+          />
+          <FormInput
+            v-model="inputValues.readonly"
+            name="readonly"
+            label="Read-only"
+            readonly
+          />
+          <FormInput
+            v-model="inputValues.disabled"
+            name="disabled"
+            label="Disabled"
+            disabled
+          />
+          <FormInput
+            v-model="inputValues.invalid"
+            type="email"
+            name="invalid"
+            label="Invalid"
+            autocomplete="email"
+            aria-invalid="true"
+          />
+          <FormInput
+            v-model="inputValues.number"
+            type="number"
+            name="postcode"
+            label="Number: digits only"
+            autocomplete="postal-code"
+          />
+          <FormInput
+            v-model="inputValues.website"
+            type="url"
+            name="homepage"
+            label="URL: type github.com, then leave the field"
+          />
+          <FormInput
+            v-model="inputValues.newPassword"
+            type="password"
+            name="new-password"
+            label="New password"
+            autocomplete="new-password"
+          />
+          <FormInput
+            v-model="inputValues.confirmation"
+            type="confirm-password"
+            name="password-confirmation"
+            label="Confirm the password"
+            :match="inputValues.newPassword"
+          />
+        </BaseGrid>
+
+        <h3 class="subheading">Website and phone</h3>
+        <p class="muted">
+          The website must be an http or https address on a real domain. The
+          phone field opens on your country, and a number typed with its calling
+          code (+33, +1 876, 0044) picks its own once you leave the field. Send
+          the form to see the browser's messages. The values below are what
+          v-model gets.
+        </p>
+        <p class="muted">
+          Your country, from useVisitorCountry():
+          <code>{{ visitorCountry ?? 'not known' }}</code>
+        </p>
+        <form @submit.prevent="checked = true">
+          <BaseGrid :columns="{ md: 2 }" :gap="4">
+            <FormInput
+              v-model="checks.website"
+              type="url"
+              name="check-website"
+              label="Website: try example, or localhost"
+              autocomplete="url"
+            />
+            <FormInput
+              v-model="checks.phone"
+              type="tel"
+              name="check-phone"
+              label="Phone: type 0470 12 34 56, or +33 6 12 34 56 78"
+              autocomplete="tel"
+            />
+            <FormInput
+              v-model="checks.floating"
+              variant="floating"
+              type="tel"
+              name="check-floating"
+              label="Phone, floating label"
+            />
+          </BaseGrid>
+          <p class="muted">
+            Website: <code>{{ checks.website || '—' }}</code> · Phone:
+            <code>{{ checks.phone || '—' }}</code>
+          </p>
+          <BaseButton type="submit">Send</BaseButton>
+          <span v-if="checked" class="muted"> Valid: sent.</span>
+        </form>
+
+        <pre class="usage"><code>{{ inputSnippet }}</code></pre>
+
         <h3 class="subheading">Inventory</h3>
         <table class="table">
           <thead>
@@ -1013,6 +1210,58 @@ const imageSnippet = `<BaseImage src="/team.jpg" alt="The team" width="1200" hei
 
 <!-- Above the fold -->
 <BaseImage src="/hero.jpg" alt="…" width="1920" height="1080" priority />`
+const inputs = [
+  { type: 'text', name: 'name', label: 'Name', autocomplete: 'name' },
+  { type: 'email', name: 'email', label: 'Email', autocomplete: 'email' },
+  { type: 'tel', name: 'phone', label: 'Phone', autocomplete: 'tel' },
+  { type: 'url', name: 'website', label: 'Website', autocomplete: 'url' },
+  {
+    type: 'password',
+    name: 'password',
+    label: 'Password',
+    autocomplete: 'current-password',
+  },
+  // A search box is not about the visitor: nothing to fill in
+  { type: 'search', name: 'q', label: 'Search', autocomplete: 'off' },
+] as const
+const floating = reactive({
+  name: '',
+  email: 'ada@example.com',
+  search: '',
+  password: '',
+})
+const ringFocus = reactive({
+  name: '',
+  email: '',
+  phone: '',
+  invalid: 'not valid',
+})
+const inputValues = reactive({
+  placeholder: '',
+  readonly: 'Shown, not editable',
+  disabled: 'Not available',
+  invalid: 'not an email',
+  number: '01000',
+  website: '',
+  newPassword: '',
+  confirmation: '',
+})
+const checks = reactive({
+  website: '',
+  phone: '',
+  floating: '',
+})
+const checked = ref(false)
+const visitorCountry = useVisitorCountry()
+const inputSnippet = `<FormInput v-model="name" name="name" label="Name" autocomplete="name" />
+<FormInput v-model="email" type="email" name="email" label="Email" autocomplete="email" required />
+
+<!-- v-model gets +32470123456 for 0470 12 34 56 -->
+<FormInput v-model="phone" type="tel" name="phone" label="Phone" autocomplete="tel" />
+<FormInput v-model="phone" type="tel" name="phone" label="Phone" :countries="['BE', 'NL', 'LU']" />
+
+<!-- Link the error message, so screen readers read it -->
+<FormInput type="email" name="email" label="Email" aria-invalid="true" aria-describedby="email-error" />`
 
 // Mirrors the inventory in docs/components.md
 const components = [
@@ -1030,7 +1279,7 @@ const components = [
   { name: 'BaseSpinner', status: 'ready', phase: 4 },
   { name: 'BaseAlert', status: 'ready', phase: 4 },
   { name: 'BaseImage', status: 'ready', phase: 4 },
-  { name: 'FormInput', status: 'stub', phase: 5 },
+  { name: 'FormInput', status: 'ready', phase: 5 },
   { name: 'FormTextarea', status: 'stub', phase: 5 },
   { name: 'FormSwitch', status: 'ready', phase: 5 },
   { name: 'NavigationAppHeader', status: 'stub', phase: 7 },
@@ -1277,6 +1526,24 @@ code {
     color: var(--color-text-muted);
     font: inherit;
     cursor: pointer;
+  }
+}
+
+.scrollers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-4);
+}
+
+.scroller {
+  block-size: 10rem;
+  overflow: auto;
+  padding: var(--space-3);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  &__line {
+    white-space: nowrap;
   }
 }
 

@@ -34,12 +34,15 @@ layers/design/app/assets/scss/
 │   ├── _divider.scss      .nc-divider
 │   ├── _icon.scss         .nc-icon
 │   ├── _image.scss        .nc-image
+│   ├── _input.scss        .nc-input; the flag font of its country picker
 │   ├── _link.scss         .nc-link
 │   ├── _spinner.scss      .nc-spinner
 │   └── _switch.scss       .nc-switch
 └── utilities/
     └── _utilities.scss    .nc-flow, .nc-visually-hidden
 ```
+
+Beside `scss/`, `assets/fonts/` holds the one font the layer ships: `TwemojiCountryFlags.woff2`, the flags of `<FormInput type="tel">`, for Windows, which has no flag emoji. It holds only the flags, so the browser downloads it only when one is on screen. The art is [Twemoji](https://github.com/twitter/twemoji), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); its licence sits next to it.
 
 The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `main.scss` on every page of every site through its `css` option. `main.scss` loads each partial that emits CSS into its [cascade layer](#the-cascade). The abstracts are not loaded globally; each stylesheet that needs them loads them itself (see [Sass helpers](#sass-helpers)).
 
@@ -420,6 +423,7 @@ In [forced colours](https://developer.mozilla.org/docs/Web/CSS/@media/forced-col
 | `.nc-switch` | A `CanvasText` thumb on a `Canvas` track; `Highlight` and `HighlightText` when on; `GrayText` when disabled |
 | `mark`       | The system's `Mark` and `MarkText`                                                                          |
 | `.nc-button` | Its transparent border outlines it; `GrayText` when disabled                                                |
+| `.nc-input`  | Its border outlines the field; `GrayText` when disabled                                                     |
 | `.nc-badge`  | Its transparent border outlines it                                                                          |
 | `.nc-alert`  | The tint goes; its thick start border still marks it                                                        |
 
