@@ -4,11 +4,12 @@ Every composable, and how to document a new one. Composables are auto-imported: 
 
 ## Inventory
 
-| Composable         | File                                               | Status | Purpose                                                        |
-| ------------------ | -------------------------------------------------- | ------ | -------------------------------------------------------------- |
-| `useBreakpoints()` | `layers/design/app/composables/useBreakpoints.ts`  | Ready  | Reactive access to the [breakpoints](styling.md#breakpoints)   |
-| `useSanitize()`    | `layers/primitives/app/composables/useSanitize.ts` | Ready  | Clean text, URLs and payloads from outside                     |
-| `useTheme()`       | `layers/design/app/composables/useTheme.ts`        | Ready  | Read and switch the [colour scheme](styling.md#colour-schemes) |
+| Composable            | File                                                     | Status | Purpose                                                        |
+| --------------------- | -------------------------------------------------------- | ------ | -------------------------------------------------------------- |
+| `useBreakpoints()`    | `layers/design/app/composables/useBreakpoints.ts`        | Ready  | Reactive access to the [breakpoints](styling.md#breakpoints)   |
+| `useSanitize()`       | `layers/primitives/app/composables/useSanitize.ts`       | Ready  | Clean text, URLs and payloads from outside                     |
+| `useTheme()`          | `layers/design/app/composables/useTheme.ts`              | Ready  | Read and switch the [colour scheme](styling.md#colour-schemes) |
+| `useVisitorCountry()` | `layers/primitives/app/composables/useVisitorCountry.ts` | Ready  | The country the visitor is in                                  |
 
 ## useBreakpoints
 
@@ -120,6 +121,50 @@ No options.
 The choice is saved for a year in the `nc-color-scheme` cookie, which the feature needs to work; it does not track the visitor.
 
 **SSR:** runs on the server. It reads the cookie there, so the page is rendered in the visitor's scheme and does not flash on load.
+
+## useVisitorCountry
+
+The country the visitor is in, as an ISO 3166-1 code (`'BE'`). A [`<FormInput type="tel">`](components.md#forminput) opens on it; use it for anything else that depends on the country, such as a default currency or a shipping estimate. It is a guess for convenience, never a fact to rely on: let the visitor change whatever it decides.
+
+```vue
+<script setup lang="ts">
+const country = useVisitorCountry()
+const currency = computed(() => (country.value === 'GB' ? 'GBP' : 'EUR'))
+</script>
+```
+
+No options.
+
+| Returns   | Type                                 | Description                                              |
+| --------- | ------------------------------------ | -------------------------------------------------------- |
+| `country` | `Readonly<Ref<string \| undefined>>` | The country's code, or `undefined` while it is not known |
+
+It looks in this order:
+
+1. **The host's geolocation header**, on the server: `cf-ipcountry` (Cloudflare), `x-vercel-ip-country` (Vercel), `cloudfront-viewer-country` (CloudFront), `x-appengine-country` (App Engine), or `x-country-code` for any other proxy that sets it. It is the country of the visitor's IP address: behind one of these hosts, the page is rendered in the right country from the start, and nothing else runs.
+2. **A guess in the browser**, at once: the region of the visitor's languages, when that country is on the same time as the visitor (`fr-BE` gives Belgium on a computer set to Brussels or Paris time, but not to New York time), else the country of the visitor's time zone. Windows gives one zone to several countries (Brussels, Copenhagen, Madrid and Paris are all `Europe/Paris`), so a Belgian browser in French or English is taken for French: a browser whose languages, time zone and Windows region all say France has nothing that tells it is in Belgium. Only the IP address does.
+3. **An IP lookup service**, when the site sets one. It replaces the guess once it answers, and a phone field the visitor has not touched yet moves to the country it gives. It is asked once per browser session, without cookies, and gives up after 3 seconds.
+
+The lookup is off by default, because it sends the visitor's IP address to that service: under the GDPR, an IP address is personal data, so the site's privacy policy names the service. Turn it on with the URL of a service that answers JSON with a `country`, `country_code` or `countryCode` field, or the bare code as text:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      nuxtCore: {
+        countryLookup: 'https://api.country.is',
+      },
+    },
+  },
+})
+```
+
+`NUXT_PUBLIC_NUXT_CORE_COUNTRY_LOOKUP` sets it at runtime instead, per environment. [country.is](https://country.is) is free, without a key, and open source, so it can also run on your own server; `https://ipapi.co/json` works too. Behind a host that sends the header, the lookup never runs.
+
+Every caller shares one state, and the browser looks once per page. The time zones of each country come from the ICU data of Node.js, through [`scripts/generate-time-zones.js`](../scripts/generate-time-zones.js); run it again when the country list changes. It sends nothing anywhere and stores nothing.
+
+**SSR:** runs on the server, where only the header can tell. Without one, it is `undefined` there and until the page has loaded in the browser, which then finds the country: what depends on it changes once the page is ready.
 
 ## Documenting a composable
 

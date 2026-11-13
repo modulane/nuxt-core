@@ -44,6 +44,8 @@ nuxt-core/
 │   │   ├── nuxt.config.ts
 │   │   └── app/
 │   │       ├── components/   Unstyled components, auto-imported
+│   │       ├── composables/  The visitor's country and sanitizing, auto-imported
+│   │       ├── data/         Countries and time zones, imported by the components
 │   │       └── layouts/      Page layouts
 │   └── design/               The design layer
 │       ├── nuxt.config.ts    Loads the global stylesheet
@@ -54,7 +56,7 @@ nuxt-core/
 │       └── shared/types/     Types used by both app/ and server/
 ├── playground/               The development app, which extends the root layer; not shipped
 ├── tests/                    Vitest tests; not shipped
-├── scripts/                  Scripts CI runs; not shipped
+├── scripts/                  Scripts CI and maintainers run; not shipped
 └── docs/                     This documentation; not shipped
 ```
 
@@ -66,6 +68,7 @@ Each layer follows the [Nuxt 4 directory structure](https://nuxt.com/docs/guide/
 
 - **`app/components/`**: each `.vue` file becomes a component that can be used without importing it. The folder path is part of the name: `components/base/Button.vue` is `<BaseButton>`. Components are grouped by purpose: `base/` for basic building blocks, `form/` for form controls, `navigation/` for headers, footers and menus. See [components.md](components.md).
 - **`app/composables/`**: each exported function is auto-imported everywhere in the site's `app/`. See [composables.md](composables.md).
+- **`app/data/`**: not scanned by Nuxt. Data and helpers the layer's own files import through `#layers/nuxt-core-primitives/app/data/…`, such as the countries of `<FormInput type="tel">`, so they never land in the site's auto-imports.
 - **`app/plugins/`**: each file runs once when the site starts, on the server and in the browser.
 - **`app/layouts/`**: `default.vue` wraps every page unless a page picks another layout, such as `auth.vue`. Layouts take effect once a site renders `<NuxtLayout>` in its `app.vue`; see [components.md](components.md#layouts).
 - **`app/assets/scss/`**: the global stylesheet and the SCSS abstracts. See [styling.md](styling.md).
@@ -84,7 +87,7 @@ Vitest tests. See [testing.md](testing.md).
 
 ### `scripts/`
 
-Node.js scripts that CI runs. `generate-coverage-badge.js` turns the coverage summary into the badge in the README. See [testing.md](testing.md#running-the-tests).
+Node.js scripts. CI runs `generate-coverage-badge.js`, which turns the coverage summary into the badge in the README; see [testing.md](testing.md#running-the-tests). `generate-time-zones.js` writes the time zones of each country to `layers/primitives/app/data/time-zones.ts`, for [`useVisitorCountry()`](composables.md#usevisitorcountry); run it with `node scripts/generate-time-zones.js` when the country list changes.
 
 ## Configuration files
 
