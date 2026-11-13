@@ -21,6 +21,7 @@
 
 @layer nuxt-core.base {
   @include meta.load-css('base/typography');
+  @include meta.load-css('base/scrollbar');
 }
 
 @layer nuxt-core.layout {

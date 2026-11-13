@@ -291,6 +291,29 @@
             <code>{{ layer }}</code>
           </li>
         </ul>
+
+        <h3 class="subheading">Scrollbars</h3>
+        <p class="muted">
+          Every scrollbar takes the <code>--scrollbar-*</code> tokens, the
+          page's as well as this box's. The second box is in the other scheme.
+        </p>
+        <div class="scrollers">
+          <div
+            v-for="scheme in [undefined, isDark ? 'light' : 'dark']"
+            :key="scheme ?? 'page'"
+            class="scroller"
+            :data-color-scheme="scheme"
+            tabindex="0"
+            role="region"
+            :aria-label="
+              scheme ? `Scrolling box, ${scheme} scheme` : 'Scrolling box'
+            "
+          >
+            <p v-for="line in 12" :key="line" class="scroller__line">
+              Line {{ line }}: long enough to scroll sideways as well as down.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section id="motion" class="section" aria-labelledby="motion-title">

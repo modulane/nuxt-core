@@ -204,6 +204,17 @@ The dark shadows are much stronger, or they would not show on a dark background.
 
 `--focus-ring-color` is set in each colour scheme rather than on `:root`. A custom property that refers to another is resolved where it is declared, so a ring defined once on `:root` would keep the page's primary inside an area with `data-color-scheme` set.
 
+### Scrollbar
+
+| Token                           | Value                                    | Use                                      |
+| ------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `--scrollbar-thumb-color`       | `var(--color-border-strong)`, per scheme | The part the visitor drags               |
+| `--scrollbar-thumb-hover-color` | `var(--color-text-muted)`, per scheme    | The thumb under the pointer, Safari only |
+| `--scrollbar-track-color`       | `transparent`, per scheme                | The groove behind the thumb              |
+| `--scrollbar-size`              | 0.75rem                                  | Thickness of the scrollbar, Safari only  |
+
+The colours are set in each colour scheme, like `--focus-ring-color`, so an area with `data-color-scheme` set gets its own. The thumb meets 3:1 on `--color-background` and `--color-surface`, and the transparent track shows whichever is behind it. See [Scrollbars](#scrollbars) for how they are applied.
+
 ### Layering
 
 `z-index` values for the parts of a page that overlap others, lowest first:
@@ -365,6 +376,16 @@ Lists keep their bullets and padding, only their margins go: removing the bullet
 A table's width is left to its content. A table wider than a small screen goes in a scrolling container, such as `<div style="overflow-x: auto">`: turning the table itself into a scrolling block would make some screen readers stop announcing it as a table.
 
 Text selection is tinted with `--color-primary`, and every focusable element shows the [focus ring](#borders-and-focus-ring) when it is focused with the keyboard. A component that draws its own focus indicator overrides that outline.
+
+### Scrollbars
+
+[`base/_scrollbar.scss`](../layers/design/app/assets/scss/base/_scrollbar.scss) colours every scrollbar of the page, and of any scrolling element inside it, with the [scrollbar tokens](#scrollbar). It is style only: no component and no JavaScript, and the scrollbar stays the browser's own, so it keeps its native width, its behaviour and its accessibility.
+
+- **Chrome, Edge and Firefox** use the standard [`scrollbar-color`](https://developer.mozilla.org/docs/Web/CSS/scrollbar-color), set on `:root` and on every element with `data-color-scheme`. It is inherited, so a scrolling element needs nothing.
+- **Safari**, which has no `scrollbar-color`, gets the same colours through the `::-webkit-scrollbar` pseudo-elements, with a rounded thumb `--scrollbar-size` thick that darkens or lightens under the pointer. These rules sit in `@supports not (scrollbar-color: auto)`, so other browsers never see them.
+- **Forced colours** need nothing: browsers draw system scrollbars in that mode.
+
+A site changes the colours by overriding the tokens, and goes back to the browser's scrollbar on one element with `scrollbar-color: auto`. The design system does not thin scrollbars (`scrollbar-width: thin`): a thin one is harder to grab.
 
 ### `.nc-flow`
 
