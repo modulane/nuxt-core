@@ -66,6 +66,12 @@
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
 
+  /* Scrollbar */
+
+  // Only Safari uses it: other browsers keep their native width. Its colours,
+  // which change with the scheme, are in schemes/
+  --scrollbar-size: 0.75rem;
+
   /* Layering */
 
   // Dropdowns sit under the sticky header, so one opened in the page scrolls

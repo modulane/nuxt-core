@@ -90,6 +90,7 @@ What each phase adds meets these standards. They are not repeated in each phase'
 - [x] Visually hidden utility, for text that only screen readers announce ([styling](docs/styling.md#nc-visually-hidden))
 - [x] Forced colours (Windows high contrast): focus rings and component states stay visible ([styling](docs/styling.md#forced-colours))
 - [x] Base styles for tables, figures and description lists, which rich-text content uses ([styling](docs/styling.md#typography))
+- [x] Scrollbars coloured by the scheme, with no component and no JavaScript ([styling](docs/styling.md#scrollbars))
 - [x] Browser support policy: the browsers and versions the design system targets, documented and used as the CSS build target ([styling](docs/styling.md#browser-support))
 
 **Done when:** a bare HTML page with no component styles looks consistent across browsers, and every value comes from a token.
@@ -143,7 +144,8 @@ Page
 
 **Goal:** common forms that are quick to build and accessible.
 
-- [ ] Text input
+- [x] Text input ([components](docs/components.md#forminput))
+- [x] `useSanitize()` composable, to clean text, URLs and payloads from outside ([composables](docs/composables.md#usesanitize))
 - [ ] Textarea
 - [ ] Select
 - [ ] Checkbox

@@ -34,12 +34,15 @@ layers/design/app/assets/scss/
 │   ├── _divider.scss      .nc-divider
 │   ├── _icon.scss         .nc-icon
 │   ├── _image.scss        .nc-image
+│   ├── _input.scss        .nc-input; the flag font of its country picker
 │   ├── _link.scss         .nc-link
 │   ├── _spinner.scss      .nc-spinner
 │   └── _switch.scss       .nc-switch
 └── utilities/
     └── _utilities.scss    .nc-flow, .nc-visually-hidden
 ```
+
+Beside `scss/`, `assets/fonts/` holds the one font the layer ships: `TwemojiCountryFlags.woff2`, the flags of `<FormInput type="tel">`, for Windows, which has no flag emoji. It holds only the flags, so the browser downloads it only when one is on screen. The art is [Twemoji](https://github.com/twitter/twemoji), under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); its licence sits next to it.
 
 The design layer's [`nuxt.config.ts`](../layers/design/nuxt.config.ts) loads `main.scss` on every page of every site through its `css` option. `main.scss` loads each partial that emits CSS into its [cascade layer](#the-cascade). The abstracts are not loaded globally; each stylesheet that needs them loads them itself (see [Sass helpers](#sass-helpers)).
 
@@ -204,6 +207,17 @@ The dark shadows are much stronger, or they would not show on a dark background.
 
 `--focus-ring-color` is set in each colour scheme rather than on `:root`. A custom property that refers to another is resolved where it is declared, so a ring defined once on `:root` would keep the page's primary inside an area with `data-color-scheme` set.
 
+### Scrollbar
+
+| Token                           | Value                                    | Use                                      |
+| ------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `--scrollbar-thumb-color`       | `var(--color-border-strong)`, per scheme | The part the visitor drags               |
+| `--scrollbar-thumb-hover-color` | `var(--color-text-muted)`, per scheme    | The thumb under the pointer, Safari only |
+| `--scrollbar-track-color`       | `transparent`, per scheme                | The groove behind the thumb              |
+| `--scrollbar-size`              | 0.75rem                                  | Thickness of the scrollbar, Safari only  |
+
+The colours are set in each colour scheme, like `--focus-ring-color`, so an area with `data-color-scheme` set gets its own. The thumb meets 3:1 on `--color-background` and `--color-surface`, and the transparent track shows whichever is behind it. See [Scrollbars](#scrollbars) for how they are applied.
+
 ### Layering
 
 `z-index` values for the parts of a page that overlap others, lowest first:
@@ -366,6 +380,16 @@ A table's width is left to its content. A table wider than a small screen goes i
 
 Text selection is tinted with `--color-primary`, and every focusable element shows the [focus ring](#borders-and-focus-ring) when it is focused with the keyboard. A component that draws its own focus indicator overrides that outline.
 
+### Scrollbars
+
+[`base/_scrollbar.scss`](../layers/design/app/assets/scss/base/_scrollbar.scss) colours every scrollbar of the page, and of any scrolling element inside it, with the [scrollbar tokens](#scrollbar). It is style only: no component and no JavaScript, and the scrollbar stays the browser's own, so it keeps its native width, its behaviour and its accessibility.
+
+- **Chrome, Edge and Firefox** use the standard [`scrollbar-color`](https://developer.mozilla.org/docs/Web/CSS/scrollbar-color), set on `:root` and on every element with `data-color-scheme`. It is inherited, so a scrolling element needs nothing.
+- **Safari**, which has no `scrollbar-color`, gets the same colours through the `::-webkit-scrollbar` pseudo-elements, with a rounded thumb `--scrollbar-size` thick that darkens or lightens under the pointer. These rules sit in `@supports not (scrollbar-color: auto)`, so other browsers never see them.
+- **Forced colours** need nothing: browsers draw system scrollbars in that mode.
+
+A site changes the colours by overriding the tokens, and goes back to the browser's scrollbar on one element with `scrollbar-color: auto`. The design system does not thin scrollbars (`scrollbar-width: thin`): a thin one is harder to grab.
+
 ### `.nc-flow`
 
 Spaces the children of running text, such as an article or the HTML of a rich-text field, whose margins the reset removes. Each child gets `--space-4` above it; a heading gets `--space-8` above and `--space-3` below, so it groups with the text that follows; list items get `--space-2` between them, so a list still reads as one block. Set `--flow-space` on the element to use one gap for every child instead.
@@ -399,6 +423,7 @@ In [forced colours](https://developer.mozilla.org/docs/Web/CSS/@media/forced-col
 | `.nc-switch` | A `CanvasText` thumb on a `Canvas` track; `Highlight` and `HighlightText` when on; `GrayText` when disabled |
 | `mark`       | The system's `Mark` and `MarkText`                                                                          |
 | `.nc-button` | Its transparent border outlines it; `GrayText` when disabled                                                |
+| `.nc-input`  | Its border outlines the field; `GrayText` when disabled                                                     |
 | `.nc-badge`  | Its transparent border outlines it                                                                          |
 | `.nc-alert`  | The tint goes; its thick start border still marks it                                                        |
 

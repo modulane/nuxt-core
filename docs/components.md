@@ -24,7 +24,7 @@ Nuxt registers components with their folder as a prefix, so the name to use in t
 | `<BaseSpinner>`         | `layers/primitives/app/components/base/Spinner.vue`         | Ready  | Shows that something is loading  |
 | `<BaseAlert>`           | `layers/primitives/app/components/base/Alert.vue`           | Ready  | A static message in a status     |
 | `<BaseImage>`           | `layers/primitives/app/components/base/Image.vue`           | Ready  | An image that does not shift     |
-| `<FormInput>`           | `layers/primitives/app/components/form/Input.vue`           | Stub   | Text inputs (roadmap phase 5)    |
+| `<FormInput>`           | `layers/primitives/app/components/form/Input.vue`           | Ready  | A labelled single-line field     |
 | `<FormTextarea>`        | `layers/primitives/app/components/form/Textarea.vue`        | Stub   | Multi-line text inputs (phase 5) |
 | `<FormSwitch>`          | `layers/primitives/app/components/form/Switch.vue`          | Ready  | On/off toggle                    |
 | `<NavigationAppHeader>` | `layers/primitives/app/components/navigation/AppHeader.vue` | Stub   | Site header (roadmap phase 7)    |
@@ -417,6 +417,137 @@ No events, no slots. `srcset`, `sizes` and the props of the component in `as` fa
 **Hooks:** the root has the class `nc-image`. With `ratio`, it has `data-fit` (`cover`, `contain`) and the custom property `--image-ratio`, inline.
 
 **Accessibility:** `alt` is required, so it is never forgotten: describe what the image shows, or pass `''` for an image that is only decoration.
+
+## FormInput
+
+A single-line text field with its label. For several lines, use a textarea (roadmap phase 5).
+
+```vue
+<FormInput
+  v-model="email"
+  type="email"
+  name="email"
+  label="Email"
+  autocomplete="email"
+  required
+/>
+
+<!-- A postcode, a quantity, a card number: digits only -->
+<FormInput v-model="postcode" type="number" name="postcode" label="Postcode" />
+
+<!-- github.com is saved as https://github.com -->
+<FormInput v-model="website" type="url" name="website" label="Website" />
+
+<!-- A country picker on the visitor's country: 0470 12 34 56 in Belgium is saved as +32470123456 -->
+<FormInput
+  v-model="phone"
+  type="tel"
+  name="phone"
+  label="Phone"
+  autocomplete="tel"
+/>
+
+<!-- Sign up: the browser blocks the form until both match -->
+<FormInput
+  v-model="password"
+  type="password"
+  name="password"
+  label="Password"
+  autocomplete="new-password"
+/>
+<FormInput
+  v-model="confirmation"
+  type="confirm-password"
+  name="password-confirmation"
+  label="Confirm the password"
+  :match="password"
+/>
+```
+
+| Prop                  | Type                                                                                                                        | Default                                                                                           | Description                                                                                                                                               |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                | `string`                                                                                                                    | Required                                                                                          | The key of its value when the form is submitted                                                                                                           |
+| `label`               | `string`                                                                                                                    | Required                                                                                          | The visible label, and the accessible name                                                                                                                |
+| `type`                | `'text' \| 'email' \| 'password' \| 'confirm-password' \| 'search' \| 'url' \| 'tel' \| 'number'`                           | `'text'`                                                                                          | The kind of text: it picks the mobile keyboard and the browser's checks                                                                                   |
+| `modelValue`          | `string`                                                                                                                    | `''`                                                                                              | The value; bound with `v-model`                                                                                                                           |
+| `id`                  | `string`                                                                                                                    | Unique                                                                                            | The input's id; a unique one is generated when it is not given                                                                                            |
+| `minlength`           | `number`                                                                                                                    | None                                                                                              | The fewest characters it accepts, once the visitor has typed                                                                                              |
+| `maxlength`           | `number`                                                                                                                    | None                                                                                              | The most characters it accepts; typing stops there                                                                                                        |
+| `pattern`             | `string`                                                                                                                    | None                                                                                              | A regular expression the whole value must match                                                                                                           |
+| `placeholder`         | `string`                                                                                                                    | None; `'https://'` for `url`                                                                      | An example of the expected value; never a replacement for the label                                                                                       |
+| `readonly`            | `boolean`                                                                                                                   | `false`                                                                                           | Shown and submitted, but not editable                                                                                                                     |
+| `autocomplete`        | `string`, one of the [autofill values](https://developer.mozilla.org/docs/Web/HTML/Reference/Attributes/autocomplete#value) | `'current-password'` for `password`, `'new-password'` for `confirm-password`, `'on'` for the rest | What the field asks for, so browsers can fill it in: `name`, `email`, `tel`, `postal-code`, `current-password`, `new-password`, `one-time-code`, or `off` |
+| `match`               | `string`                                                                                                                    | None                                                                                              | `confirm-password`: the password it must equal                                                                                                            |
+| `mismatchMessage`     | `string`                                                                                                                    | `'The passwords do not match'`                                                                    | `confirm-password`: the message the browser shows while they differ; translate it for other languages                                                     |
+| `invalidUrlMessage`   | `string`                                                                                                                    | `'Enter a website address, such as https://example.com'`                                          | `url`: the message the browser shows for a value that is not a website; translate it for other languages                                                  |
+| `invalidPhoneMessage` | `string`                                                                                                                    | `'Enter a valid phone number'`                                                                    | `tel`: the message the browser shows for a number too short or too long; translate it for other languages                                                 |
+| `defaultCountry`      | `string`                                                                                                                    | The visitor's country                                                                             | `tel`: the country it opens on, as an ISO 3166-1 code, whatever the visitor's country                                                                     |
+| `countries`           | `string[]`                                                                                                                  | All                                                                                               | `tel`: the countries offered, as ISO 3166-1 codes, such as `['BE', 'NL', 'FR', 'LU', 'DE']`; the first is the fallback                                    |
+| `countryLabel`        | `string`                                                                                                                    | `'Country code'`                                                                                  | `tel`: the accessible name of the country button and list; translate it for other languages                                                               |
+| `searchCountryLabel`  | `string`                                                                                                                    | `'Search a country'`                                                                              | `tel`: the placeholder and accessible name of the country search; translate it for other languages                                                        |
+| `noCountryLabel`      | `string`                                                                                                                    | `'No country found'`                                                                              | `tel`: what the list says when the search matches no country; translate it for other languages                                                            |
+| `locale`              | `string`                                                                                                                    | `'en'`                                                                                            | `tel`: the language of the country names, as a BCP 47 tag such as `'fr'` or `'nl-BE'`                                                                     |
+| `showPasswordLabel`   | `string`                                                                                                                    | `'Show password'`                                                                                 | `password` and `confirm-password`: the accessible name of the show/hide button; translate it for other languages                                          |
+| `variant`             | `'default' \| 'floating'`                                                                                                   | `'default'`                                                                                       | `floating`: the label rests inside the empty field, and moves above it on focus or once filled                                                            |
+| `focusStyle`          | `'ring' \| 'border'`                                                                                                        | `'border'`                                                                                        | `border`: keyboard focus thickens the field's own border; `ring`: the global focus ring is drawn around the field                                         |
+| `suggestDomains`      | `boolean`                                                                                                                   | `true`                                                                                            | `email`: suggests a common domain after what is typed, in grey; Tab fills it in                                                                           |
+| `suggestDomainsLabel` | `string`                                                                                                                    | `'Suggests an email domain as you type; Tab fills it in'`                                         | `email`: the description screen readers read for the suggestion; translate it for other languages                                                         |
+
+Some types do more than the native ones:
+
+- **`number`** takes digits only, for whole numbers such as a postcode, a quantity or a card number. It renders a text field with a numeric keyboard (`inputmode="numeric"`), not `type="number"`: no spinner, the scroll wheel cannot change it, and leading zeros stay. A typed character that is not a digit is refused; a paste or autofill keeps only its digits. For decimals or negative numbers, use `text` with a `pattern`.
+- **`email`** suggests the rest of the address while the visitor types, in grey after their text, and shows `name@gmail.com` as its placeholder. Before the `@`, it suggests `@gmail.com`; after it, the first of `gmail.com`, `outlook.com`, `hotmail.com`, `yahoo.com` and `icloud.com` that starts with what follows the `@`, so `ada@ou` suggests `ada@outlook.com`. Once the domain matches none of them, nothing is suggested. While a suggestion shows, a small Tab key at the end of the field says that Tab fills it in, and moves on to the next field, as Tab always does; Shift+Tab, a click elsewhere or Enter keep only what was typed, so an address on another domain is never changed by accident. The suggestion shows only while the field has focus, never in a read-only one. `:suggest-domains="false"` turns it off, with the placeholder, the Tab key and the description.
+- **`url`** is for a website. It shows `https://` as its placeholder. When the visitor leaves the field or presses Enter, a value without a scheme gets `https://` in front: `github.com` becomes `https://github.com`, before the browser checks it. A value with a scheme stays as it is. The browser then blocks the form and shows `invalidUrlMessage` unless the value is an `http` or `https` address on a domain with a top-level domain: `example`, `localhost`, an IP address, `ftp:`, `mailto:` and `javascript:` are refused, and so is a user name before the host (`https://bank.com@evil.com`), a common way to hide where a link goes. An empty field is left to `required`.
+- **`tel`** puts a country picker before the number, with each country's flag and calling code. It opens on `defaultCountry` when given; otherwise on the visitor's country, from [`useVisitorCountry()`](composables.md#usevisitorcountry); otherwise on the first of `countries`, or the United States in the full list. A country found after the page has loaded replaces the first one only while the visitor has not typed or picked. The visitor types the number as they know it, `0470 12 34 56`, and `v-model` gets the whole international number ([E.164](https://en.wikipedia.org/wiki/E.164)): `+32470123456`, without the leading 0 (Italy, the Vatican, San Marino and Côte d'Ivoire keep theirs).
+
+  A number typed with its calling code, `+33 6 12 34 56 78` or `0033…`, stays as typed, and `v-model` already gets the right number. The flag does not move while the visitor types: when they leave the field or press Enter, the number picks its country, and the field keeps what follows the code. Calling codes are prefix-free: `+25` is no country, and `+255` is Tanzania. Some countries share a code: `+1 876` is Jamaica, while `+1 212` is the United States, and the picked country, then the visitor's, wins among the others (Canada stays Canada at `+1 416`). A value set through `v-model` shows in its country too. The form sends the international number under `name`. The browser blocks the form and shows `invalidPhoneMessage` while the calling code matches no country, or the number has fewer than 4 digits after it, or more than 15 in all. The flags are emoji. Windows has none and shows the two letters of the country (BE) instead, so the design layer ships a font that holds only the flags, [Twemoji](https://github.com/twitter/twemoji) art under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), downloaded (78 kB) only once a flag is on screen; with the primitives alone, load your own.
+
+- **`confirm-password`** is a password field for the second entry of a new password. While its value differs from `match`, the browser blocks the form and shows `mismatchMessage`. An empty field is left to `required`.
+- **`password`** and **`confirm-password`** have a button at the end of the field that shows the password as text, and hides it again. The password is hidden again when its form is sent, so the browser never saves it as plain text. The button is disabled with the input.
+
+`minlength` and `maxlength` work on every type.
+
+Every type but the passwords cleans what the visitor types, pastes or fills in, as it comes, with [`useSanitize()`](composables.md#usesanitize): control characters and the invisible characters used to hide or reverse text (zero-width spaces, bidirectional overrides, hidden tag text) are removed; emoji keep theirs. `email` and `url` also lose every space, `number` keeps its digits, and `tel` its digits, the spaces between them and a `+` at the start. When the visitor leaves the field or presses Enter, `text`, `search`, `email` and `url` lose their outer spaces and take the canonical Unicode form (NFC), so `é` is stored the same whichever way it was typed. A password is never changed: it must stay exactly what the visitor chose. This keeps the value clean, but it does not make it safe: the server checks and escapes every value it receives, since a request does not have to come from this form.
+
+`variant="floating"` is an alternative style; the default stays as it is. While the field is empty and has no focus, the label rests inside it, in the muted colour, where the placeholder would be; on focus or once filled, it moves to its usual place above the field. The space above is kept either way, so nothing around it moves. The placeholder shows only once the label has moved. Keep these labels short: they stay on one line, cut with an ellipsis. A field the browser fills in when the page loads raises its label too, where `:has()` is supported (Firefox from 121). In `tel`, the resting label sits after the country picker, where the number goes.
+
+```vue
+<FormInput
+  v-model="email"
+  variant="floating"
+  type="email"
+  name="email"
+  label="Email"
+  autocomplete="email"
+/>
+```
+
+By default (`focus-style="border"`), keyboard focus does not draw the [focus ring](styling.md#borders-and-focus-ring) around the field with a gap: the field's own border grows to `--focus-ring-width` and takes `--focus-ring-color`, inside the field, so nothing around it moves. An invalid field keeps its danger colour, and in `tel` the country picker's border shows the focus of its button. It works with either `variant`. In forced colours, which drop the thicker border, the outline comes back in the system colour. `focus-style="ring"` draws the global ring instead, like every other focusable element.
+
+```vue
+<FormInput v-model="email" focus-style="ring" name="email" label="Email" />
+```
+
+| Event               | Payload  | When                                                                                               |
+| ------------------- | -------- | -------------------------------------------------------------------------------------------------- |
+| `update:modelValue` | `string` | The visitor types, `url` adds `https://`, `tel` changes country, or the value is cleaned on change |
+
+| Slot   | Content                                                                                     |
+| ------ | ------------------------------------------------------------------------------------------- |
+| `icon` | A decorative icon at the start of the field. `search` shows a magnifier unless you pass one |
+
+```vue
+<!-- Your own icon, here from @nuxt/icon -->
+<FormInput type="search" name="q" label="Search">
+  <template #icon><Icon name="ph:magnifying-glass" /></template>
+</FormInput>
+```
+
+Other attributes, such as `required`, `disabled`, `aria-invalid` and `aria-describedby`, fall through to the `<input>`; `class` and `style` stay on the root, for the site's layout.
+
+**Hooks:** the root `<div>` has the class `nc-input`, `data-variant` (`default`, `floating`), `data-focus-style` (`ring`, `border`), `data-filled` while it has a value, `data-icon` while it shows an icon and, in `tel`, `data-country` with the picked country's code (`BE`); its parts are `nc-input__label`, `nc-input__field` (around the icon, the country picker and the input), `nc-input__icon`, a [`BaseIcon`](#baseicon), `nc-input__country`, the country picker of `tel`, with `data-open` while its list is open: `nc-input__country-button`, with `aria-expanded`, holds `nc-input__country-flag`, `nc-input__country-dial` (the calling code) and `nc-input__country-chevron`, a [`BaseIcon`](#baseicon); `nc-input__country-list`, the open list, holds `nc-input__country-search`, the search field, `nc-input__country-options`, the `<ul role="listbox">`, whose `nc-input__country-option` items have `aria-selected` (`true` on the picked country) and `data-active` (the one the arrows are on), each with a flag, `nc-input__country-name` and a dial, and `nc-input__country-empty`, the status that says when nothing matches (empty otherwise); `nc-input__suggestion`, the grey suggestion of `email`, over the input, whose `nc-input__suggestion-typed` holds the typed part, hidden, to push the suggestion after it; `nc-input__hint`, the `<kbd>` Tab key shown with it, while the root has `data-suggesting`; `nc-input__control`, the `<input>`, and `nc-input__toggle`, the show/hide `<button>` of a password, with `aria-pressed` (`true` while the password shows). Its states are the input's own: `:disabled`, `[readonly]` and `[aria-invalid="true"]`. A read-only input focused by a click or a tap also has `data-pointer-focus`, until it loses focus: browsers match `:focus-visible` on any focus of a text field, so this is how to keep its focus ring for keyboard users only. A click on the label does not focus the input, whatever its type: only a click on the input itself does.
+
+**Accessibility:** a native `<input>` with a `<label>` linked by its id, so clicking the label focuses it and screen readers read the label as its name. Each input gets its own id from `useId()`, the same on the server and in the browser. A placeholder disappears as soon as the visitor types, so it never holds the label or an instruction. Set `aria-invalid="true"` and link the error message with `aria-describedby`; the red border alone tells nothing to someone who cannot see it. A field about the visitor (their name, email, phone, address) needs its exact `autocomplete` value, not the default `on`: browsers then fill it in, and [WCAG 1.3.5](https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html) asks for it. `password` defaults to `current-password`, to sign in; on a sign-up form, pass `new-password` to it, as `confirm-password` already has, so password managers suggest a new password instead of the saved one. The grey suggestion and the Tab key of `email` are hidden from screen readers. Instead, the input has `aria-autocomplete="inline"`, the ARIA way to say that it completes what is typed, and a description, `suggestDomainsLabel`, linked by `aria-describedby` after any description of the site's own, such as an error message: screen readers read "Suggests an email domain as you type; Tab fills it in" when the field gets focus. The icon is decorative and hidden from screen readers: the label names the field. The show/hide button is a toggle button, after the input in the tab order: screen readers announce it as "Show password, toggle button", pressed or not, and Space or Enter switches it. The country picker of `tel` follows the [combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) of the ARIA practices. It is a button before the input in the tab order, named like "Country code: Belgium (+32)"; Enter, Space or the arrow keys open its list and move the focus to the search field. The search filters by name (accents ignored), ISO code or calling code, best matches first; the arrows, Page Up and Page Down move through the countries while the focus stays in the search, which names the current one through `aria-activedescendant`; Enter picks it and moves the focus to the number, and Escape closes the list and goes back to the button. Tab or a click elsewhere closes it too. When nothing matches, a status tells screen readers. A read-only or disabled `tel` disables its picker too.
 
 ## FormSwitch
 
